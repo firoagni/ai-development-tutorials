@@ -1,0 +1,6 @@
+Name:Agni
+Surname: Chattopadhyay
+Nationality: Indian
+DOB: 12 July 1990 in Madhya Pradesh, India
+Current Location: Bangalore, India
+Profession: DevOps Engineer (IT)
