@@ -1,0 +1,447 @@
+{
+    "preview": false,
+    "init_offset": 0,
+    "messages": [
+        {
+            "type": "INFO",
+            "text": "Your timerange was substituted based on your search string"
+        }
+    ],
+    "fields": [
+        {
+            "name": "build_label"
+        },
+        {
+            "name": "branch"
+        },
+        {
+            "name": "jenkins_host"
+        },
+        {
+            "name": "build_start_time"
+        },
+        {
+            "name": "build_number"
+        },
+        {
+            "name": "build_status"
+        },
+        {
+            "name": "queue_time"
+        },
+        {
+            "name": "build_duration"
+        },
+        {
+            "name": "trigger_by"
+        },
+        {
+            "name": "build_url"
+        },
+        {
+            "name": "build_parameters"
+        },
+        {
+            "name": "stages"
+        }
+    ],
+    "results": [
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1442",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-10T20:00:00Z",
+            "build_number": "102",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.014",
+            "build_duration": "03:05:03.652",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/102/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1441",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-10T02:00:00Z",
+            "build_number": "101",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.022",
+            "build_duration": "04:31:02.521",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/101/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1440",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-09T14:00:00Z",
+            "build_number": "100",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.029",
+            "build_duration": "11:43:01.094",
+            "trigger_by": "john",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/100/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1439",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-09T02:00:00Z",
+            "build_number": "99",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.01",
+            "build_duration": "04:21:00.441",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/99/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1432",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-01T21:00:00Z",
+            "build_number": "92",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.01",
+            "build_duration": "03:40:45.313",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/92/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1431",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-01T09:00:00Z",
+            "build_number": "91",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.011",
+            "build_duration": "03:55:45.693",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/91/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1436",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-06T21:00:00Z",
+            "build_number": "96",
+            "build_status": "FAILURE",
+            "queue_time": "00:00:00.023",
+            "build_duration": "04:55:46.524",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/96/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1435",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-06T10:09:10Z",
+            "build_number": "95",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.003",
+            "build_duration": "03:50:44.503",
+            "trigger_by": "Started by user golganes",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/95/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1434",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-06T09:30:03Z",
+            "build_number": "94",
+            "build_status": "FAILURE",
+            "queue_time": "00:30:03.624",
+            "build_duration": "00:21:12.56",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/94/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1433",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-06T02:52:39Z",
+            "build_number": "93",
+            "build_status": "FAILURE",
+            "queue_time": "00:00:00.005",
+            "build_duration": "00:31:22.122",
+            "trigger_by": "Started by user vsharma2",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/93/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1432",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-05T23:11:42Z",
+            "build_number": "92",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.003",
+            "build_duration": "04:14:04.119",
+            "trigger_by": "Started by user michasul",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/92/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1431",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-05T21:21:30Z",
+            "build_number": "91",
+            "build_status": "FAILURE",
+            "queue_time": "00:21:30.024",
+            "build_duration": "00:40:12.623",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/91/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1430",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-05T14:53:50Z",
+            "build_number": "90",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.004",
+            "build_duration": "06:21:36.451",
+            "trigger_by": "Started by user jmolleti",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/90/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1429",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-05T09:00:00Z",
+            "build_number": "29",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.011",
+            "build_duration": "04:03:54.192",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/29/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1422",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-04T21:00:00Z",
+            "build_number": "22",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.02",
+            "build_duration": "04:43:49.126",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/22/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1421",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-04T09:00:00Z",
+            "build_number": "21",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.026",
+            "build_duration": "04:13:52.146",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/21/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1426",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-03T21:00:00Z",
+            "build_number": "26",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.013",
+            "build_duration": "03:11:51.195",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/26/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1425",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-03T09:00:00Z",
+            "build_number": "25",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.022",
+            "build_duration": "04:11:13.259",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/25/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1424",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-03T03:20:45Z",
+            "build_number": "24",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.006",
+            "build_duration": "04:22:33.502",
+            "trigger_by": "Started by user Vijay Sundar V (vsundarv)",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/24/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1423",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-02T15:00:00Z",
+            "build_number": "23",
+            "build_status": "FAILURE",
+            "queue_time": "00:00:00.049",
+            "build_duration": "01:29:52.351",
+            "trigger_by": "john",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/23/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1422",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-03-02T09:00:00Z",
+            "build_number": "22",
+            "build_status": "UNSTABLE",
+            "queue_time": "00:00:00.014",
+            "build_duration": "03:36:32.504",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/22/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1421",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-22T23:46:33Z",
+            "build_number": "21",
+            "build_status": "SUCCESS",
+            "queue_time": "00:05:00.392",
+            "build_duration": "03:31:39.401",
+            "trigger_by": "Started by user tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/21/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1420",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-22T21:00:00Z",
+            "build_number": "20",
+            "build_status": "ABORTED",
+            "queue_time": "00:00:00.01",
+            "build_duration": "02:46:29.61",
+            "trigger_by": "tom, Aborted by tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/20/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1419",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-22T09:00:00Z",
+            "build_number": "19",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.003",
+            "build_duration": "03:32:09.062",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/19/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1412",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-21T23:31:42Z",
+            "build_number": "12",
+            "build_status": "SUCCESS",
+            "queue_time": "00:01:24.511",
+            "build_duration": "04:06:59.34",
+            "trigger_by": "Started by user tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/12/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1411",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-21T21:00:00Z",
+            "build_number": "11",
+            "build_status": "ABORTED",
+            "queue_time": "00:00:00.046",
+            "build_duration": "02:31:31.915",
+            "trigger_by": "tom, Aborted by tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/11/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1416",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-21T09:00:00Z",
+            "build_number": "16",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.009",
+            "build_duration": "03:30:45.642",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/16/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1415",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-21T00:30:15Z",
+            "build_number": "15",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.012",
+            "build_duration": "03:52:15.025",
+            "trigger_by": "Started by user tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/15/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1414",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-26T21:00:00Z",
+            "build_number": "14",
+            "build_status": "ABORTED",
+            "queue_time": "00:00:00.039",
+            "build_duration": "03:12:40.91",
+            "trigger_by": "tom, Aborted by tvkelley",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/14/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1413",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-26T09:00:00Z",
+            "build_number": "13",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.015",
+            "build_duration": "04:03:31.626",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/13/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1412",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-25T21:00:00Z",
+            "build_number": "12",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.112",
+            "build_duration": "04:12:30.126",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/12/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1411",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-25T09:00:00Z",
+            "build_number": "11",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.03",
+            "build_duration": "03:12:32.219",
+            "trigger_by": "jerry",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/11/"
+        },
+        {
+            "build_label": "XYZ-v1_2_0-BUILD_1410",
+            "branch": "XYZ_1_2_MAIN",
+            "jenkins_host": "jenkins-host.com",
+            "build_start_time": "2025-02-24T21:00:00Z",
+            "build_number": "10",
+            "build_status": "SUCCESS",
+            "queue_time": "00:00:00.026",
+            "build_duration": "04:22:52.332",
+            "trigger_by": "tom",
+            "build_url": "https://jenkins-host.com/job/XYZ/job/XYZ_BUILD/job/XYZ_1_2_MAIN/10/"
+        }
+    ],
+    "highlighted": {}
+}
