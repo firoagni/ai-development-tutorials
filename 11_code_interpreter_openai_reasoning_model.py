@@ -92,7 +92,7 @@ client = AzureOpenAI(
 # https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python#supported-file-types
 # --------------------------------------------------------------
 file = client.files.create(
-    file=open("IMS_7_8_11MAR_LAST14DAYS.json", "rb"), #multipart file upload requires the file to be in binary not in text
+    file=open("dummy_build_data.json", "rb"), #multipart file upload requires the file to be in binary not in text
     purpose='assistants' 
 )
 # Use file.id to refer to the file
