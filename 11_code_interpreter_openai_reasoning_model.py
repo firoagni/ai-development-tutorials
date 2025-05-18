@@ -125,10 +125,6 @@ try:
                 "Build status of a build can be found by checking the `build_status` key. "
                 "Build duration (time build took to complete) can be found by checking the `build_duration` key. "
                 "Queue time (time build spent in queue) can be found by checking the `queue_time` key. "
-                "Duration information in `build_duration` and `queue_time` key are in HH:MM:SS.SSS format. "
-                "Each build entry contains the stages of the build under the key `stages`. "
-                "When build or job information is asked, provide build information only; not stage information. "
-                "When neither build or stages is asked, assume user is asking for the build information. "
                 "Build label can be found by checking the `build_label` key. When somebody ask about a build, make sure to provide the build label. ",
         tools=[{"type": "code_interpreter"}],                      # mentions that the assistant can use the code interpreter tool
         tool_resources={"code_interpreter":{"file_ids":[file.id]}} # mentions that the assistant can use the file we just uploaded
