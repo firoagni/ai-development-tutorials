@@ -3,31 +3,38 @@
 #
 # Traditional LLMs are good at generating text, but they struggle with tasks that require maths or calculations.
 #
-#
 # Example: How many "r"s present in the string "strawberry"?
 # Answer from LLM: "strawberry" has 2 "r"s.
 #
 # Yikes!
 #
-# To solve this problem, OpenAI has introduced a feature called "Code Interpreter". 
-# - Code Interpreter allows the Assistants API to write and run Python code in a sandboxed execution environment. 
-# - With Code Interpreter enabled, your Assistant can now solve code, math, and data analysis problems.
+# Discussions regarding LLMs can’t count:
+# - https://community.openai.com/t/should-a-custom-gpt-be-able-to-count-the-number-of-items-in-a-json-list/575999
+# - https://community.openai.com/t/assistant-can-not-search-the-whole-file-using-file-search/739661/3
+# - https://www.reddit.com/r/OpenAI/comments/15xfcuk/how_do_i_pass_complex_and_nested_large_json_data
 #
-# https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python
-# https://platform.openai.com/docs/assistants/quickstart?example=without-streaming
 #
+# To solve this problem, OpenAI has introduced a feature called "Code Interpreter"
+# - Code Interpreter allows `Assistants` to write and run Python code in a sandboxed execution environment.
+# - If the generated code fails to execute, the Assistant will iteratively debug and refine the code until 
+# the code executes successfully.
+#
+# With Code Interpreter enabled, your Assistant can now solve code, math, and data analysis problems.
 #
 # Steps:
-# Upload a file (CSV, JSON, etc.) to Azure Server.
-# Create an "assistant" using assistant API and provide this assistant access to the file
-# Create a "thread" for the assistant. Purpose: analyze the file and provide results based on our instructions.
-# (Why thread? Because that's how the Assistant API works)
-#   - The Assistant will run Python code to analyze the file.
-#   - The analysis results will be dumped to a file
-# Once the thread execution is completed, the Assistant will return the results.
-# Print the results
-# Delete the uploaded file from the Azure Server.
-
+# 1. Upload a file (CSV, JSON, etc.) to Azure Server.
+# 2. Create an `assistant` using `assistant API` and provide it access to the file
+# 3. Create a `thread` for the `assistant` with the purpose of analyzing the file and providing results based on the given instructions.
+# 4. The `assistant` will generate and run a Python code to analyze the file.
+#    - The analysis results will be dumped to a file
+#    - Once the thread execution is completed, the Assistant will return the results.
+# 5. Print the results
+# 6. Delete the uploaded file from the Azure Server.
+#
+# References:
+# - https://platform.openai.com/docs/assistants/tools/code-interpreter
+# - https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python
+# - https://platform.openai.com/docs/assistants/quickstart?example=without-streaming
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
@@ -52,7 +59,7 @@ from openai import AzureOpenAI  # The `AzureOpenAI` library is used to interact 
 from dotenv import load_dotenv  # The `dotenv` library is used to load environment variables from a .env file.
 import os                       # Used to get the values from environment variables.
 from pprint import pprint       # The `pprint` library is used to pretty-print a dictionary
-import json
+import json                     # The `json` library is used to work with JSON data in Python.
 
 # --------------------------------------------------------------
 # Load environment variables from .env file
@@ -76,7 +83,7 @@ client = AzureOpenAI(
 # --------------------------------------------------------------
 # Step 1: Upload your file to Azure Server with an "assistants" purpose
 # --------------------------------------------------------------
-# What is a "purpose"?
+# What is purpose?
 # When you upload a file to Azure OpenAI, you need to specify the purpose of the file.
 # The following purposes are supported:
 # https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python#supported-file-types
@@ -85,7 +92,7 @@ client = AzureOpenAI(
 # https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python#supported-file-types
 # --------------------------------------------------------------
 file = client.files.create(
-    file=open("dummy_build_data.json", "rb"), #multipart file upload requires the file to be in binary not in text
+    file=open("IMS_7_8_11MAR_LAST14DAYS.json", "rb"), #multipart file upload requires the file to be in binary not in text
     purpose='assistants' 
 )
 # Use file.id to refer to the file
@@ -93,10 +100,13 @@ print(f"Uploaded file, file ID: {file.id}")
 print("\n---------------------\n")
 
 # --------------------------------------------------------------
-# Note: You can't view the content of a file uploaded to Azure OpenAI purpose of "assistants"
+# Note: You cannot view the content of a file uploaded 
+# to the Azure OpenAI server if the purpose is defined as `assistants`
+#
 # The following code will not work:
 # uploaded_file_content = client.files.content(file.id)
-# The above command will throw an error:
+#
+# The above command will throw the following error:
 # openai.error.InvalidRequestError: The file content is not available for the purpose of "assistants".
 # --------------------------------------------------------------
 
@@ -115,12 +125,16 @@ try:
                 "Build status of a build can be found by checking the `build_status` key. "
                 "Build duration (time build took to complete) can be found by checking the `build_duration` key. "
                 "Queue time (time build spent in queue) can be found by checking the `queue_time` key. "
+                "Duration information in `build_duration` and `queue_time` key are in HH:MM:SS.SSS format. "
+                "Each build entry contains the stages of the build under the key `stages`. "
+                "When build or job information is asked, provide build information only; not stage information. "
+                "When neither build or stages is asked, assume user is asking for the build information. "
                 "Build label can be found by checking the `build_label` key. When somebody ask about a build, make sure to provide the build label. ",
-        tools=[{"type": "code_interpreter"}],
-        tool_resources={"code_interpreter":{"file_ids":[file.id]}}
+        tools=[{"type": "code_interpreter"}],                      # mentions that the assistant can use the code interpreter tool
+        tool_resources={"code_interpreter":{"file_ids":[file.id]}} # mentions that the assistant can use the file we just uploaded
     )
-    print(f"A new assistant {assistant.id} created:\n")
-    print(assistant)
+    print(f"A new assistant {assistant.id} created\n")
+    #print(assistant)
     print("---------------------\n")
 
     # --------------------------------------------------------------
@@ -137,8 +151,8 @@ try:
             }
         ]
     )
-    print(f"A new thread: {thread.id} created:\n")
-    print(thread)
+    print(f"A new thread: {thread.id} created\n")
+    #print(thread)
     print("---------------------\n")
 
     # --------------------------------------------------------------
@@ -156,7 +170,6 @@ try:
     # that can assist both in creating the run and 
     # then polling for its completion.
     # --------------------------------------------------------------
-
     print(f"Running thread: {thread.id} with assistant: {assistant.id}...\n")
     run = client.beta.threads.runs.create_and_poll(
         thread_id=thread.id,
@@ -178,7 +191,7 @@ except Exception as e:
     print(f"Error: {e}")
 finally:
     # --------------------------------------------------------------
-    # Step 5: delete the original file from the server to free up space
+    # Step 5: delete the original file from server to free up space
     # --------------------------------------------------------------    
     client.files.delete(file.id)
     print(f"Deleted file, file ID: {file.id}")
