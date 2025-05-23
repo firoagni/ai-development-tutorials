@@ -1,6 +1,6 @@
 
 # --------------------------------------------------------------
-# Getting Started with Azure OpenAI: Ask Questions and Get Answers from Azure OpenAI via REST API
+# Getting Started with Azure OpenAI: Ask a questions and get answer from Azure OpenAI via REST API
 #
 # This script demonstrates how to interact with the Azure OpenAI API via REST API.
 # ---------------------------------------------------------------
