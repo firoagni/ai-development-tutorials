@@ -1,6 +1,6 @@
 
 # --------------------------------------------------------------
-# Getting Started with Azure OpenAI: Ask Questions and Get Answers via Azure OpenAI library
+# Getting Started with Azure OpenAI: Ask a Question and Get an answer via Azure OpenAI library
 #
 # In the previous example, we used the REST API to interact with Azure OpenAI.
 # In this example, we will use the Azure OpenAI library to achieve the same functionality.
