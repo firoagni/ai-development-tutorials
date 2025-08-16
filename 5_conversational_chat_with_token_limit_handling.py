@@ -3,14 +3,14 @@
 #
 # In the previous example, we created a conversational chatbot 
 # by creating a loop, where in each iteration:
-# - the user is prompted to enter a question.
-# - The question will then be added to the conversation history
-# - The conversation history is passed to the AI. The AI response will be based on the entire conversation.
-# - The AI response is appended to the conversation history.
+# - the user is prompted to enter a question
+# - The question is then added to the conversation history
+# - The conversation history is passed to the AI. The AI response will be based on the entire conversation
+# - The AI response is appended to the conversation history
 # Rinse and repeat.
 # 
-# With each question asked, and answer received, the conversation history grows in size.
-# Larger the conversation history (input to LLM), the more tokens are used. 
+# With each question asked and answer received, the conversation history grows in size.
+# The larger the conversation history (input to LLM), the more tokens are used. 
 #
 # Therefore, if the user does not exit, the conversation 
 # will eventually reach the token limit of the model.

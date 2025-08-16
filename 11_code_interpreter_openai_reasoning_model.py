@@ -23,9 +23,9 @@
 #
 # Steps:
 # 1. Upload a file (CSV, JSON, etc.) to Azure Server.
-# 2. Create an `assistant` using `assistant API` and provide it access to the file
+# 2. Create an `assistant` using the `assistant API` and provide it access to the file
 # 3. Create a `thread` for the `assistant` with the purpose of analyzing the file and providing results based on the given instructions.
-# 4. The `assistant` will generate and run a Python code to analyze the file.
+# 4. The `assistant` will generate and run Python code to analyze the file.
 #    - The analysis results will be dumped to a file
 #    - Once the thread execution is completed, the Assistant will return the results.
 # 5. Print the results
