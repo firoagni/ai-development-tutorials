@@ -8,7 +8,7 @@
 # In some cases, you may want to string together multiple function calls to get the desired result.
 #
 # Generic example:
-# User: ""I am in Bangalore. What attire I should wear?"
+# User: "I am in Bangalore. What attire should I wear?"
 # To answer this question, the model may need to
 # 1. Call a function to get the current temperature in Bangalore.
 # 2. Call another function to check what attire is suitable for the current temperature. 
