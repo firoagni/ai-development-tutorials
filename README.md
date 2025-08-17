@@ -32,8 +32,9 @@ This repository contains a comprehensive collection of tutorials for getting sta
 | 7 | `7_chatbot_for_document.py`<br>`7_chatbot_for_document.ipynb` | Document-Based AI | Chatbot for a Document | Creates a chatbot that can answer questions based on a specific document rather than relying solely on the model's training data. |
 | 8 | `8_function_calling.py`<br>`8_function_calling.ipynb` | Function Calling | Function Calling | Introduces function calling to overcome context size limitations. Shows how to define functions that fetch information from external sources. |
 | 9 | `9_function_calling_chain_functions.py`<br>`9_function_calling_chain_functions.ipynb` | Function Calling | Function calling with function chaining | Extends function calling by demonstrating how to chain multiple function calls together to achieve complex results. |
+| 10 | `10_structured_outputs.py`<br>`10_structured_outputs.ipynb` | Structured Output | Structured Outputs with JSON Schema | Demonstrates how to force models to generate responses in specific JSON formats using Pydantic schemas, including confidence scoring and validation techniques. |
 | 11 | `11_code_interpreter_openai_reasoning_model.py`<br>`11_code_interpreter_openai_reasoning_model.ipynb` | Code Interpretation | Code Interpreter | Demonstrates using Azure OpenAI's Code Interpreter feature for mathematical calculations and data analysis using Python code execution. |
-| 12 | `12_responses_api/01_ask_question_get_ans_azure_api.py` | Modern API | Responses API Migration | Demonstrates the new Responses API - OpenAI's evolution of Chat Completions with simplified usage, server-side conversation management, and enhanced features. |
+| 12 | `12_responses_api/*` | Modern API | Responses API Migration | Demonstrates the required for Responses API migration |
 
 ## Supporting Files
 
@@ -58,13 +59,14 @@ For the best learning experience, follow this structured learning path:
 | 6 | **Document-Based AI** | Tutorial 7 | Context injection, document-aware responses, domain-specific knowledge | Step 4 completed |
 | 7 | **Function Calling Basics** | Tutorial 8 | External data access, function definitions, dynamic information retrieval | Step 6 completed |
 | 8 | **Advanced Function Calling** | Tutorial 9 | Function chaining, multi-step reasoning, orchestrated API calls | Step 7 completed |
-| 9 | **Code Interpretation** | Tutorial 11 | Mathematical reasoning, data analysis, Python code execution | Step 8 completed |
-| 10 | **Responses API Migration** | Tutorial 12 | Changes required for Responses API migration | Step 2 completed |
+| 9 | **Structured Outputs** | Tutorial 10 | JSON schema response format, Pydantic models, confidence scoring | Step 8 completed |
+| 10 | **Code Interpretation** | Tutorial 11 | Mathematical reasoning, data analysis, Python code execution | Step 9 completed |
+| 11 | **Responses API Migration** | Tutorial 12 | Changes required for Responses API migration | Step 2 completed |
 
 ### Quick Start Path
 If you're already familiar with APIs and want to focus on Azure OpenAI specifics:
-- **Express Path**: Tutorials 2 → 3 → 8 → 11 → 12 (Core concepts only)
-- **Full Path**: Follow steps 1-12 for comprehensive understanding
+- **Express Path**: Tutorials 2 → 3 → 8 → 10 → 11 → 12 (Core concepts only)
+- **Full Path**: Follow steps 1-11 for comprehensive understanding
 
 ### Migration Path
 - Tutorial 12 provides direct comparison and migration guide from Chat Completions to Responses API
