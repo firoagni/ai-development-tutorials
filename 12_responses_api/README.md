@@ -13,6 +13,7 @@ Responses is the latest API from OpenAI - an evolution of the Chat Completions A
 - Designed to be much simpler and more developer-friendly.
 - Unlike Chat Completions, where developers must manually manage conversation history and re-send full messages, the Responses API supports server-side conversation state management.
 - Responses API comes with additional built-in tools like web search, file search, computer use, image generation and remote MCPs.
+- Results in lower costs due to improved cache utilization (40% to 80% improvement when compared to Chat Completions in internal tests).
 - Improved support for reasoning models
 
 ## Important Links

@@ -1,7 +1,7 @@
 # --------------------------------------------------------------
 # Azure OpenAI - Responses API: Ask a Question and Get an answer 
 #
-# What to switch from Chat Completions API to Responses API?
+# Want to switch from Chat Completions API to Responses API?
 #
 # In this example, we will demonstrate what changes you need
 # to generate output from OpenAI models if you switch to Responses API
@@ -12,7 +12,7 @@
 # 2. `chat.completion.create` requires a `messages` array, while `responses` requires an `input`.
 #     `input` can be a string or array of strings.
 # 3. The `max_tokens` key in `chat.completions.create` is `max_output_tokens` in `responses.create`.
-
+# 4. The answer from LLM can now be accessed directly from the response object's `output_text` attribute
 
 # --------------------------------------------------------------
 # Prerequisites <<NO CHANGES>>
@@ -22,7 +22,7 @@
 # `source venv/bin/activate`
 # 3. The required libraries are listed in the requirements.txt file. Use the following command to install them:
 #    `pip3 install -r ../requirements.txt`
-# 4. Create a `.env` file in the same directory as this script and add the following variables:
+# 4. Create a `.env` file in the parent directory and add the following variables:
 #    AZURE_OPENAI_ENDPOINT=<your_azure_openai_endpoint>
 #    AZURE_OPENAI_MODEL=<your_azure_openai_model>
 #    AZURE_OPENAI_API_VERSION=<your_azure_openai_api_version>
@@ -92,7 +92,7 @@ print(f"Answer from LLM: {response.choices[0].message.content}")
 
 # --------------------------------------------------------------
 # Steps to pass the same question to the Model 
-# via new Responses API
+# via the new Responses API
 # --------------------------------------------------------------
 print("=" * 80)
 print(f"Response from Responses API:")
@@ -110,21 +110,22 @@ try:
 except Exception as e:
     print(f"Error getting answer from AI: {e}")
 
+print(f"DEBUG:: Complete response from LLM:\n{response.model_dump_json(indent=4)}")
 # Answer from LLM can now be accessed directly from the response object's `output_text` attribute
 # Much more elegant than before's `response.choices[0].message.content`
 print(f"Answer from LLM: {response.output_text}")
 
 # --------------------------------------------------------------
-# Response API's `input`` can accept 
+# Response API's `input` can accept 
 # chat completion style message array too
 # --------------------------------------------------------------
 print("=" * 80)
-print(f"Response from Responses API:")
+print(f"Response from Responses API for chat completion style message array:")
 print("=" * 80)
 try:
     response = client.responses.create( 
         model= AZURE_OPENAI_MODEL,      
-        input=[
+        input=[ # input can also accept chat completion style message array
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": question}
         ],
@@ -132,6 +133,7 @@ try:
         max_output_tokens=max_tokens
     )
 
+# Catch any exceptions that occur during the request
 except Exception as e:
     print(f"Error getting answer from AI: {e}")
 
