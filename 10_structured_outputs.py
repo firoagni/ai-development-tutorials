@@ -80,7 +80,7 @@ deployment_name = AZURE_OPENAI_MODEL  # The deployment name of the model to use
 # --------------------------------------------------------------
 print("\n\n=== Example 1: Basic Structured Output ===")
 
-# Define the structure we want by writing a Pydantic class
+# Define the output structure we want by writing a Pydantic class
 class CalendarEvent(BaseModel):
     name: str = Field(description="The name of the event")
     date: str = Field(description="The date of the event")
@@ -94,7 +94,7 @@ inputs = [
 
 for input in inputs:
 
-    print(f"Question: {input}")
+    print(f"Input: {input}")
     # Call the model and pass the the pydantic class name to `response_format`
 
     try:
@@ -102,8 +102,9 @@ for input in inputs:
         # use `client.beta.chat.completions.parse` for structured output
         response = client.beta.chat.completions.parse(
             model=deployment_name,
+            temperature=0,
             messages=[
-                {"role": "system", "content": "Extract the event information only from the provided user input"},
+                {"role": "system", "content": "Extract the event information from the provided user input"},
                 {"role": "user", "content": input},
             ],
             response_format=CalendarEvent
@@ -163,7 +164,7 @@ inputs = [
 
 for input in inputs:
 
-    print(f"Question: {input}")
+    print(f"Input: {input}")
     # Call the model and pass the the pydantic class name to `response_format`
 
     try:
@@ -171,8 +172,9 @@ for input in inputs:
         # use `client.beta.chat.completions.parse` for structured output
         response = client.beta.chat.completions.parse(
             model=deployment_name,
+            temperature=0,
             messages=[
-                {"role": "system", "content": "Extract the event information only from the provided user input"},
+                {"role": "system", "content": "Extract the event information from the provided user input"},
                 {"role": "user", "content": input},
             ],
             response_format=CalendarEventWithConfidence
