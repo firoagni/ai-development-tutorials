@@ -88,7 +88,7 @@ try:
     print(answer)
 
 # -------------------------------------------------------------
-# Handle if the model is not installed
+# Handle if the provided model is not installed
 # -------------------------------------------------------------
 except ResponseError as e:
     print('Error getting answer from AI:', e)
