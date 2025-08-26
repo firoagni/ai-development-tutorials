@@ -113,14 +113,14 @@ while True:
         # --------------------------------------------------------------
         # Extract answer and print it
         # --------------------------------------------------------------
-        print("\nAnswer from AI:\n")
         answer = response.choices[0].message.content
+        print("\nAnswer from AI:\n")
         print("\n" + answer + "\n")
 
         # --------------------------------------------------------------
         # Append the assistant's response to the conversation history
         # --------------------------------------------------------------
-        conversation.append({"role": "assistant", "content": response.choices[0].message.content})
+        conversation.append({"role": "assistant", "content": answer})
         
         # --------------------------------------------------------------
         # Debug: Print the entire conversation history
