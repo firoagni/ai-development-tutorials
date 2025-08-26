@@ -1,6 +1,8 @@
-# Azure OpenAI Tutorial Collection
+# AI Development Tutorial Collection
 
-This repository contains a comprehensive collection of tutorials for getting started with Azure OpenAI. Each tutorial builds upon the previous ones, demonstrating progressively advanced concepts and techniques.
+This repository contains a comprehensive collection of Python-based tutorials for getting started with AI development. While primarily focused on Azure OpenAI, it also includes tutorials for other AI platforms like Ollama. 
+
+Each tutorial builds upon the previous ones, demonstrating progressively advanced concepts and techniques.
 
 ## Prerequisites
 
@@ -35,6 +37,7 @@ This repository contains a comprehensive collection of tutorials for getting sta
 | 10 | `10_structured_outputs.py`<br>`10_structured_outputs.ipynb` | Structured Output | Structured Outputs with JSON Schema | Demonstrates how to force models to generate responses in specific JSON formats using Pydantic schemas, including confidence scoring and validation techniques. |
 | 11 | `11_code_interpreter_openai_reasoning_model.py`<br>`11_code_interpreter_openai_reasoning_model.ipynb` | Code Interpretation | Code Interpreter | Demonstrates using Azure OpenAI's Code Interpreter feature for mathematical calculations and data analysis using Python code execution. |
 | 12 | `12_responses_api/*` | Modern API | Responses API Migration | Demonstrates the required for Responses API migration |
+| 13 | `13_ollama/*` | Local AI | Ollama Integration | Examples of using Ollama for running AI models locally |
 
 ## Supporting Files
 
@@ -44,6 +47,7 @@ This repository contains a comprehensive collection of tutorials for getting sta
 - **`test_document.txt`**: Sample document used in document-based chatbot tutorials
 - **`dummy_build_data.json`**: Sample data file used in code interpreter examples
 - **`12_responses_api/`**: Folder containing tutorials for OpenAI's new Responses API with detailed migration guides
+- **`13_ollama/`**: Folder containing tutorials for using Ollama for running AI models locally
 
 ## Learning Path
 
@@ -62,6 +66,7 @@ For the best learning experience, follow this structured learning path:
 | 9 | **Structured Outputs** | Tutorial 10 | JSON schema response format, Pydantic models, confidence scoring | Step 8 completed |
 | 10 | **Code Interpretation** | Tutorial 11 | Mathematical reasoning, data analysis, Python code execution | Step 9 completed |
 | 11 | **Responses API Migration** | Tutorial 12 | Changes required for Responses API migration | Step 2 completed |
+| 12 | **Local AI with Ollama** | Tutorial 13 | Running AI models locally, Ollama setup and usage | Step 2 completed |
 
 ### Quick Start Path
 If you're already familiar with APIs and want to focus on Azure OpenAI specifics:
