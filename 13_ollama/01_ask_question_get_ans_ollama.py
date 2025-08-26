@@ -20,12 +20,9 @@
 # --------------------------------------------------------------
 # Import Modules
 # --------------------------------------------------------------
-from ollama import chat, ResponseError, pull         # chat API from Ollama. Think of OpenAI chat completion API equivalent
-from dotenv import load_dotenv  # The `dotenv` library is used to load environment variables from a .env file.
-import os
-
-import ollama                       # Used to get the values from environment variables.
-
+from ollama import chat, ResponseError, pull    # chat API from Ollama. Think of OpenAI chat completion API equivalent
+from dotenv import load_dotenv                  # The `dotenv` library is used to load environment variables from a .env file.
+import os                                       # Used to get the values from environment variables.
 # --------------------------------------------------------------
 # Load environment variables from .env file
 # --------------------------------------------------------------
@@ -96,14 +93,14 @@ try:
 except ResponseError as e:
     print('Error getting answer from AI:', e)
     if e.status_code == 404: # Model not installed
-        print('Pulling model:', MODEL)
         try:
+            print('Pulling model:', MODEL)
             pull(MODEL) 
             print('Model pulled successfully:', MODEL)
             print('Restart the program again ...')
 
         except Exception as e:
-            print('Error pulling model from AI:', e)
+            print('Error pulling model. Error:', e)
 
 # -------------------------------------------------------------
 # Catch any exceptions that occur during the request
