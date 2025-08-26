@@ -1,5 +1,10 @@
 # Environment variables file
+# Ignore all .env files
 .env
+# But allow this specific .env file
+!13_ollama/.env
+
+
 
 # Virtual environment directories
 venv/
