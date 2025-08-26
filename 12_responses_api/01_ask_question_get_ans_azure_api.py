@@ -15,7 +15,7 @@
 # 4. The answer from LLM can now be accessed directly from the response object's `output_text` attribute
 
 # --------------------------------------------------------------
-# Prerequisites <<NO CHANGES>>
+# Prerequisites <<NO CHANGE>>
 # 1. Make sure that python3 is installed on your system.
 # 2. Create and Activate a Virtual Environment:
 # `python3 -m venv venv`
@@ -30,14 +30,14 @@
 #---------------------------------------------------------------
 
 # --------------------------------------------------------------
-# Import Modules <<NO CHANGES>>
+# Import Modules <<NO CHANGE>>
 # --------------------------------------------------------------
 from openai import AzureOpenAI  # The `AzureOpenAI` library is used to interact with the Azure OpenAI API.
 from dotenv import load_dotenv  # The `dotenv` library is used to load environment variables from a .env file.
 import os                       # Used to get the values from environment variables.
 
 # --------------------------------------------------------------
-# Load environment variables from .env file <<NO CHANGES>>
+# Load environment variables from .env file <<NO CHANGE>>
 # --------------------------------------------------------------
 load_dotenv("../.env")
 
@@ -47,7 +47,7 @@ AZURE_OPENAI_API_VERSION     = os.environ['AZURE_OPENAI_VERSION']
 AZURE_OPENAI_API_KEY         = os.environ['AZURE_OPENAI_API_KEY']
 
 # --------------------------------------------------------------
-# Create an instance of the AzureOpenAI client <<NO CHANGES>>
+# Create an instance of the AzureOpenAI client <<NO CHANGE>>
 # --------------------------------------------------------------
 client = AzureOpenAI(
     azure_endpoint = AZURE_OPENAI_ENDPOINT,
