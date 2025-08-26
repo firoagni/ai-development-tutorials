@@ -67,7 +67,7 @@ try:
         ],
         options = {               # See https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
             "temperature": 0.7,   # Controls the randomness of the output. Lower values make the output more deterministic.
-            "seed": 42.           # Setting seed to a specific number will make the model generate the same output for the same input
+            "seed": 42           # Setting seed to a specific number will make the model generate the same output for the same input
         }
     )
 
@@ -83,8 +83,8 @@ try:
     # --------------------------------------------------------------
     # Extract answer and print it
     # --------------------------------------------------------------
-    print("\nAnswer from AI:")
     answer = response['message']['content']
+    print("\nAnswer from AI:")
     print(answer)
 
 # -------------------------------------------------------------
