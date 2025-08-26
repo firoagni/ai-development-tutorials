@@ -87,7 +87,7 @@ while True:
         # --------------------------------------------------------------
         # Extract answer and print it
         # --------------------------------------------------------------
-        answer = response['message']['content']
+        answer = response.message.content
         print("\nAnswer from AI:")
         print(answer)
 
