@@ -24,7 +24,22 @@
 # the model in every API call.
 # Therefore, monitor token usage carefully to stay within model limits and manage costs.
 # Consider implementing token limit checks and conversation truncation if needed.
-
+#
+# Also note that at the time of writing, several known issues exist in the Responses API:
+#
+# Known Issues in Current Implementation
+# 1. Incomplete conversation history retrieval:
+#    - `responses.input_items.list("{response_id}")` returns the entire context EXCEPT the last output
+#      Reference:
+#      - https://community.openai.com/t/unable-to-retrieve-full-historic-responses-via-openai-responses-api/1229897
+#      - https://community.openai.com/t/unexpected-model-behavior-when-using-previous-response-id-in-responses-api/1150739
+#
+#
+# 2. Data retention policy confusion:
+#    - Unclear documentation regarding data persistence
+#    - Reference: https://community.openai.com/t/how-long-do-previous-messages-in-the-previous-response-id-last/1280341
+#
+# Recommendation: Switch to Responses API but don't use server-side state management yet.
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
@@ -136,6 +151,9 @@ if previous_response_id is not None:
     response = client.responses.input_items.list(previous_response_id)
     print(f"Input items for response id: {previous_response_id}")
     print(response.model_dump_json(indent=4))
+    print("\n**Note** There's a bug "
+          "in the output of `responses.input_items.list()`. "
+          "The response returns the entire context EXCEPT the 'last' output\n")
 
     # documentation mentions that client.responses.delete() return the status of the delete operation
     # however, in reality it is returning None

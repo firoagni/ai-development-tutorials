@@ -16,7 +16,7 @@
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
-# Prerequisites <<NO CHANGES>>
+# Prerequisites <<NO CHANGE>>
 # 1. Make sure that python3 is installed on your system.
 # 2. Create and Activate a Virtual Environment:
 # `python3 -m venv venv`
@@ -31,7 +31,7 @@
 #---------------------------------------------------------------
 
 # --------------------------------------------------------------
-# Import Modules <<NO CHANGES>>
+# Import Modules <<NO CHANGE>>
 # --------------------------------------------------------------
 from openai import AzureOpenAI             # The `AzureOpenAI` library is used to interact with the Azure OpenAI API.
 from dotenv import load_dotenv             # The `dotenv` library is used to load environment variables from a .env file.
@@ -40,7 +40,7 @@ from pydantic import BaseModel, Field      # Pydantic is used to define the stru
 from typing import List, Optional          # Used for type hints in our Pydantic models
 
 # --------------------------------------------------------------
-# Load environment variables from .env file <<NO CHANGES>>
+# Load environment variables from .env file <<NO CHANGE>>
 # --------------------------------------------------------------
 load_dotenv("../.env")
 
@@ -50,7 +50,7 @@ AZURE_OPENAI_API_VERSION     = os.environ['AZURE_OPENAI_VERSION']
 AZURE_OPENAI_API_KEY         = os.environ['AZURE_OPENAI_API_KEY']
 
 # --------------------------------------------------------------
-# Create an instance of the AzureOpenAI client <<NO CHANGES>>
+# Create an instance of the AzureOpenAI client <<NO CHANGE>>
 # --------------------------------------------------------------
 client = AzureOpenAI(
     azure_endpoint = AZURE_OPENAI_ENDPOINT,
@@ -59,7 +59,7 @@ client = AzureOpenAI(
 )
 
 # --------------------------------------------------------------
-# Define output JSON schema by writing Pydantic classes <<NO CHANGES>>
+# Define output JSON schema by writing Pydantic classes <<NO CHANGE>>
 # --------------------------------------------------------------
 class LLMConfidence(BaseModel):
     confidence: float = Field(description="Confidence level in the prediction. " \
