@@ -84,6 +84,7 @@ class CalendarEvent(BaseModel):
     name: str = Field(description="The name of the event")
     date: str = Field(description="The date of the event")
     participants: List[str] = Field(description="List of participants attending the event")
+    
     llm_confidence: LLMConfidence = Field(description="Confidence information from the model")
 
 # --------------------------------------------------------------
@@ -128,15 +129,15 @@ for input in inputs:
 
         # Use `model_validate_json` class method to convert
         # the response JSON into a Pydantic model instance.
-        response_content = CalendarEvent.model_validate_json(response_json)
-        print(response_content)
+        calendarEvent = CalendarEvent.model_validate_json(response_json)
+        print(calendarEvent)
         print("\nExtracted Event Information:")
-        print(f"Name: {response_content.name}")
-        print(f"Date: {response_content.date}")
-        print(f"Participants: {', '.join(response_content.participants)}")
-        print(f"Confidence: {response_content.llm_confidence.confidence}")
-        print(f"Confidence Reason: {response_content.llm_confidence.confidence_reason}")
-        print(f"Assumptions: {', '.join(response_content.llm_confidence.assumptions)}")
+        print(f"Name: {calendarEvent.name}")
+        print(f"Date: {calendarEvent.date}")
+        print(f"Participants: {', '.join(calendarEvent.participants)}")
+        print(f"Confidence: {calendarEvent.llm_confidence.confidence}")
+        print(f"Confidence Reason: {calendarEvent.llm_confidence.confidence_reason}")
+        print(f"Assumptions: {', '.join(calendarEvent.llm_confidence.assumptions)}")
         print("-------\n")
     # -------------------------------------------------------------
     # Handle if the provided model is not installed
