@@ -44,13 +44,12 @@
 # --------------------------------------------------------------
 # Import Modules
 # --------------------------------------------------------------
-from openai import AzureOpenAI, OpenAI     # The `AzureOpenAI` library is used to interact with the Azure OpenAI API
-from dotenv import load_dotenv             # The `dotenv` library is used to load environment variables from a .env file
-import os                                  # Used to get the values from environment variables
-from pprint import pprint                  # The `pprint` library is used to pretty-print objects
-from pydantic import BaseModel, Field      # Pydantic is used to define the structure of the output we want
-from typing import List, Optional          # Used for type hints in our Pydantic models
-import json                                # Used to work with JSON data
+from openai import AzureOpenAI            # The `AzureOpenAI` library is used to interact with the Azure OpenAI API
+from dotenv import load_dotenv            # The `dotenv` library is used to load environment variables from a .env file
+import os                                 # Used to get the values from environment variables
+from pydantic import BaseModel, Field     # Pydantic is used to define the structure of the output we want
+from typing import List                   # Used for type hints in our Pydantic models
+import json                               # Used to work with JSON data
 
 # --------------------------------------------------------------
 # Load Environment Variables
