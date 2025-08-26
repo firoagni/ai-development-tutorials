@@ -1,11 +1,21 @@
 # --------------------------------------------------------------
-# Getting Started with Ollama: Ask a question and get an answer from Ollama hosted local model
+# Getting Started with Ollama: Ask a question and get an answer from a thinking Model
 #
-# This script demonstrates how to interact with Ollama via its Python library
+# Newer models like GPT-5 can think before they answer, 
+#
+# "Thinking" refers to techniques that allow an AI to generate an internal, 
+# hidden thought process before producing a final answer, rather than 
+# providing a direct, immediate response. 
+#
+# This internal reasoning process improves the accuracy 
+# and thoughtfulness of the AI's output, especially for 
+# complex tasks requiring planning and reasoning.
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
-# Prerequisites
+# Prerequisites 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
+#
 # 1. Make sure that python3 is installed on your system.
 # 2. Make sure Ollama is installed and "running" on your system.
 # 3. Create an .env file, and add the following line:
@@ -18,19 +28,20 @@
 #    `pip3 install -r requirements.txt`
 #---------------------------------------------------------------
 # --------------------------------------------------------------
-# Import Modules
+# Import Modules 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
 # --------------------------------------------------------------
 from ollama import chat, ResponseError, pull    # chat API from Ollama. Think of OpenAI chat completion API equivalent
 from dotenv import load_dotenv                  # The `dotenv` library is used to load environment variables from a .env file.
 import os                                       # Used to get the values from environment variables.
 # --------------------------------------------------------------
-# Load environment variables from .env file
+
 # --------------------------------------------------------------
-# The `load_dotenv()` function reads the .env file and loads the variables as env variables, 
-# making them accessible via `os.environ` or `os.getenv()`.
+# Load environment variables from .env file 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
 # --------------------------------------------------------------
 load_dotenv()
-MODEL = os.environ['OLLAMA_MODEL']
+MODEL = os.environ['OLLAMA_THINKING_MODEL'] # Make sure to pick a thinking model
 
 # --------------------------------------------------------------
 # Prompt user for question
@@ -38,25 +49,8 @@ MODEL = os.environ['OLLAMA_MODEL']
 question = input("Enter your question: ").strip()
 
 # --------------------------------------------------------------
-# In Azure OpenAI, you need to create an instance 
-# of the AzureOpenAI client first
-# In Ollama, client instance creation step is optional!
-# You can just call ollama.chat() to get the model response 
-# --------------------------------------------------------------
-
-# --------------------------------------------------------------
-# Wrap the question to ollama.chat() payload
-# --------------------------------------------------------------
-# The "model" parameter specifies the model to be used for the request.
-# The "messages" array defines the conversation history for the AI model.
-#
-# Each message includes a "role" and "content".
-# - "role" specifies the role in the conversation:
-#   - "system": Sets the behavior or personality of the assistant. The first message in the "messages" array
-#   - "user": Provides the user's input to the model
-#   - "assistant": Represents the AI's response (used in conversations, check later examples).
-#
-# Additional parameters like "temperature" and "seed" control response behavior.
+# Wrap the question to ollama.chat() payload 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
 # --------------------------------------------------------------
 try:
     response = chat(
@@ -65,30 +59,39 @@ try:
             {"role": "system", "content": "You are a super sarcastic AI assistant"},
             {"role": "user", "content": question}
         ],
-        options = {               # See https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
-            "temperature": 0.7,   # Controls the randomness of the output. Lower values make the output more deterministic.
-            "seed": 42           # Setting seed to a specific number will make the model generate the same output for the same input
+        options = {
+            "temperature": 0.7,
+            "seed": 42
         }
     )
 
     # --------------------------------------------------------------
-    # Print the response for debugging
+    # Print the response for debugging 
+    # <<NO CHANGE FROM PREVIOUS EXAMPLES>>
     # --------------------------------------------------------------
-    # The `model_dump_json` method is a custom method provided by the Ollama library to serialize the response object.
-    # No need to use json.dumps() to convert to a string, as `model_dump_json` already does that.
-    # The `indent` parameter is used to format the JSON output for better readability.
-    # ---------------------------------------------------------------
     print(f"DEBUG:: Complete response from LLM:\n{response.model_dump_json(indent=4)}")
     
     # --------------------------------------------------------------
-    # Extract answer and print it
+    # Extract thinking process and print it
+    #
+    # In thinking models, expect an additional attribute
+    # `message.thinking` in LLM response
+    # --------------------------------------------------------------
+    thinking = response.message.thinking
+    print("Thinking process:")
+    print(thinking)
+
+    # --------------------------------------------------------------
+    # Extract answer and print it 
+    # <<NO CHANGE FROM PREVIOUS EXAMPLES>>
     # --------------------------------------------------------------
     answer = response.message.content
     print("\nAnswer from AI:")
     print(answer)
 
 # -------------------------------------------------------------
-# Handle if the provided model is not installed
+# Handle if the provided model is not installed 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
 # -------------------------------------------------------------
 except ResponseError as e:
     print('Error getting answer from AI:', e)
@@ -103,7 +106,8 @@ except ResponseError as e:
             print('Error pulling model. Error:', e)
 
 # -------------------------------------------------------------
-# Catch any exceptions that occur during the request
+# Catch any exceptions that occur during the request 
+# <<NO CHANGE FROM PREVIOUS EXAMPLES>>
 # -------------------------------------------------------------
 except Exception as e:
     print('Error getting answer from AI:', e)
