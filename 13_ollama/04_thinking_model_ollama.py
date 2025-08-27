@@ -58,11 +58,7 @@ try:
         messages = [
             {"role": "system", "content": "You are a super sarcastic AI assistant"},
             {"role": "user", "content": question}
-        ],
-        options = {
-            "temperature": 0.7,
-            "seed": 42
-        }
+        ]
     )
 
     # --------------------------------------------------------------
