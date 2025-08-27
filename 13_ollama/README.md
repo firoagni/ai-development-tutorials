@@ -57,6 +57,19 @@ response = = chat(model='llama3.2', messages=[
 
 print(response.message.content)
 ```
+## Tutorial Files
+
+| # | Tutorial Files | Category | Purpose | Description |
+|---|----------------|----------|---------|-------------|
+| 1 | `01_ask_question_get_ans_ollama.py`<br>`01_ask_question_get_ans_ollama.ipynb` | Basic Integration | Basic Question Answering | Demonstrates how to interact with Ollama for basic question-answering using locally running models |
+| 2 | `02_conversational_chat_ollama.py`<br>`02_conversational_chat_ollama.ipynb` | Chat | Conversational Chat | Shows how to create multi-turn conversations using locally running Ollama models |
+| 3 | `03_few_shot_prompting_ollama.py`<br>`03_few_shot_prompting_ollama.ipynb` | Advanced Prompting | Few-Shot Prompting | Implements few-shot prompting techniques with locally running models |
+| 4 | `04_thinking_model_ollama.py`<br>`04_thinking_model_ollama.ipynb` | Advanced Reasoning | Thinking Model | Demonstrates how to implement thinking patterns and reasoning with Ollama models |
+| 5 | `05_streaming_ollama.py`<br>`05_streaming_ollama.ipynb` | Real-time Processing | Streaming | Shows how to implement streaming responses with Ollama for real-time output |
+| 6 | `06_thinking_levels_ollama.py`<br>`06_thinking_levels_ollama.ipynb` | Advanced Reasoning | Multi-level Thinking | Explores different levels of thinking and reasoning capabilities with Ollama models |
+| 7 | `07_structured_outputs_ollama.py`<br>`07_structured_outputs_ollama.ipynb` | Output Control | Structured Outputs | Demonstrates how to get structured JSON outputs from Ollama models |
+| 8 | `08_function_calling_ollama.py`<br>`08_function_calling_ollama.ipynb` | Integration | Function Calling | Shows how to implement function calling capabilities with local models |
+| 9 | `09_remote_ollama.py`<br>`09_remote_ollama.ipynb` | Remote Access | Remote Integration | Demonstrates how to connect to and use remote Ollama instances |
 
 ## References
 - [Ollama Python GitHub Repository](https://github.com/ollama/ollama-python)
