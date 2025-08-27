@@ -69,7 +69,7 @@ try:
     )
 
     first_thinking_chunk = True
-    first_message_content = True
+    first_response_chunk = True
 
     # --------------------------------------------------------------
     # Print the chunks as they come in
@@ -82,9 +82,9 @@ try:
             print(chunk.message.thinking, end='', flush=True)
 
         if chunk.message.content: # AI has finished thinking and is now responding
-            if first_message_content:
+            if first_response_chunk:
                 print("\n\nAnswer from AI:")
-                first_message_content = False
+                first_response_chunk = False
             print(chunk.message.content, end='', flush=True)
 
 # -------------------------------------------------------------
