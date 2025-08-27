@@ -1,10 +1,12 @@
 # --------------------------------------------------------------
 # Getting Started with Ollama: Few-Shot Prompting
 #
-# In the previous example, one can ask a single question and get an answer.
-# In this example, we will use the Ollama python library to have a conversational chat with the AI.
-# The AI will remember the context of the conversation and respond accordingly.
-# This is useful for building chatbots or virtual assistants that can hold a conversation with users.
+# In some cases, it's easier to show the model what you want rather than tell the model what you want.
+#
+# One way to show the model what you want is with creating a few fake back-and-forth messages 
+# between user and assistant. This is called few-shot prompting. 
+# 
+# The opposite of few-shot prompting is zero-shot prompting (previous examples).
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
@@ -13,7 +15,7 @@
 # 2. Make sure Ollama is installed and "running" on your system.
 # 3. Create an .env file, and add the following line:
 #    `OLLAMA_MODEL=<model_name>`
-#   model_name will be the name of the local model you want to use
+#   where model_name will be the name of the local model you want to use
 # 4. Create and Activate a Virtual Environment:
 # `python3 -m venv venv`
 # `source venv/bin/activate`
