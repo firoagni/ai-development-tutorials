@@ -10,7 +10,7 @@
 # 2. Make sure Ollama is installed and "running" on your system.
 # 3. Create an .env file, and add the following line:
 #    `OLLAMA_MODEL=<model_name>`
-#   model_name will be the name of the local model you want to use
+#   wheremodel_name will be the name of the local model you want to use
 # 4. Create and Activate a Virtual Environment:
 # `python3 -m venv venv`
 # `source venv/bin/activate`
