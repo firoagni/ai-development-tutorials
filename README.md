@@ -38,7 +38,7 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 | 11 | `11_code_interpreter_openai_reasoning_model.py`<br>`11_code_interpreter_openai_reasoning_model.ipynb` | Code Interpretation | Code Interpreter | Demonstrates using Azure OpenAI's Code Interpreter feature for mathematical calculations and data analysis using Python code execution. |
 | 12 | `12_responses_api/*` | Modern API | Responses API Migration | Demonstrates the required for Responses API migration |
 | 13 | `13_ollama/*` | Local AI | Ollama Integration | Examples of using Ollama for running AI models locally |
-| 14 | `14_mcp/*` | Model Context Protocol | MCP Server Implementation | Demonstrates how to create MCP servers using FastMCP library, both locally and as HTTP services |
+| 14 | `14_mcp/*` | Model Context Protocol | MCP Server Implementation | Demonstrates how to create MCP servers using FastMCP library |
 
 ## Supporting Files
 
@@ -49,7 +49,7 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 - **`dummy_build_data.json`**: Sample data file used in code interpreter examples
 - **`12_responses_api/`**: Folder containing tutorials for OpenAI's new Responses API with detailed migration guides
 - **`13_ollama/`**: Folder containing tutorials for using Ollama for running AI models locally
-- **`14_mcp/`**: Folder containing tutorials for creating Model Context Protocol (MCP) servers that expose functions to AI systems
+- **`14_mcp/`**: Folder containing tutorials for explaining Model Context Protocol (MCP) servers and their implementation
 
 ## Learning Path
 
@@ -73,17 +73,14 @@ For the best learning experience, follow this structured learning path:
 
 ### Quick Start Path
 If you're already familiar with APIs and want to focus on Azure OpenAI specifics:
-- **Express Path**: Tutorials 2 → 3 → 8 → 10 → 11 → 12 (Core concepts only)
+- **Express Path**: Tutorials 2 → 3 → 8 → 9 → 10 → 11  (Core concepts only)
 - **Full Path**: Follow steps 1-11 for comprehensive understanding
 
 ### Migration Path
 - Tutorial 12 provides direct comparison and migration guide from Chat Completions to Responses API
 
 ### MCP Development Path
-- Tutorial 14 demonstrates how to create MCP servers that expose your functions to AI systems:
-  1. Local MCP server using FastMCP
-  2. HTTP-based MCP server
-  3. Dockerized MCP server deployment
+- Tutorial 14 demonstrates how to create MCP servers that expose your functions to AI systems
 
 ## Getting Help
 
