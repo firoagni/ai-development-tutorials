@@ -91,6 +91,8 @@ To add an MCP server to an AI assistant, you’ll need to create a `mcp.json` fi
 
 Refer to your AI assistant’s documentation to determine the correct location for placing the `mcp.json` file.
 
+Copilot Doc: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
+
 <table>
 <tr>
 <td> MCP Server File </td> 
@@ -134,6 +136,43 @@ Refer to your AI assistant’s documentation to determine the correct location f
     <ul>
         <li>Provide absolute paths in `command` and `args`</li>
         <li>Use the python from your virtual environment in `command`</li>
+    </ul>
+</td>
+</tr>
+<tr>
+<td>02_http-mcp-server-fastmcp.py</td>
+<td>
+
+
+```json
+{
+	"servers": {
+		"build-server-http": {
+			"url": "http://0.0.0.0:8000/mcp",
+			"type": "http"
+		}
+	}
+}
+```
+
+</td>
+<td>
+
+```json
+{
+	"mcpServers": {
+		"build-server-http": {
+			"url": "http://0.0.0.0:8000/mcp",
+			"type": "http"
+		}
+	}
+}
+```
+
+</td>
+<td>
+    <ul>
+        <li>Make sure the server is running</li>
     </ul>
 </td>
 </tr>

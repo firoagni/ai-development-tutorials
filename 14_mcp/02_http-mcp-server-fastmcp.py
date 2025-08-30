@@ -97,12 +97,16 @@ def get_last_build(product_name, branch_name):
 
 # ----------------------------------------------
 # Step 3: Configure the MCP server to run 
-# as a web service on http://127.0.0.1:8000/mcp
+# as a web service on http://0.0.0.0:8000/mcp
+#
+# Difference between 0.0.0.0 and 127.0.0.1
+# - 127.0.0.1: hosted webservice will be accessible only from the host machine.
+# - 0.0.0.0: Hosted webservice will be accessible even from the outside the host machine.
 # ----------------------------------------------
 if __name__ == "__main__":
     try:
         print("\n\n==== Starting MCP server =====")
-        mcp.run(transport="http", host="127.0.0.1", port=8000, path="/mcp")
+        mcp.run(transport="http", host="0.0.0.0", port=8000, path="/mcp")
     except KeyboardInterrupt:
         print("[DEBUG] Server shutting down gracefully")
     except Exception as e:
@@ -114,7 +118,7 @@ if __name__ == "__main__":
 # Step 4: Test the script to script to start the server
 # Run this python file. You should see the message:
 #
-# Starting MCP server 'build-server-http' with transport 'http' on http://127.0.0.1:8000/mcp
+# Starting MCP server 'build-server-http' with transport 'http' on http://0.0.0.0:8000/mcp
 #
 # Check the screenshots in `screenshots/02_http-mcp-server-fastmcp`
 # to learn how to add this server to VSCode Copilot
