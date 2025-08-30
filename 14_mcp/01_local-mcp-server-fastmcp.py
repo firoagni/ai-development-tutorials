@@ -7,9 +7,9 @@ import sys
 
 # ----------------------------------------------
 # Step 1: Instantiate an MCP server. 
-# Server Name we chose: build-server
+# Server Name we chose: build-server-local
 # ----------------------------------------------
-mcp = FastMCP("build-server")
+mcp = FastMCP("build-server-local")
 
 # ----------------------------------------------
 # Step 2: To all the function you wish to expose via MCP,
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 #╰────────────────────────────────────────────────────────────────────────────╯
 #
 #
-#[08/29/25 19:43:19] INFO     Starting MCP server 'build-server' with transport 'stdio'                                        server.py:1445
+#[08/29/25 19:43:19] INFO     Starting MCP server 'build-server' with transport 'stdio' server.py:1445
 # ----------------------------------------------
 
 #----------------------------------------------------------
@@ -152,4 +152,10 @@ if __name__ == "__main__":
 # will be able to access it.
 #
 # Ctrl + C to exit
+#----------------------------------------------------------
+
+#-----------------------------------------------
+# Check "How to consume MCP servers" in the README.md
+# for information on how to add this MCP server
+# to your AI assistant.
 #-----------------------------------------------

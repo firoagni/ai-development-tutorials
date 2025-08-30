@@ -73,7 +73,7 @@ FastMCP supports three transport protocols: **stdio**, **http**, and **sse**
     ```
     Use `http` if you want to expose your MCP server over HTTP
 
-- **Use SSE** Old technology, use Streamable HTTP instead.
+- **SSE** Old technology, use Streamable HTTP instead.
     ```python
     mcp.run(transport="sse", host="127.0.0.1", port=8000, path="/mcp")
     ```
@@ -81,6 +81,73 @@ FastMCP supports three transport protocols: **stdio**, **http**, and **sse**
 ## How to consume MCP servers
 1. **Personal MCP use** - Adding MCP servers to Copilot, Windsurf, Cursor, or other personal AI assistants
 1. **Backend integration** - Adding MCP servers into your Python applications and agent systems
+
+### Examples
+
+To add an MCP server to an AI assistant, you’ll need to create a `mcp.json` file. This file should define the server schema with the following details:
+
+* **Name**: The name of the MCP server.
+* **Command & Args**: The command used to run the server. If using `stdio`, make sure to provide the absolute path.
+
+Refer to your AI assistant’s documentation to determine the correct location for placing the `mcp.json` file.
+
+<table>
+<tr>
+<td> MCP Server File </td> 
+<td> Copilot `mcp.json` </td>
+<td> Windsurf `mcp.json` </td>
+<td> Notes </td>
+</tr>
+<tr>
+<td> 01_local-mcp-server-fastmcp.py </td>
+<td>
+
+
+```json
+{
+	"servers": {
+		"build-server-local": {
+			"command": "/Users/agni/code/azure-open-ai-tutorials/14_mcp/venv/bin/python",
+			"args": ["/Users/agni/code/azure-open-ai-tutorials/14_mcp/01_local-mcp-server-fastmcp.py"]
+		}
+	}
+}
+```
+
+
+</td>
+<td>
+
+```json
+{
+	"mcpServers": {
+		"build-server-local": {
+			"command": "/Users/agni/code/azure-open-ai-tutorials/14_mcp/venv/bin/python",
+			"args": ["/Users/agni/code/azure-open-ai-tutorials/14_mcp/01_local-mcp-server-fastmcp.py"]
+		}
+	}
+}
+```
+
+</td>
+<td>
+    <ul>
+        <li>Provide absolute paths in `command` and `args`</li>
+        <li>Use the python from your virtual environment in `command`</li>
+    </ul>
+</td>
+</tr>
+</table>
+
+### Screenshots
+
+Below are screenshots showing the `mcp.json` configuration for VSCode Copilot for the local MCP server defined in `01_local-mcp-server-fastmcp.py`:
+
+<img src="screenshots/01_local-mcp-server-fastmcp.py/1_mcp_json.png" alt="mcp.json example" width="900"/>
+<br><br>
+<img src="screenshots/01_local-mcp-server-fastmcp.py/2_mcp_server_registered.png" alt="mcp server registered" width="900"/>
+<br><br>
+<img src="screenshots/01_local-mcp-server-fastmcp.py/3_mcp_server_in_action.png" alt="mcp server in action" width="900"/>
 
 ## MCP advantages over Function Calling
 
