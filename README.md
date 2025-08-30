@@ -69,7 +69,7 @@ For the best learning experience, follow this structured learning path:
 | 10 | **Code Interpretation** | Tutorial 11 | Mathematical reasoning, data analysis, Python code execution | Step 9 completed |
 | 11 | **Responses API Migration** | Tutorial 12 | Changes required for Responses API migration | Step 2 completed |
 | 12 | **Local AI with Ollama** | Tutorial 13 | Running AI models locally, Ollama setup and usage | Step 2 completed |
-| 13 | **Model Context Protocol** | Tutorial 14 | Creating MCP servers, exposing functions to AI systems, FastMCP usage | Step 2 completed |
+| 13 | **Model Context Protocol** | Tutorial 14 | Creating MCP servers, exposing functions to AI systems, FastMCP usage | Step 2 and 7 and 8 completed |
 
 ### Quick Start Path
 If you're already familiar with APIs and want to focus on Azure OpenAI specifics:
