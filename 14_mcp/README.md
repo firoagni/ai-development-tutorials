@@ -235,6 +235,6 @@ The true power of MCP isn't in introducing new capabilities, but in standardizin
 - **Composability:** Combine multiple servers to create complex capabilities
 - **Ecosystem growth:** Benefit from servers created by others
 
-The MCP ecosystem is already growing rapidly, with servers available many tools. You can find an overview here: [Officially supported servers](https://github.com/modelcontextprotocol/servers)
+The MCP ecosystem is already growing rapidly, with servers available for many tools. You can find an overview here: [Officially supported servers](https://github.com/modelcontextprotocol/servers)
 
 This means you can leverage existing servers rather than reinventing the wheel, and contribute your own servers to benefit the community.
