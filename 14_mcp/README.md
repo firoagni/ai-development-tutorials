@@ -40,11 +40,7 @@ mcp = FastMCP("DemoServer")
 # ----------------------------------------------
 @mcp.tool()
 def say_hello(name: str) -> str:
-    """Say hello to someone
-
-    Args:
-        name: The person's name to greet
-    """
+    """Say hello to someone"""
     return f"Hello, {name}! Nice to meet you."
 
 # ----------------------------------------------
@@ -53,6 +49,49 @@ def say_hello(name: str) -> str:
 # ----------------------------------------------
 if __name__ == "__main__":
     mcp.run()
+```
+
+When the above server is added by a client, FastMCP will:
+- Automatically register the tool as its function name (`say_hello`)
+- Use the function’s docstring (`Say hello to someone`) as the tool's description.
+- Generate an input schema based on the function’s parameters and type annotations.
+- Handle parameter validation and error reporting.
+
+### Parameter Metadata
+It is recommended you provide a human-readable explanation for each function parameter, as this helps LLMs understand and use them effectively.
+
+Additional metadata about parameters can be added using Pydantic’s `Field` class with `Annotated`.
+
+**Example**
+```python
+@mcp.tool()
+def say_hello(
+        name: Annotated[str, Field(description="The person's name to greet")] #parameter metadata for LLMs
+    ) -> str:
+    """Say hello to someone"""
+    return f"Hello, {name}! Nice to meet you."
+```
+**Format**
+```
+<parameter_name>: Annotated[<parameter_type>, Field(<field_parameters>)]
+```
+
+`Field` class provides several validation and documentation features:
+- `description`: Human-readable explanation of the parameter (shown to LLMs)
+- `ge/gt/le/lt`: Greater/less than (or equal) constraints
+- `min_length/max_length`: String or collection length constraints
+- `pattern`: Regex pattern for string validation
+
+**Example**
+```python
+@mcp.tool
+def process_image(
+    image_url: Annotated[str, Field(description="URL of the image to process")],
+    resize: Annotated[bool, Field(description="Whether to resize the image"] = False,
+    width: Annotated[int, Field(description="Target width in pixels", ge=1, le=2000)] = 800,
+) -> dict:
+    """Process an image with optional resizing."""
+    # Implementation...
 ```
 
 ### Transport protocols
@@ -73,7 +112,7 @@ FastMCP supports three transport protocols: **stdio**, **http**, and **sse**
     ```
     Use `http` if you want to expose your MCP server over HTTP
 
-- **SSE** Old technology, use Streamable HTTP instead.
+- **SSE**: Old technology, use Streamable HTTP instead.
     ```python
     mcp.run(transport="sse", host="127.0.0.1", port=8000, path="/mcp")
     ```
