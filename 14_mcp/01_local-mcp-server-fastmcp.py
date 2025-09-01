@@ -1,6 +1,17 @@
 # --------------------------------------------------------------
 # Getting Started with MCP: Creating a local MCP server using FastMCP
 # --------------------------------------------------------------
+
+# --------------------------------------------------------------
+# Prerequisites
+# 1. Make sure that python3 is installed on your system.
+# 2. Create and Activate a Virtual Environment:
+# `python3 -m venv venv`
+# `source venv/bin/activate`
+# 3. The required libraries are listed in the requirements.txt file. Use the following command to install them:
+#    `pip3 install -r requirements.txt`
+#---------------------------------------------------------------
+
 from fastmcp import FastMCP
 import json
 import sys
