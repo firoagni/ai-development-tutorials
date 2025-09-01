@@ -8,6 +8,8 @@
 from fastmcp import FastMCP
 import json
 import sys
+from typing import Annotated
+from pydantic import Field
 
 # ----------------------------------------------
 # Step 1: Instantiate an MCP server.
@@ -22,22 +24,18 @@ mcp = FastMCP("build-server-http")
 # <<NO CHANGE FROM LAST EXAMPLE>>
 # ----------------------------------------------
 @mcp.tool()
-def get_build_information(product_name, branch_name, build_id):
+def get_build_information(
+        product_name: Annotated[str, Field(description="The product name, e.g. XYZ")],
+        branch_name: Annotated[str, Field(description="The branch name, e.g. XYZ_1_2_MAIN, XYZ_1_1_MAIN" \
+                                    "User might ask for XYZ 120, XYZ 12, XYZ_1_2, XYZ 1.2, XYZ 120 etc., what they mean is XYZ_1_2_MAIN" \
+                                    "Similarly User might ask for XYZ 110, XYZ 11, XYZ_1_1, XYZ 1.1, XYZ 110 etc., what they mean is XYZ_1_1_MAIN")],
+        build_id: Annotated[int, Field(description="The ID of the build.")]
+    ) -> str:
     """
     Get detailed information about a specific build.
     Build information includes product name, branch name, build Id, build label,
     build URL, build duration, build log, build triggered by, build triggered time,
     build status, and its stages.
-
-    args:
-        product_name: The product name, e.g. XYZ
-        branch_name: The branch name, e.g. XYZ_1_2_MAIN, XYZ_1_1_MAIN. 
-                    User might ask for XYZ 120, XYZ 12, XYZ_1_2, XYZ 1.2, XYZ 120 etc., what they mean is XYZ_1_2_MAIN
-                    Similarly User might ask for XYZ 110, XYZ 11, XYZ_1_1, XYZ 1.1, XYZ 110 etc., what they mean is XYZ_1_1_MAIN
-        build_id: The ID of the build.
-
-    returns:
-        A JSON string containing the build information.
     """
     # Simulate fetching data from an internal system
     build_info = {
@@ -70,21 +68,16 @@ def get_build_information(product_name, branch_name, build_id):
     return json.dumps(build_info, indent=4)
 
 @mcp.tool()
-def get_last_build(product_name, branch_name):
+def get_last_build(        
+        product_name: Annotated[str, Field(description="The product name, e.g. XYZ")],
+        branch_name: Annotated[str, Field(description="The branch name, e.g. XYZ_1_2_MAIN, XYZ_1_1_MAIN" \
+                                    "User might ask for XYZ 120, XYZ 12, XYZ_1_2, XYZ 1.2, XYZ 120 etc., what they mean is XYZ_1_2_MAIN" \
+                                    "Similarly User might ask for XYZ 110, XYZ 11, XYZ_1_1, XYZ 1.1, XYZ 110 etc., what they mean is XYZ_1_1_MAIN")]
+    ) -> str:
     """
     Get information of last build for the given product and branch.
     This function is not to be called if the user asks for a specific build ID or
     calls for first build.
-
-    args:
-        product_name: The product name, e.g. XYZ
-        branch_name: The branch name, e.g. XYZ_1_2_MAIN, XYZ_1_1_MAIN. 
-                    User might ask for XYZ 120, XYZ 12, XYZ_1_2, XYZ 1.2, XYZ 120 etc., what they mean is XYZ_1_2_MAIN
-                    Similarly User might ask for XYZ 110, XYZ 11, XYZ_1_1, XYZ 1.1, XYZ 110 etc., what they mean is XYZ_1_1_MAIN
-
-    returns:
-        A JSON string containing the last build's information.
-        Format: { "product_name": product_name, "branch_name": branch_name, "build_id": build_id }
     """
     # Simulate fetching last build data
     build_info = {
@@ -94,7 +87,6 @@ def get_last_build(product_name, branch_name):
     }
 
     return json.dumps(build_info, indent=4)
-
 # ----------------------------------------------
 # Step 3: Configure the MCP server to run 
 # as a web service on http://0.0.0.0:8000/mcp
