@@ -104,7 +104,7 @@ def get_last_build(
 #
 # Difference between 0.0.0.0 and 127.0.0.1
 # - 127.0.0.1: hosted webservice will be accessible only from the host machine.
-# - 0.0.0.0: Hosted webservice will be accessible even from the outside the host machine.
+# - 0.0.0.0: Hosted webservice will be accessible even from outside of the host machine.
 # ----------------------------------------------
 if __name__ == "__main__":
     try:
