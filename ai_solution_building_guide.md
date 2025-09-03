@@ -238,6 +238,57 @@ RAG is like asking a librarian for help: Instead of dragging every book in the l
 
 🎥 [This video](https://www.youtube.com/watch?v=dI_TmTW9S4c) has been called *the best RAG explainer on the internet*—and I agree.
 
+## Code-RAG: Retrieve Relevant Context from Across the Entire Codebase
+
+Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving code snippets from a codebase. This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
+
+### How Code-RAG Works
+
+1. **Chunking the Codebase:** The entire codebase is divided into smaller, manageable chunks (e.g., functions, classes, or files).
+2. **Indexing:** These chunks are indexed for quick retrieval based on relevance to the query.
+3. **Retrieval:** When a query is made, the most relevant code chunks are retrieved and passed to the LLM.
+4. **Response Generation:** The LLM generates a response based on the retrieved code snippets, providing contextually relevant information.
+
+🎥 [Tutorial](https://www.youtube.com/watch?v=Jw-4oC5HtK4)
+Spoiler: Most AI solutions use [tree-sitter](https://github.com/tree-sitter/tree-sitter), a python library to chunk codebases.
+
+For example, Windsurf uses a tree-sitter inspired custom solution to index a codebase:
+https://windsurf.com/blog/using-code-syntax-parsing-for-generative-ai
+
+### Code-RAG implementation in various AI assistants
+
+#### Copilot
+
+[Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
+
+Your full VS Code workspace can be too large to pass entirely to LLM for responding to your chat prompt. Instead, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
+
+Context is collected in different ways - for example, by searching locally for related code snippets, using GitHub’s code search, and leveraging VS Code’s IntelliSense for details like function signatures and parameters.
+
+This context is then passed to the model to answer your question. If the context is too large, only the most relevant parts of the context are used. 
+
+To make this process faster and more accurate, Copilot builds an index of your codebase. This index helps surface the right snippets for the model.
+
+You can check the index type and its status anytime in the Copilot status dashboard in the Status Bar.
+
+![alt text](images/copilot_index.png)
+
+| Performs Indexing? | Index types available | Note |
+|---------------------|-----------------------|------|
+| Yes                 | Local and Remote Index          | Currently remote indexing is available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes for Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories. |
+
+#### Windsurf
+
+[Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
+
+- We’ve implemented an optimized RAG approach to codebase context, which produces higher quality suggestions and fewer hallucinations.
+- Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but only available in Teams and Enterprise plans. 
+- Windsurf can pull in Google Docs as additional knowledge sources.
+
+| Performs Indexing? | Index types available | Note |
+|---------------------|-----------------------|------|
+| Yes                 | Local and Remote Index          | Remote indexing is only available in Teams and Enterprise plans |
+
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
 Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
