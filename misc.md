@@ -55,6 +55,40 @@ We suggest that developers start by using LLM APIs directly: many patterns can b
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
 
+## Context Rot
+
+### Increasing Input Tokens Impacts LLM Performance
+
+Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
+
+Although LLMs are often assumed to process context uniformly—such that the 10,000th token is handled as reliably as the 100th—empirical evidence suggests otherwise.
+
+The Chroma [“Context Rot” study](https://research.trychroma.com/context-rot) reveals that simply increasing input length & maximising token windows doesn’t deliver linearly improving accuracy. Instead, LLM performance degrades unevenly & often unpredictably as contexts grow, underscoring the limitations of relying on sheer scale over thoughtful context engineering.
+
+![input token v accuracy chart](images/input_token_vs_accuracy.png)
+
+### Recency and Primacy effects in LLM
+Imagine your partner or flatmate asks you to pick up a few things on your quick trip to the supermarket. It’s only six items, so you’re confident you’ll remember and don’t bother writing them down. Once you arrive at the store, you can only remember the first two and the last one, but nothing in between.
+
+This is a classic example of the serial position effect, which describes how we tend to remember the first and last items in a list better than those in the middle.
+
+- **Primacy Effect:** The tendency to remember the first piece of information we encounter better than information presented later on.
+- **Recency Effect:** The tendency to remember the last piece of information better than information presented earlier.
+
+<img src="images/primacy_effect.png" alt="primacy graph" width="580"/>
+
+This phenomenon is also been known as the "lost-in-the-middle" problem. 
+
+A growing body of research shows that LLMs, too, are also susceptible to this bias.
+
+- Large language models (LLMs), even when specifically trained to process long input contexts, struggle to capture relevant information located in the middle of their input. 
+- This means that if a lawyer is using an LLM-powered virtual assistant to retrieve a certain phrase in a 30-page affidavit, the LLM is more likely to find the right text if it is on the initial or final pages.
+
+### References
+- [Chroma Context Rot Study](https://research.trychroma.com/context-rot)
+- https://huggingface.co/papers/2406.16008
+- https://news.mit.edu/2025/unpacking-large-language-model-bias-0617
+
 ## MCP challenges by DevOps Engineers
 - ⁠Assume your CI pipeline uses an agent connected to multiple MCP servers. An MCP server that might initially appear safe during installation - even with its source code and tool descriptions appearing normal, can later be modified in a future update. 
 
