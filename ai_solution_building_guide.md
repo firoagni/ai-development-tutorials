@@ -211,7 +211,7 @@ This is why context engineering matters. Agent failures aren't only model failur
 
 ## Understanding Context Window
 
-If you’ve ever tried to input a very large text into an LLM, you’ve likely encoutered the “context window error.”
+If you’ve ever tried to input a very large text into an LLM, you’ve likely encoutered the “context window error”.
 
 The context window refers to the maximum length of text—measured in tokens—that a model can process at once. Tokens aren’t the same as words: on average, 1 token ≈ ¾ of an English word.
 
@@ -235,6 +235,8 @@ RAG is one of the best solution to the context window limitation.
 Instead of cramming all your data into the model’s context (and hitting the token limit), RAG acts like a search engine: it looks through your knowledge base, retrieves the most relevant pieces of information for the query, and passes only those to the LLM.
 
 RAG is like asking a librarian for help: Instead of dragging every book in the library to your desk, you ask the librarian (RAG) a question. The librarian quickly scan the catalog, pick the few most relevant books or chapters, and bring them to you. Then you (the LLM) read those and come up with the answer.
+
+🎥 [This video](https://www.youtube.com/watch?v=dI_TmTW9S4c) has been called *the best RAG explainer on the internet*—and I agree.
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
