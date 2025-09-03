@@ -30,6 +30,15 @@ When building applications with LLMs, find the simplest solution possible - incr
 - https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
+## Design Patterns for Workflows and Agents
+
+In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), you’ll find a comprehensive overview of design patterns for both workflows and agents.
+
+![alt text](images/workflows_agent_design_patterns.png)
+
+[Implementation of these patterns in LangChain](https://langchain-ai.github.io/langgraph/tutorials/workflows/)
+
+
 ## When and how to use frameworks
 
 From Anthropic:
