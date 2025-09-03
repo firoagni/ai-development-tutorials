@@ -255,9 +255,9 @@ Spoiler: Most AI solutions use [tree-sitter](https://github.com/tree-sitter/tree
 For example, Windsurf uses a tree-sitter inspired custom solution to index a codebase:
 https://windsurf.com/blog/using-code-syntax-parsing-for-generative-ai
 
-### Code-RAG implementation in various AI assistants
+## Code-RAG implementation in various AI assistants
 
-#### Copilot
+### Copilot
 
 [Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
@@ -275,19 +275,19 @@ You can check the index type and its status anytime in the Copilot status dashbo
 
 | Performs Indexing? | Index types available | Note |
 |---------------------|-----------------------|------|
-| Yes                 | Local and Remote Index          | Currently remote indexing is available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes for Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories. |
+| Yes                 | Local and Remote Index          | Remote indexing is currently available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes of Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories. |
 
-#### Windsurf
+### Windsurf
 
 [Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
 - We’ve implemented an optimized RAG approach to codebase context, which produces higher quality suggestions and fewer hallucinations.
-- Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but only available in Teams and Enterprise plans. 
+- Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but this feature is only available in Teams and Enterprise plans. 
 - Windsurf can pull in Google Docs as additional knowledge sources.
 
 | Performs Indexing? | Index types available | Note |
 |---------------------|-----------------------|------|
-| Yes                 | Local and Remote Index          | Remote indexing is only available in Teams and Enterprise plans |
+| Yes                 | Local and Remote Index          | Remote indexing only available in Teams and Enterprise plans |
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
