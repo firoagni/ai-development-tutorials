@@ -1,6 +1,8 @@
-# Miscellaneous Information
-- This section contains additional information that may not fit into the other categories.
-- It can include tips, tricks, or other relevant details that one should be aware of.
+# Building AI Solutions? Things You Should Know
+
+Building AI-powered solutions requires more than just plugging in a large language model — it’s about making deliberate architectural choices, balancing simplicity with flexibility, and understanding the trade-offs involved.
+
+This document highlights key patterns, pitfalls, and best practices to help you design AI systems that are both effective and reliable.
 
 ## Building AI-powered Solution - Workflows vs Agents
 
