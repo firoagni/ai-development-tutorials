@@ -4,7 +4,7 @@ Building AI-powered solutions requires more than just plugging in a large langua
 
 This document highlights key patterns, pitfalls, and best practices to help you design AI systems that are both effective and reliable.
 
-## Building AI-powered Solution - Workflows vs Agents
+## Workflows vs Agents
 
 You can build an AI-powered solution by either creating Workflows or Agents
 - ⁠Workflows are structured pipelines where LLMs and tools are orchestrated through predefined code paths.
