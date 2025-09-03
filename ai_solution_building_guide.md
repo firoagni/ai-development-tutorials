@@ -26,7 +26,7 @@ This might mean not building agentic systems at all!
 - Workflows are deterministic, making them predictable, testable, and cost-efficient.
 - Agents offer flexibility but introduce complexity.
 
-<img src="images/workflow_vs_agent.png" alt="agent" width="580"/>
+<img src="images/workflow_vs_agent.png" alt="agent" width="610"/>
 
 **Rule of thumb** - Start thinking with workflows first as they offer predictability and consistency, switch to agents only when the problem cannot be solved with workflows.
 
@@ -234,6 +234,8 @@ RAG is one of the best solution to the context window limitation.
 
 Instead of cramming all your data into the model’s context (and hitting the token limit), RAG acts like a search engine: it looks through your knowledge base, retrieves the most relevant pieces of information for the query, and passes only those to the LLM.
 
+<img src="images/rag.png" alt="agent" width="600"/>
+
 RAG is like asking a librarian for help: Instead of dragging every book in the library to your desk, you ask the librarian (RAG) a question. The librarian quickly scan the catalog, pick the few most relevant books or chapters, and bring them to you. Then you (the LLM) read those and come up with the answer.
 
 🎥 [This video](https://www.youtube.com/watch?v=dI_TmTW9S4c) has been called *the best RAG explainer on the internet*—and I agree.
@@ -250,6 +252,7 @@ Code-RAG is a specialized approach to RAG that focuses on chunking and retrievin
 4. **Response Generation:** The LLM generates a response based on the retrieved code snippets, providing contextually relevant information.
 
 🎥 [Tutorial](https://www.youtube.com/watch?v=Jw-4oC5HtK4)
+
 Spoiler: Most AI solutions use [tree-sitter](https://github.com/tree-sitter/tree-sitter), a python library to chunk codebases.
 
 For example, Windsurf uses a tree-sitter inspired custom solution to index a codebase:
@@ -261,7 +264,7 @@ https://windsurf.com/blog/using-code-syntax-parsing-for-generative-ai
 
 [Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
-Since your full VS Code workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
+Since your full workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
 
 Context is collected in different ways - for example, by searching locally for related code snippets, using GitHub’s code search, and leveraging VS Code’s IntelliSense for details like function signatures and parameters.
 
@@ -287,7 +290,7 @@ If your project cannot support remote index and has more than 2500 indexable fil
 - Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but this feature is only available in Teams and Enterprise plans. 
 - Windsurf can pull in Google Docs as additional knowledge sources.
 
-<img src="images/windsurf_index.png" alt="windusurf index" width="580"/>
+<img src="images/windsurf_index.png" alt="windusurf index" width="610"/>
 
 | Performs Indexing? | Index types available | Note |
 |---------------------|-----------------------|------|
