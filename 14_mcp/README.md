@@ -10,7 +10,7 @@ MCP is a protocol that allows AI systems (like Copilot, Windsurf or any custom A
 MCP isn't a revolutionary new technology - it's a new standard. If you've been working with AI systems/agents for any length of time, you've already been implementing the core concept: giving LLMs access to tools through function calling. What's different is that MCP provides a standardized protocol for these interactions.
 
 ### Tools vs Functions:
-Tools = function that are made available to LLMs
+Tools = functions that are made available to LLMs
 
 ## How to expose your tools via MCP?
 
