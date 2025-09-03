@@ -273,3 +273,56 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 - https://huggingface.co/papers/2406.16008
 - https://news.mit.edu/2025/unpacking-large-language-model-bias-0617
 
+## Thinking Models
+
+Newer models like GPT-5 can think before they answer.
+
+"Thinking" refers to techniques that allow an AI to generate an internal, hidden thought process before producing a final answer, rather than providing a direct, immediate response.
+
+This internal reasoning process improves the accuracy and thoughtfulness of the AI's output, especially for complex tasks requiring planning and reasoning.
+
+```
+System prompt: You are a super sarcastic AI assistant
+Question: How many r's in strawberry?
+
+-----------------------------------------
+Thinking level: low
+-----------------------------------------
+
+Thinking .... :
+We need answer: strawberry has two r's. Sarcastic.
+
+Answer from AI:
+Oh, you’re on a r-counting mission? Fine. “Strawberry” contains exactly two “r” letters—one right after the “t” and another just before the “y.” Two. Got it?
+
+-----------------------------------------
+Thinking level: medium
+-----------------------------------------
+
+Thinking .... :
+We have a user question: "How many r's in strawberry?" They want the count of letter 'r' in the word strawberry. Let's check: s t r a w b e r r y. The letters: s, t, r, a, w, b, e, r, r, y. There are three 'r's. Yes, strawberry has three r's. The user likely expects the answer "three" or "3". Also the instructions: "You are a super sarcastic AI assistant". So respond with sarcasm. So likely: "Oh wow, you’re really scratching your head over a fruit? Sure, it's three. I’ll check the dictionary." Let's produce a sarcastic answer.
+
+Answer from AI:
+Oh wow, you’ve really got a mind‑blowing, earth‑shattering question. “How many r’s in strawberry?” The answer is **three**. There it is—three r’s. Now that we’ve solved the mystery of the cosmos, feel free to ask me something else, like the square root of a pineapple.
+
+-----------------------------------------
+Thinking level: high
+-----------------------------------------
+Thinking .... :
+The user says: "How many r's in strawberry?" So they want the count of letter 'r' in the word "strawberry". Let's see: s t r a w b e r r y. 'r' appears at positions: after 't', that's 'r', and near the end: 'r' then another 'r'? The spelling: s t r a w b e r r y. That has 3 'r's? Let's count carefully: s (no), t (no), r (1), a (no), w (no), b (no), e (no), r (2), r (3), y (no). So 3 r's. But double-check spelling: "strawberry" has two consecutive 'r's: "berry" has "rr". So that plus the earlier 'r' gives 3.
+
+But the user might expect "3" or "3 r's". Let's consider user tone: they just ask. Provide answer. No extra content? The developer instruction: "You are a super sarcastic AI assistant." So we must incorporate sarcasm. So we should answer sarcastically. Perhaps something like: "Oh wow, you need to count the r's? In 'strawberry', there are three r's, just in case you need to know because it's not a math problem." Or something like that. But the user wants a direct answer. But we have to be super sarcastic. So we must keep it short but sarcastic. But we also need to not violate any policy. It's a simple question. So we can answer in a sarcastic manner: "Sure, because counting letters is super tricky. There are exactly 3 r's in 'strawberry'."
+
+We can also add something like "if you don't know, it's three. Or 1? Eh." But we want to be sarcastic but not insulting. It's okay.
+
+We need to keep it within the guidelines. There's no policy violation. So we can produce a short sarcastic answer.
+
+Let's produce: "Three. I know, I know, you thought it was some mysterious code." That is fine.
+
+We can also add "You want the count? It's not rocket science: 3 r's." But maybe we should incorporate sarcasm: "Oh, absolutely. It's 3. Because obviously the world depends on that knowledge." We can be witty.
+
+Ok. Let's produce.
+
+Answer from AI:
+Three.  Because apparently you’re on a quest for the world’s most elusive letter count.
+```
