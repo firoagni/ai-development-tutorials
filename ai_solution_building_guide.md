@@ -41,7 +41,9 @@ An LLM, for all its power, is confined by its training data. It has no access to
 
 This limitation is fundamental. LLM can’t browse the web, it can’t run code, and it can’t check your calendar.
 
-To overcome this, we need to give it tools. Enter **function calling**.
+To overcome this, we need to give it tools. 
+
+Enter **function calling**.
 
 Function calling (also known as tool calling), is a feature that allows an LLM to detect when a function needs to be called to fulfill the user's request.
 
@@ -102,6 +104,8 @@ MCP is a protocol that allows AI systems (like Copilot, Windsurf or any custom A
 - **With MCP** - tools become accessible to other AI systems
 
 MCP isn't a revolutionary new technology - it's a new standard. If you've been working with agents for any length of time, you've already been implementing the core concept: giving LLMs access to tools through function calling. What's different is that MCP provides a standardized protocol for these interactions.
+
+<img src="images/mcp_joke.png" width="580"/>
 
 ### How to expose your tools via MCP?
 
@@ -205,6 +209,33 @@ This is why context engineering matters. Agent failures aren't only model failur
 - https://docs.langchain.com/oss/javascript/langchain-context-engineering
 - https://www.philschmid.de/context-engineering
 
+## Understanding Context Window
+
+If you’ve ever tried to input a very large text into an LLM, you’ve likely encoutered the “context window error.”
+
+The context window refers to the maximum length of text—measured in tokens—that a model can process at once. Tokens aren’t the same as words: on average, 1 token ≈ ¾ of an English word.
+
+Different models come with different context window sizes. For example:
+
+- GPT-3.5-turbo-0613 → 4,096 tokens
+- Gemini 1.5 → 1 million tokens
+
+This limit covers everything: the input you provide, the model’s response, and even hidden control tokens. If the total exceeds the maximum, you’ll get an error.
+
+In simpler terms, the context window restricts both:
+- How much input you can provide (your instructions or data)
+- How long the model’s response can be
+
+**The dilemma:** To create your "Magical" agent, you wish to provide a rich context -— without crossing the context window.
+
+## Retrieval-Augmented Generation (RAG)
+
+RAG is one of the best solution to the context window limitation.
+
+Instead of cramming all your data into the model’s context (and hitting the token limit), RAG acts like a search engine: it looks through your knowledge base, retrieves the most relevant pieces of information for the query, and passes only those to the LLM.
+
+RAG is like asking a librarian for help: Instead of dragging every book in the library to your desk, you ask the librarian (RAG) a question. The librarian quickly scan the catalog, pick the few most relevant books or chapters, and bring them to you. Then you (the LLM) read those and come up with the answer.
+
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
 Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
@@ -217,6 +248,7 @@ The Chroma [“Context Rot” study](https://research.trychroma.com/context-rot)
 
 ### References
 - [Chroma Context Rot Study](https://research.trychroma.com/context-rot)
+- [Elastic Study](https://www.elastic.co/search-labs/blog/rag-vs-long-context-model-llm)
 
 ## Recency and Primacy bias in LLM
 Imagine your partner or flatmate asks you to pick up a few things on your quick trip to the supermarket. It’s only six items, so you’re confident you’ll remember and don’t bother writing them down. Once you arrive at the store, you can only remember the first two and the last one, but nothing in between.
