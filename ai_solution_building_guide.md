@@ -142,7 +142,7 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - ⁠Got a $50,000 OpenAI bill? MCP doesn’t show which team, tool, or user racked it up—no tracking, no quotas, no clues. You’re guessing where the money went. Compare that to AWS or Google Cloud, where every action is tagged and billed clearly.
 - ⁠Malicious prompt: Imagine a user copying and pasting a complex, obfuscated prompt they believe will create a new user in their cloud environment—the malicious prompt could, in addition to creating the intended user, also create another user for the attacker. This is why the actions performed by the MCP servers should always be confirmed by the users or restricted to reduce risk to an acceptable level.
 
-## Context Engineering in AI-powered Solutions
+## Importance of Context Engineering in AI-powered Solutions
 The hard part of building any AI driven solution is making them reliable enough. While they may work for a prototype, they often mess up in more real world and widespread use cases.
 
 Why do they mess up? They mess up for one of two reasons:
@@ -174,11 +174,15 @@ The secret to building truly effective AI agents has less to do with the complex
 
 The difference between a "cheap" demo and a "magical" agent is about the quality of the context you provide. Imagine an AI assistant is asked to schedule a meeting based on a simple email:
 
-> Hey, just checking if you’re around for a quick sync tomorrow.
+```
+Hey, just checking if you’re around for a quick sync tomorrow.
+```
 
 The "Cheap Demo" Agent has poor context. It sees only the user's request and nothing else. Its code might be perfectly functional—it calls an LLM and gets a response—but the output is unhelpful and robotic:
 
-> Thank you for your message. Tomorrow works for me. May I ask what time you had in mind?
+```
+Thank you for your message. Tomorrow works for me. May I ask what time you had in mind?
+```
 
 The "Magical" Agent is powered by rich context. The code's primary job isn't to figure out how to respond, but to gather the information the LLM needs to fullfill its goal. Before calling the LLM, you would extend the context to include
 
@@ -189,11 +193,17 @@ The "Magical" Agent is powered by rich context. The code's primary job isn't to 
 
 Then you can generate a response:
 
-> Hey Jim! Tomorrow’s packed on my end, back-to-back all day. Thursday AM free if that works for you? Sent an invite, lmk if it works.
+```
+Hey Jim! Tomorrow’s packed on my end, back-to-back all day. Thursday AM free if that works for you? Sent an invite, lmk if it works.
+```
 
 The magic isn't in a smarter model or a more clever algorithm. It’s in about providing the right context for the right task. 
 
 This is why context engineering matters. Agent failures aren't only model failures; they are context failures.
+
+### References
+- https://docs.langchain.com/oss/javascript/langchain-context-engineering
+- https://www.philschmid.de/context-engineering
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
