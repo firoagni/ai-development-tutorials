@@ -279,7 +279,7 @@ You can check the index type and its status anytime in the Copilot status dashbo
 
 ### Windsurf
 
-[Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
+[Summary from the official documentation:](https://docs.windsurf.com/context-awareness/overview)
 
 - We’ve implemented an optimized RAG approach to codebase context, which produces higher quality suggestions and fewer hallucinations.
 - Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but this feature is only available in Teams and Enterprise plans. 
