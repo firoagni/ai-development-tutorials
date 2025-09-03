@@ -261,7 +261,7 @@ https://windsurf.com/blog/using-code-syntax-parsing-for-generative-ai
 
 [Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
-Your full VS Code workspace can be too large to pass entirely to LLM for responding to your chat prompt. Instead, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
+Since your full VS Code workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
 
 Context is collected in different ways - for example, by searching locally for related code snippets, using GitHub’s code search, and leveraging VS Code’s IntelliSense for details like function signatures and parameters.
 
@@ -271,11 +271,13 @@ To make this process faster and more accurate, Copilot builds an index of your c
 
 You can check the index type and its status anytime in the Copilot status dashboard in the Status Bar.
 
-![alt text](images/copilot_index.png)
+<img src="images/copilot_index.png" alt="copilot index" width="780"/>
 
 | Performs Indexing? | Index types available | Note |
 |---------------------|-----------------------|------|
-| Yes                 | Local and Remote Index          | Remote indexing is currently available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes of Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories. |
+| Yes                 | Local and Remote Index          | Remote indexing is currently available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes of Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories.  |
+
+If your project cannot support remote index and has more than 2500 indexable files, Copilot falls back to using a basic index to search your codebase. This index uses simpler algorithms to search your codebase and has been optimized to work locally for larger codebases.
 
 ### Windsurf
 
@@ -284,6 +286,8 @@ You can check the index type and its status anytime in the Copilot status dashbo
 - We’ve implemented an optimized RAG approach to codebase context, which produces higher quality suggestions and fewer hallucinations.
 - Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but this feature is only available in Teams and Enterprise plans. 
 - Windsurf can pull in Google Docs as additional knowledge sources.
+
+<img src="images/windsurf_index.png" alt="windusurf index" width="580"/>
 
 | Performs Indexing? | Index types available | Note |
 |---------------------|-----------------------|------|
