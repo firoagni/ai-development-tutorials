@@ -257,43 +257,28 @@ Spoiler: Most AI solutions use [tree-sitter](https://github.com/tree-sitter/tree
 For example, Windsurf uses a tree-sitter inspired custom solution to index a codebase:
 https://windsurf.com/blog/using-code-syntax-parsing-for-generative-ai
 
-## Code-RAG implementation in various AI assistants
 
-### Copilot
+## How AI Coding Assistants Search Your Codebase for Context?
 
-[Summary from the official documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
+In just a few years, tools like Copilot, Windsurf, Cursor, Claude Code, Codex CLI have gone from curiosities to everyday companions for millions of developers. But behind this rapid rise lies a brewing fight over something deceptively simple: how should an AI coding assistant actually search your codebase for context?
 
-Since your full workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context.
+Right now, there are two approaches:
+- Codebase indexing using Code-RAG technique.
+- Keyword search with grep (literal string matching).
 
-Context is collected in different ways - for example, by searching locally for related code snippets, using GitHub’s code search, and leveraging VS Code’s IntelliSense for details like function signatures and parameters.
+Coding assistants - Github Copilot, Windsurf, Cursor, Cody has chosen the former: break your repo into meaningful chunks, embed those chunks into vectors, and retrieve them semantically whenever the AI needs context. This is textbook Retrieval-Augmented Generation (RAG) applied to code.
 
-This context is then passed to the model to answer your question. If the context is too large, only the most relevant parts of the context are used. 
+[From the official Github Copilot documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
-To make this process faster and more accurate, Copilot builds an index of your codebase. This index helps surface the right snippets for the model.
+Since your full workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context. This context is then passed to the model to answer your question. If the context is too large, only the most relevant parts of the context are used. To make this process faster and more accurate, Copilot builds an index of your codebase. This index helps surface the right snippets for the model.
 
 You can check the index type and its status anytime in the Copilot status dashboard in the Status Bar.
 
 <img src="images/copilot_index.png" alt="copilot index" width="780"/>
 
-| Performs Indexing? | Index types available | Note |
-|---------------------|-----------------------|------|
-| Yes                 | Local and Remote Index          | Remote indexing is currently available for repositories hosted on GitHub.com or on GitHub Enterprise Cloud. Copilot can also use remote indexes of Azure Dev Ops repositories. Remote indexing neither supported for repositories that use GitHub Enterprise Server, nor available for non-GitHub repositories.  |
+[From the official Windsurf documentation:](https://docs.windsurf.com/context-awareness/overview)
 
-If your project cannot support remote index and has more than 2500 indexable files, Copilot falls back to using a basic index to search your codebase. This index uses simpler algorithms to search your codebase and has been optimized to work locally for larger codebases.
-
-### Windsurf
-
-[Summary from the official documentation:](https://docs.windsurf.com/context-awareness/overview)
-
-- We’ve implemented an optimized RAG approach to codebase context, which produces higher quality suggestions and fewer hallucinations.
-- Yes, Windsurf does index your codebase. Local indexes are available to all users by default. Windsurf can also index remote repositories, but this feature is only available in Teams and Enterprise plans. 
-- Windsurf can pull in Google Docs as additional knowledge sources.
-
-<img src="images/windsurf_index.png" alt="windusurf index" width="610"/>
-
-| Performs Indexing? | Index types available | Note |
-|---------------------|-----------------------|------|
-| Yes                 | Local and Remote Index          | Remote indexing only available in Teams and Enterprise plans |
+Yes, Windsurf does index your codebase. It performs retrieval-augmented generation (RAG) on your codebase using our own [M-Query](https://www.youtube.com/watch?v=DuZXbinJ4Uc&t=606s) techniques.
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
