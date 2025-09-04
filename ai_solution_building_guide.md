@@ -280,6 +280,10 @@ You can check the index type and its status anytime in the Copilot status dashbo
 
 Yes, Windsurf does index your codebase. It performs retrieval-augmented generation (RAG) on your codebase using our own [M-Query](https://www.youtube.com/watch?v=DuZXbinJ4Uc&t=606s) techniques.
 
+[Cursor](https://read.engineerscodex.com/p/how-cursor-indexes-codebases-fast):
+
+<img src="images/cursor.png" alt="cursor rag" width="580"/>
+
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
 Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
