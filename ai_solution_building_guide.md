@@ -19,9 +19,7 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
     Agents operate in a loop, reasoning, acting, and adapting based on environmental feedback
 
 ## Workflows or Agents? Which to Choose?
-When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. 
-
-This might mean not building agentic systems at all!
+When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. This might mean not building agentic systems at all!
 
 - Workflows are deterministic, making them predictable, testable, and cost-efficient.
 - Agents offer flexibility but introduce complexity.
@@ -242,7 +240,7 @@ RAG is like asking a librarian for help: Instead of dragging every book in the l
 
 ## Code-RAG: Retrieve Relevant Context from Across the Entire Codebase
 
-Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving code snippets from a codebase. This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
+Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving "code snippets" from a codebase. This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
 
 ### How Code-RAG Works
 
