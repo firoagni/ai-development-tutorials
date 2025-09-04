@@ -286,6 +286,14 @@ Yes, Windsurf does index your codebase. It performs retrieval-augmented generati
 
 <img src="images/cursor_rag.png" alt="cursor rag" width="580"/>
 
+Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents doesn’t use RAG at all. Instead, they just greps your repo line by line (what they call “agentic search”)—no semantics, no structure, just raw string matching.
+
+[A Claude engineer's response on Hacker News:](https://news.ycombinator.com/item?id=43164089)
+
+<img src="images/claudecode.png" alt="claude code strategy" width="880"/>
+
+RAG or Grep? Which approach is better? Well, the jury is still out, but there are compelling arguments on both sides. One example: https://milvus.io/blog/why-im-against-claude-codes-grep-only-retrieval-it-just-burns-too-many-tokens.md
+
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
 Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
