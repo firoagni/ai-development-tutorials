@@ -87,9 +87,10 @@ There are many frameworks that make creating AI-powered systems easier to implem
 
 From Anthropic:
 
-These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
+<em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
 
 We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
+</em>
 
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
@@ -155,7 +156,7 @@ More often than not - it is actually the second reason that causes agents to not
 
 Context Engineering is the discipline of designing and building dynamic systems that provides the right information and tools, in the right format, at the right time, to give a LLM everything it needs to accomplish a task. 
 
-> Context Engineering is the number one job of AI Engineers
+<em> Context Engineering is the number one job of AI Engineers </em>
 
 ### What exactly is the Context?
 To understand context engineering, we must first need to expand our definition of "context." Context isn't just the single prompt you send to an LLM. Think of it as everything the model sees before it generates a response.
@@ -232,7 +233,7 @@ RAG is one of the best solution to the context window limitation.
 
 Instead of cramming all your data into the model’s context (and hitting the token limit), RAG acts like a search engine: it looks through your knowledge base, retrieves the most relevant pieces of information for the query, and passes only those to the LLM.
 
-<img src="images/rag.png" alt="agent" width="600"/>
+<img src="images/rag.png" alt="agent" width="700"/>
 
 RAG is like asking a librarian for help: Instead of dragging every book in the library to your desk, you ask the librarian (RAG) a question. The librarian quickly scan the catalog, pick the few most relevant books or chapters, and bring them to you. Then you (the LLM) read those and come up with the answer.
 
@@ -240,7 +241,7 @@ RAG is like asking a librarian for help: Instead of dragging every book in the l
 
 ## Code-RAG: Retrieve Relevant Context from Across the Entire Codebase
 
-Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving "code snippets" from a codebase. This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
+Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving "code snippets" from a "codebase". This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
 
 ### How Code-RAG Works
 
