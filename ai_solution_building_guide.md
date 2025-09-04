@@ -282,7 +282,9 @@ Yes, Windsurf does index your codebase. It performs retrieval-augmented generati
 
 [Cursor](https://read.engineerscodex.com/p/how-cursor-indexes-codebases-fast):
 
-<img src="images/cursor.png" alt="cursor rag" width="580"/>
+<img src="images/cursor.png" alt="statement from Cursor CEO" width="580"/>
+
+<img src="images/cursor_rag.png" alt="cursor rag" width="580"/>
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
