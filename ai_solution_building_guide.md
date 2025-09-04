@@ -16,7 +16,7 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
     <img src="images/agent.png" alt="agent" width="580"/>
 
-    Agents operate in a loop, reasoning, acting, and adapting based on environmental feedback
+    Agents operate in a loop - reasoning, acting, and adapting based on environmental feedback
 
 ## Workflows or Agents? Which to Choose?
 When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. This might mean not building agentic systems at all!
