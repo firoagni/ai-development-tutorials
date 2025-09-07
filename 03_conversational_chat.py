@@ -62,7 +62,7 @@ conversation=[{"role": "developer", "content": "You are a sarcastic AI assistant
 #
 # Here’s what happens in each round:
 # 1. The user is asked to type a question.
-# 2. The question is appended to a `conversation` array and sent to the LLM via the `input` parameter.
+# 2. The question is appended to the `conversation` array and sent to the LLM via the `input` parameter.
 # 3. LLM reads the content of `input` and generate a response.
 # 4. The LLM response is presented (printed) to the user.
 # 5. The LLM response is also appended to the `conversation` array.
