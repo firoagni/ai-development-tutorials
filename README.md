@@ -30,6 +30,7 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 | 3 | `03_conversational_chat.py`<br>`03_coversational_chat.ipynb` | Conversational AI | Conversational Chat with Azure OpenAI | Builds upon single question-answer interactions to create a conversational chatbot. The AI maintains context throughout the conversation using message history. |
 | 4 | `04_conversational_chat_with_token_limit_handling.py`<br>`04_coversational_chat_with_token_limit_handling.ipynb` | Conversational AI | Conversational Chat with Token Limit Handling | Addresses the challenge of growing conversation history consuming more tokens. Implements smart token limit handling and conversation pruning mechanisms. |
 | 5 | `05_server_side_conversation_management.py`<br>`05_server_side_conversation_management.ipynb` | Conversational AI | Server-Side Conversation Management | Demonstrates how to manage conversations on the server side |
+| 6 | `06_few_shot_prompting.py`<br>`06_few_shot_prompting.ipynb` | Advanced Prompting | Few-Shot Prompting | Demonstrates few-shot prompting technique |
 
 ## Extended Platforms and Implementations
 
@@ -68,20 +69,6 @@ Tutorials for implementing MCP servers and integrating with AI systems:
 - **`images/`**: Folder containing diagrams and screenshots used in documentation
 - **`13_ollama/`**: Complete tutorial series for using Ollama to run AI models locally
 - **`14_mcp/`**: Tutorials and examples for implementing Model Context Protocol servers
-
-## Learning Path
-
-For the best learning experience, follow this structured learning path:
-
-| Step | Focus Area | Tutorial Files | Key Concepts | Prerequisites |
-|------|------------|----------------|--------------|---------------|
-| 1 | **Basic API Interaction** | Tutorial 1 | Azure OpenAI Python library, basic chat completions, API authentication | Python basics, Azure OpenAI basics |
-| 2 | **Understanding Message Formats** | Tutorial 2 | Message roles | Step 1 completed |
-| 3 | **Multi-Turn Conversations** | Tutorial 3 | Conversation history, context management, chatbot fundamentals | Step 2 completed |
-| 4 | **Conversation Management** | Tutorial 4-5 | Token limits, conversation pruning, server-side management | Step 3 completed |
-| 5 | **Advanced Prompting** | Tutorial 6-7 | Few-shot prompting, reproducible outputs, seed parameter | Step 3 completed |
-| 6 | **Local AI with Ollama** | Tutorial 13 | Running models locally, Ollama setup, streaming, function calling | Step 2 completed |
-| 7 | **Model Context Protocol** | Tutorial 14 | Creating MCP servers, exposing functions to AI systems, FastMCP usage | Step 2 completed |
 
 ## Additional Resources
 
