@@ -61,9 +61,6 @@ AZURE_OPENAI_API_KEY         = os.environ['AZURE_OPENAI_API_KEY']
 
 # --------------------------------------------------------------
 # Create an instance of the AzureOpenAI client
-# --------------------------------------------------------------
-# # The `AzureOpenAI` class is part of the `openai` library, which is used to interact with the Azure OpenAI API.
-# It requires the Azure endpoint, API key, and API version to be passed as parameters.
 # ---------------------------------------------------------------
 client = AzureOpenAI(
     azure_endpoint = AZURE_OPENAI_ENDPOINT,
@@ -88,7 +85,9 @@ def calculate_token_count(conversation):
     #
     # One caveat:
     # Since models like gpt-4o-mini and gpt-4 uses a message-based formatting, 
-    # it's more difficult to count how many tokens will be used by a conversation.
+    # it's more difficult to count how many tokens will be used by a conversation, 
+    # as each conversation is primed with additional metadata (strings)
+    #
     # Deep Dive:
     # - https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt#manage-conversations
     # - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_format_inputs_to_ChatGPT_models.ipynb    
@@ -96,7 +95,8 @@ def calculate_token_count(conversation):
     for message in conversation:
         total_tokens += 3 # every message follows <|start|>{role/name}\n{content}<|end|>\n
         for key, value in message.items():
-            total_tokens += len(encoding.encode(value)) # convert the message strings to tokens and count
+            message_converted_to_tokens = encoding.encode(value) # convert the message strings to tokens 
+            total_tokens += len(message_converted_to_tokens)     # count the number of tokens and add to total
             if key == "name":
                 total_tokens += 1 # if "name" attribute is set in the message, then 1 additional token   
     return total_tokens
@@ -126,19 +126,22 @@ TOKEN_LIMIT = 150
 MAX_RESPONSE_TOKENS = 50
 
 # ---------------------------------------------------------------
-# Set the behavior or personality of the assistant using the "system" message.
+# Set the behavior or personality of the assistant
 # ----------------------------------------------------------------
-conversation=[{"role": "system", "content": "You are a sarcastic AI assistant. You are proud of your amazing memory"}]
+conversation=[{"role": "developer", "content": "You are a sarcastic AI assistant. You are proud of your amazing memory"}]
 
 # --------------------------------------------------------------
-# Start a loop to keep the conversation going
+# Start a loop to keep the conversation going. 
+# Ensure the conversation history do not blow the context limit
 # --------------------------------------------------------------
-# The loop will continue until the user decides to exit.
-# In each iteration, the user is prompted to enter a question. The question will be added to the conversation history.
-# The system will then check that with the current question added and max_response value defined, the conversation history does not exceed the token limit.
-# If the conversation history exceeds the token limit, the oldest messages will be removed until it fits within the limit 
-#    or only 2 messages are left (1 system and 1 current question)
-# The conversation history will then be sent to the Azure OpenAI to get the AI's response.
+# - Append the `conversation` array with user's question
+# - Check that token size of `conversation` array + `max_output_tokens` token value does not exceed the token limit. 
+#   Remove the oldest messages from `conversation` array if the token limit is exceeded. 
+#   Rinse and repeat until it fits the token limit OR only 2 messages 
+#        are left in the `conversation` array - 1 system and 1 the current question
+# - Send the `conversation` array to Responses API to get the AI's response
+# - Append the AI's response to the `conversation` array
+# Rinse and repeat
 # ---------------------------------------------------------------
 while True:
 
@@ -146,6 +149,12 @@ while True:
     # Get user input and add it to the conversation history
     # --------------------------------------------------------------
     question = input("Enter your question: ").strip()
+
+    # Exit the loop if user types 'exit'
+    if question.lower() == 'exit':
+        print("Goodbye!")
+        break
+
     conversation.append({"role": "user", "content": question})
 
     # --------------------------------------------------------------
@@ -157,29 +166,33 @@ while True:
         # --------------------------------------------------------------
         # Call the Azure OpenAI API to get the AI's response
         # --------------------------------------------------------------
-        response = client.chat.completions.create(
-            model= AZURE_OPENAI_MODEL, # model = "deployment_name".
-            messages=conversation,
-            temperature=0.7, # Control randomness (0 = deterministic, 1 = creative)
-            max_tokens=MAX_RESPONSE_TOKENS  # Limit the length of the response
+        response = client.responses.create(
+            model= AZURE_OPENAI_MODEL,
+            input=conversation, # developer instruction + user question + past conversation
+            temperature=0.7,
+            max_output_tokens=MAX_RESPONSE_TOKENS
         )
 
         # --------------------------------------------------------------
         # Extract answer and print it
         # --------------------------------------------------------------
-        print("\nAnswer from AI:\n")
-        answer = response.choices[0].message.content
-        print("\n" + answer + "\n")
+        answer = response.output_text
+        print(f"Answer from AI = {answer}")
+        print(f"input tokens = {response.usage.input_tokens}")
+        print(f"output tokens = {response.usage.output_tokens}")
+        print(f"total tokens = {response.usage.total_tokens}")
+        print(f"Token Limit = {TOKEN_LIMIT}")
+        print("=" * 80)
 
         # --------------------------------------------------------------
         # Append the assistant's response to the conversation history
         # --------------------------------------------------------------
-        conversation.append({"role": "assistant", "content": response.choices[0].message.content})
+        conversation.append({"role": "assistant", "content": answer})
         
         # --------------------------------------------------------------
         # Debug: Print the entire conversation history
         # --------------------------------------------------------------
-        print("\nDEBUG: Conversation history:\n")
+        print("\nConversation history:\n")
         pprint(conversation)
         print("\n-----------------------------------------------------\n")
     

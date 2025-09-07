@@ -26,8 +26,27 @@
 # You will notice that while each response might have similar elements 
 # and some verbatim repetition, the longer the response goes on the more they tend to diverge.
 #
-
-# ---------------------------------------------------------------
+# --------------------------------------------------------------
+#                       IMPORTANT NOTE
+# --------------------------------------------------------------
+# As of September 2025, the `seed` parameter is NOT available
+# in OpenAI's Responses API. It is only supported in the older
+# Chat Completions API.
+#
+# Reference:
+#   - Ticket: https://github.com/openai/openai-node/issues/1613
+#
+# This means you CAN use the `seed` parameter with Azure OpenAI
+# models, but you are restricted to using the Chat Completions API.
+#
+# Related Discussions:
+#   - https://community.openai.com/t/support-for-seed-parameter-in-the-responses-api/1230489/2
+#   - https://community.openai.com/t/seed-parameter-use-in-4-1-and-reasoning-models-too/1298703
+#
+# Because of this limitation, this example uses the
+# Chat Completions API instead of the Responses API.
+# --------------------------------------------------------------
+# --------------------------------------------------------------
 
 # --------------------------------------------------------------
 # Prerequisites
