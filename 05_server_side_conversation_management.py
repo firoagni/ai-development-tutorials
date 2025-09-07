@@ -1,23 +1,20 @@
 # --------------------------------------------------------------
-# Azure OpenAI - Responses API: Conversational Chat
+# Azure OpenAI - Server Side Conversation Management
 #
-# Want to switch from Chat Completions API to Responses API?
-#
-# Unlike Chat Completions, where developers must manually manage 
-# conversation history and re-send full messages, 
-# the Responses API additionally supports server-side conversation 
-# state management.
+# Tired of manually managing conversation history by yourself? 
+# Azure OpenAI API now comes with an option of server-side conversation state management.
 #
 # Key features:
-# 1. Chat Completions API requires you to manage conversation state yourself, 
-#    while in Responses API, responses are auto-saved at server-side. 
-# 2. You can chain responses together by passing the `response.id` of the previous response 
+# 1. Alternative to managing conversation state by yourself. 
+# 2. If saved, a response is retained for 30 days
+# 3. If you are using OpenAI's Responses API, then messages are auto-saved at server-side by default
+# 4. To instruct Responses API "NOT" to save a response, set `store: false`
+#
+# - You can chain responses together by passing the `response.id` of the previous response 
 #    to the `previous_response_id` parameter of the current response.
-# 3. To instruct Responses API "NOT" to save a response, set `store: false`
-# 4. If saved, a response is retained for 30 days
-# 5. Use `responses.input_items.list("{response_id}")` to obtain 
+# - Use `responses.input_items.list("{response_id}")` to obtain 
 #    the conversation history for the given response id
-# 6. To delete a response, use `responses.delete("{response_id}")`
+# - To delete a response, use `responses.delete("{response_id}")`
 #
 # Note: Even though conversations are saved server-side, input tokens size 
 # will grow with each conversation turn as the full conversation context is sent to 
@@ -25,7 +22,7 @@
 # Therefore, monitor token usage carefully to stay within model limits and manage costs.
 # Consider implementing token limit checks and conversation truncation if needed.
 #
-# Also note that at the time of writing, several known issues exist in the Responses API:
+# Also note that at the time of writing, several known issues exist in the implementation:
 #
 # Known Issues in Current Implementation
 # 1. Incomplete conversation history retrieval:
@@ -34,12 +31,12 @@
 #      - https://community.openai.com/t/unable-to-retrieve-full-historic-responses-via-openai-responses-api/1229897
 #      - https://community.openai.com/t/unexpected-model-behavior-when-using-previous-response-id-in-responses-api/1150739
 #
-#
 # 2. Data retention policy confusion:
 #    - Unclear documentation regarding data persistence
 #    - Reference: https://community.openai.com/t/how-long-do-previous-messages-in-the-previous-response-id-last/1280341
 #
-# Recommendation: Switch to Responses API but don't use server-side state management yet.
+# Recommendation: Don't use server-side state management yet. Stick to your own client-side state management solution, as 
+# it will be reliable and gives you more control.
 # ---------------------------------------------------------------
 
 # --------------------------------------------------------------
@@ -49,7 +46,7 @@
 # `python3 -m venv venv`
 # `source venv/bin/activate`
 # 3. The required libraries are listed in the requirements.txt file. Use the following command to install them:
-#    `pip3 install -r ../requirements.txt`
+#    `pip3 install -r requirements.txt`
 # 4. Create a `.env` file in the parent directory and add the following variables:
 #    AZURE_OPENAI_ENDPOINT=<your_azure_openai_endpoint>
 #    AZURE_OPENAI_MODEL=<your_azure_openai_model>
@@ -67,7 +64,7 @@ import os                       # Used to get the values from environment variab
 # --------------------------------------------------------------
 # Load environment variables from .env file <<NO CHANGES>>
 # --------------------------------------------------------------
-load_dotenv("../.env")
+load_dotenv(".env")
 
 AZURE_OPENAI_ENDPOINT        = os.environ['AZURE_OPENAI_ENDPOINT']
 AZURE_OPENAI_MODEL           = os.environ['AZURE_OPENAI_MODEL']
@@ -82,21 +79,10 @@ client = AzureOpenAI(
     api_key = AZURE_OPENAI_API_KEY,  
     api_version = AZURE_OPENAI_API_VERSION
 )
-# --------------------------------------------------------------
-# Define system prompt
-# and other parameters
-# --------------------------------------------------------------
-system_prompt = "You are a sarcastic AI assistant. You are proud of your amazing memory"
-temperature = 0.7
-max_tokens = 1000
 
 # --------------------------------------------------------------
 # Start a loop to keep the conversation going
 # --------------------------------------------------------------
-# The loop will continue until the user decides to exit.
-# In each iteration, the user will be prompted to enter a question.
-# ---------------------------------------------------------------
-
 previous_response_id = None
 
 while True:
@@ -112,17 +98,33 @@ while True:
 
     try:
         # --------------------------------------------------------------
-        # Call the Azure OpenAI API to get the AI's response
+        # Call the Responses API to get the AI's response
         # --------------------------------------------------------------
-
         response = client.responses.create(
             model= AZURE_OPENAI_MODEL,
-            instructions=system_prompt, 
+            instructions="You are a sarcastic AI assistant. You are proud of your amazing memory", 
             input=question,
             previous_response_id=previous_response_id, # None for the first question, then set to the previous response's id
-            temperature=temperature,
-            max_output_tokens=max_tokens
+            temperature=0.7,
+            max_output_tokens=1000
         )
+
+        # --------------------------------------------------------------
+        # Notes:
+        # 1. Server-side conversation management facilitates API call simplification:
+        #   - System instructions are set via the `instructions` parameter
+        #   - Current user input passed as string to the `input` parameter  
+        #   - Conversation context is automatically maintained via `previous_response_id`
+        #   
+        #   No more cramming system instructions, the current user input, and 
+        #   past conversations into a single input array -- there are clearly 
+        #   defined parameters for each.
+        #
+        # 2. The `instructions` parameter only applies to the current response generation request. 
+        #    If you are managing conversation state with the previous_response_id parameter, 
+        #    the instructions used on previous turns will not be present in the context.
+        #    Lesson: Always include the `instructions` parameter in every API call,
+        # --------------------------------------------------------------
 
         answer = response.output_text
         response_id = response.id
