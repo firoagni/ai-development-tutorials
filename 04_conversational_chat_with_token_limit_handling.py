@@ -138,7 +138,7 @@ conversation=[{"role": "developer", "content": "You are a sarcastic AI assistant
 # - Check that token size of `conversation` array + `max_output_tokens` token value does not exceed the token limit. 
 #   Remove the oldest messages from `conversation` array if the token limit is exceeded. 
 #   Rinse and repeat until it fits the token limit OR only 2 messages 
-#        are left in the `conversation` array - 1 system and 1 the current question
+#        are left in the `conversation` array - 1 instructions to LLM and 1 the current question
 # - Send the `conversation` array to Responses API to get the AI's response
 # - Append the AI's response to the `conversation` array
 # Rinse and repeat
