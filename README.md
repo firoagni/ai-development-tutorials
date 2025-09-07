@@ -30,8 +30,6 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 | 3 | `03_conversational_chat.py`<br>`03_coversational_chat.ipynb` | Conversational AI | Conversational Chat with Azure OpenAI | Builds upon single question-answer interactions to create a conversational chatbot. The AI maintains context throughout the conversation using message history. |
 | 4 | `04_conversational_chat_with_token_limit_handling.py`<br>`04_coversational_chat_with_token_limit_handling.ipynb` | Conversational AI | Conversational Chat with Token Limit Handling | Addresses the challenge of growing conversation history consuming more tokens. Implements smart token limit handling and conversation pruning mechanisms. |
 | 5 | `05_server_side_conversation_management.py`<br>`05_server_side_conversation_management.ipynb` | Conversational AI | Server-Side Conversation Management | Demonstrates how to manage conversations on the server side |
-| 6 | `06_few_shot_prompting.py`<br>`06_few_shot_prompting.ipynb` | Advanced Prompting | Few-Shot Prompting | Demonstrates few-shot prompting technique where you show the model what you want through example conversations rather than just telling it. |
-| 7 | `07_reproducable_outputs.py`<br>`07_reproducable_outputs.ipynb` | Advanced Prompting | Reproducible Outputs | Explores how to obtain consistent, reproducible outputs using the `seed` parameter as a better solution than setting temperature to 0. |
 
 ## Extended Platforms and Implementations
 
