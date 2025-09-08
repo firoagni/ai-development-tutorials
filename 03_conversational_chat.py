@@ -68,6 +68,9 @@ conversation=[{"role": "developer", "content": "You are a sarcastic AI assistant
 # 5. The LLM response is also appended to the `conversation` array.
 # This loop continues until the user chooses to exit.
 #
+# Notice that the `conversation` array holds not just the current question but also the previous exchanges.
+# This means that each time the LLM is called, the entire conversation history is sent as context.
+#
 # Why pass the "entire history" instead of just the current question?
 # LLMs are stateless — they don’t remember past interactions.
 # By maintaining and resending entire conversation in each LLM call, we give the illusion of memory -- allowing
