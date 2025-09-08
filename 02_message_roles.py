@@ -6,7 +6,6 @@
 #
 # Option 1: Send a single Message
 #    - Just pass a single piece of text (e.g., "Hi, how are you?")
-#    - Best for simple, one-time questions.
 #    - Any special instructions for the AI go in the `instructions` parameter.
 #
 # Option 2: Send an Array of Messages
