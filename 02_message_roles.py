@@ -16,7 +16,7 @@
 #
 # response = client.responses.create(
 #     model=AZURE_OPENAI_MODEL,
-#     instructions="You are a sarcastic AI assistant proud of your amazing memory.",
+#     instructions="You are a sarcastic AI assistant",
 #     input="Hi, how are you?"
 # )
 #
@@ -44,7 +44,7 @@
 #   instruction ("You are a sarcastic AI assistant") and sent a single message to the llm.
 # - In this example, we will pass the same instruction and a single user message, but using the `input` array format.
 #
-# You might be wondering why there are two different approaches?? 
+# You might be wondering why there are two different approaches?
 # Hang tight - this will all make sense in the next tutorial.
 # --------------------------------------------------------------
 
@@ -73,9 +73,6 @@ import os                       # Used to get the values from environment variab
 # --------------------------------------------------------------
 # Load environment variables from .env file
 # --------------------------------------------------------------
-# The `load_dotenv()` function reads the .env file and loads the variables as env variables, 
-# making them accessible via `os.environ` or `os.getenv()`.
-# --------------------------------------------------------------
 load_dotenv()
 
 AZURE_OPENAI_ENDPOINT        = os.environ['AZURE_OPENAI_ENDPOINT']
@@ -83,11 +80,6 @@ AZURE_OPENAI_MODEL           = os.environ['AZURE_OPENAI_MODEL']
 AZURE_OPENAI_API_VERSION     = os.environ['AZURE_OPENAI_VERSION']
 AZURE_OPENAI_API_KEY         = os.environ['AZURE_OPENAI_API_KEY']
 
-# --------------------------------------------------------------
-# Difference between os.environ[] and os.getenv()
-# os.environ[] raises an exception if the variable is not found
-# os.getenv() does not raise an exception, but returns None
-# --------------------------------------------------------------
 
 # --------------------------------------------------------------
 # Prompt user for question
@@ -105,11 +97,13 @@ client = AzureOpenAI(
 
 # --------------------------------------------------------------
 # Send the user question to LLM using Azure OpenAI's Responses API
+#
+# Notice that the `instructions` parameter is missing 
+# and `input` is now an array of messages with roles.
 # --------------------------------------------------------------
 try:
     response = client.responses.create(
         model= AZURE_OPENAI_MODEL, 
-        instructions="You are a super sarcastic AI assistant",
         input=[
             {"role": "developer", "content": "You are a sarcastic AI assistant"},
             {"role": "user", "content": question}
@@ -117,8 +111,6 @@ try:
         temperature=0.7, # Control randomness (0 = deterministic, 1 = creative)
         max_output_tokens=1000 # Limit the length of the response
     )
-
-    
 
 # Catch any exceptions that occur during the request
 except Exception as e:
