@@ -108,10 +108,10 @@ def trim_conversation(conversation, max_response_tokens, token_limit):
     total_tokens_in_conversation = calculate_token_count(conversation)
 
     # Keep deleting the oldest user + assistant prompts until the conversation history fits within the token limit
-    # Make sure to leave at least 2 messages in the conversation history (1 system and 1 just asked user message)
+    # Make sure to leave at least 2 messages in the conversation history (1 developer and 1 just asked user message)
     while total_tokens_in_conversation + max_response_tokens > token_limit and len(conversation) > 2:
         print("Trimming conversation history to fit within token limit...")
-        deleted_oldest_user_message = conversation.pop(1)  # Remove the oldest user message (index 1), first message is a system message
+        deleted_oldest_user_message = conversation.pop(1)  # Remove the oldest user message (index 1), first message is a developer message
         print(f"Deleted message: {deleted_oldest_user_message}")
         deleted_oldest_assistant_message = conversation.pop(1)  # After removing the user message, index 1 is assistant message. Remove
         print(f"Deleted message: {deleted_oldest_assistant_message}") 
