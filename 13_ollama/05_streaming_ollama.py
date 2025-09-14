@@ -1,5 +1,5 @@
 # --------------------------------------------------------------
-# Getting Started with Ollama: Ask a question and get an answer from a thinking Model
+# Getting Started with Ollama: Streaming Responses
 #
 # Problem Statement:
 # By default, when you make a request to a Model, entire output is 
@@ -45,7 +45,7 @@ import os                                       # Used to get the values from en
 # <<NO CHANGE FROM PREVIOUS EXAMPLE>>
 # --------------------------------------------------------------
 load_dotenv()
-MODEL = os.environ['OLLAMA_THINKING_MODEL'] # Make sure to pick a thinking model
+MODEL = os.environ['OLLAMA_THINKING_MODEL']
 
 # --------------------------------------------------------------
 # Prompt user for question

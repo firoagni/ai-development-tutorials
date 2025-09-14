@@ -1,5 +1,6 @@
 # --------------------------------------------------------------
 # Getting Started with Azure OpenAI: Conversational Chat with Azure OpenAI
+# https://platform.openai.com/docs/guides/conversation-state?api-mode=responses#manually-manage-conversation-state
 #
 # In the previous example, one can ask a single question, get an answer and the program ends.
 # In this example, we will create a loop to keep the conversation going.
