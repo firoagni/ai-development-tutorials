@@ -1,5 +1,6 @@
 # --------------------------------------------------------------
 # Azure OpenAI - Server Side Conversation Management
+# https://platform.openai.com/docs/guides/conversation-state#passing-context-from-the-previous-response
 #
 # Tired of manually managing conversation history by yourself? 
 # Azure OpenAI API now comes with an option of server-side conversation state management.
@@ -10,7 +11,7 @@
 # 3. If you are using OpenAI's Responses API, then messages are auto-saved at server-side by default
 # 4. To instruct Responses API "NOT" to save a response, set `store: false`
 #
-# - You can chain responses together by passing the `response.id` of the previous response 
+# - You can pass context from the previous response by passing the `response.id` of the previous response 
 #    to the `previous_response_id` parameter of the current response.
 # - Use `responses.input_items.list("{response_id}")` to obtain 
 #    the conversation history for the given response id

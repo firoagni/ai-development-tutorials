@@ -68,6 +68,12 @@ client = AzureOpenAI(
     api_version = AZURE_OPENAI_API_VERSION
 )
 
+# --------------------------------------------------------------
+# Set the token limit and max_tokens for this example
+# --------------------------------------------------------------
+TOKEN_LIMIT = 150
+MAX_RESPONSE_TOKENS = 50
+
 #--------------------------------------------------------------
 # Function to calculate the total token count of the conversation
 # --------------------------------------------------------------
@@ -118,12 +124,6 @@ def trim_conversation(conversation, max_response_tokens, token_limit):
         total_tokens_in_conversation = calculate_token_count(conversation) # recalculate token count
         print("\n-----------------------------------------------------\n") 
     return conversation
-
-# --------------------------------------------------------------
-# Set the token limit and max_tokens for this example
-# --------------------------------------------------------------
-TOKEN_LIMIT = 150
-MAX_RESPONSE_TOKENS = 50
 
 # ---------------------------------------------------------------
 # Set the behavior or personality of the assistant

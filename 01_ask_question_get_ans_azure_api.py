@@ -1,6 +1,7 @@
 
 # --------------------------------------------------------------
 # Getting Started with Azure OpenAI: Ask a Question and Get an answer
+# https://platform.openai.com/docs/guides/text
 #
 # This script demonstrates how to interact with the Azure OpenAI API via its Python library
 # ---------------------------------------------------------------
