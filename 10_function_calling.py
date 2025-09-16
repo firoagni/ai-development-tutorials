@@ -17,15 +17,14 @@
 # LLM → Calls getSuggestedAttire(15) → "Light jacket"
 # LLM → "It’s around 15°C in London. A light jacket should be fine."
 #
-# Why use function calling?
 # Function calling allows you to connect LLMs to external tools and APIs, enabling them to:
 # - Fetch real-time data (e.g., weather, stock prices, database values).  
 # - Perform actions (e.g., send an email, trigger a workflow).  
 #
 # In LLM World:
 # - Functions that you make available to LLMs are called "tools"
-# - Systems where an LLM autonomously decides the steps needed to accomplish 
-#   its task by selecting various tools available to its disposal and taking actions are called "agents".
+# - Solutions where an LLM autonomously decides the steps needed to accomplish 
+#   its task by selecting various tools available to its disposal are called "agents".
 #
 # Think of it like this:
 # - Tool = a single screwdriver or hammer.  
@@ -33,11 +32,11 @@
 #
 # How function calling works:
 # 1. Define functions that can fetch information from external sources.
-# 2. Create a `tool_descriptions` dictionary that describes the available functions, their parameters, and expected behavior.
-# 3. Pass the `tool_descriptions` dictionary along with the user input to the Azure OpenAI responses API.
+# 2. Create a `tool_schema` that describes the available functions, their parameters, and expected behavior.
+# 3. Pass the `tool_schema` along with the user input to the Azure OpenAI responses API.
 #
-# Azure OpenAI chat completion API "WITHOUT" function calling:
-#    response = client.chat.completions.create(
+# Azure OpenAI responses API "WITHOUT" function calling:
+#    response = client.responses.create(
 #        model=AZURE_OPENAI_MODEL,
 #        input=messages,
 #    )
@@ -46,12 +45,12 @@
 #   response = client.responses.create(
 #       model= AZURE_OPENAI_MODEL,
 #       input=messages, 
-#       tools=tool_descriptions,     # Pass the tool_descriptions dictionary
-#       tool_choice="auto"           # Allow the model to choose which function to call
+#       tools=tool_schema,     # Pass the tool_schema
+#       tool_choice="auto"     # Allow the model to choose which function to call
 #   )
 #
 # 4. Use the model’s response to call your API or function
-# 5. Call the chat completions API again, and include the response from your function to get a final response
+# 5. Call the responses API again, and include the response from your function to get a final response
 #
 # It's important to note that while the models can generate function calls, it's up to the script developer to execute them.
 
@@ -103,7 +102,7 @@ deployment_name = AZURE_OPENAI_MODEL  # The deployment name of the model to use
 
 # --------------------------------------------------------------
 # Formulate questions that LLM can correctly answer 
-# only by calling chaining multiple functions
+# only if it has access to our internal build-related data sources
 # --------------------------------------------------------------
 questions = [
     "Show me the status of build 12345 for XYZ120?",
@@ -178,10 +177,10 @@ def get_last_build(product_name, branch_name):
 
 
 # --------------------------------------------------------------
-# Define a "tool" dictionary that describes the available functions, 
+# Define a schema that describes the available functions, 
 # their parameters, and expected behavior.
 # --------------------------------------------------------------
-tool_descriptions = [
+tool_schema = [
     {
         "type": "function",
         "name": "get_build_information", # Make sure this matches the function name
@@ -238,14 +237,14 @@ tool_descriptions = [
 ]
 
 # --------------------------------------------------------------
-# Add system prompting to guide the model 
+# Add developer prompt to guide the model 
 # to call functions in specific ways.
 # --------------------------------------------------------------
-system_prompt = "Assistant is a helpful assistant that helps users get answers to questions." \
+developer_prompt = "Assistant is a helpful assistant that helps users get answers to questions." \
                 "Assistant has access to several tools and sometimes " \
                 "you may need to call multiple tools " \
                 "in sequence to get answers for your users."
-conversation = [{"role": "developer", "content": system_prompt}]
+conversation = [{"role": "developer", "content": developer_prompt}]
 
 # --------------------------------------------------------------
 # Adding a few more questions to test the intelligence of LLM
@@ -275,8 +274,8 @@ for question in questions:
             input=conversation,
             
             # Additional parameters to enable function calling
-            tools=tool_descriptions,             # Pass the tool_descriptions dictionary
-            tool_choice="auto"                   # Allow the model to choose which function to call
+            tools=tool_schema,     # Pass the function schema
+            tool_choice="auto"     # Allow the model to choose which function to call
         )
         #---------------------------------------------------------------
         # Read the response and check if LLM wanted to call a function
@@ -293,8 +292,8 @@ for question in questions:
         # Keep making LLM call(s) until generated response 
         # doesn't contain any further function call request
         #---------------------------------------------------------------
-        while response.output[0].type == "function_call":   # response.choices[0].finish_reason in Chat Completions API is now response.output[0].type.
-                                                            # value to search = "function_call"
+        while response.output[0].type == "function_call":   # value to search = "function_call"
+                                             
             print("LLM requested function call(s) ...\n")
             
             #---------------------------------------------------------------
@@ -316,9 +315,9 @@ for question in questions:
                 # Determine the function and function params from the response
                 #---------------------------------------------------------------
                 # Each entry with type "function call" will have a call_id, name, and JSON-encoded arguments.
-                call_id         = response_message.call_id
-                chosen_function = response_message.name                    # response.choices[0].message.tool_calls[0].function.name is now response.output[0].name
-                function_params = json.loads(response_message.arguments)   # response.choices[0].message.tool_calls[0].function.arguments is now response.output[0].arguments
+                call_id         = response_message.call_id                 # response.output[i].call_id
+                chosen_function = response_message.name                    # response.output[i].name
+                function_params = json.loads(response_message.arguments)   # response.output[i].arguments
                 print(f"Chosen function: {chosen_function}")
                 print(f"Function parameters: {function_params}\n") 
                 
@@ -338,7 +337,7 @@ for question in questions:
                     "output": str(function_response)
                 })
 
-                # loop to iterate through model responses ends. Response output and function responses collected in `conversation` array
+            # loop ends. LLM output and responses of all requested function calls collected in the `conversation` array
 
             #---------------------------------------------------------------
             # Next LLM call
@@ -347,7 +346,7 @@ for question in questions:
                 response = client.responses.create(  
                     model=deployment_name, 
                     input=conversation, # past conversations + last LLM output + function responses
-                    tools=tool_descriptions,
+                    tools=tool_schema,  # Pass the function schema
                     tool_choice="auto" 
                 )
             except Exception as e:
