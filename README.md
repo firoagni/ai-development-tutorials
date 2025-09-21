@@ -35,6 +35,7 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 | 8 | `08_chatbot_for_document.py`<br>`08_chatbot_for_document.ipynb` | Chatbot for Document | Implements a chatbot that can answer questions by referencing a specific document |
 | 9 | `09_structured_outputs.py`<br>`09_structured_outputs.ipynb` | Structured Outputs | Shows how to generate structured JSON outputs from AI models |
 | 10 | `10_function_calling.py`<br>`10_function_calling.ipynb` | Function Calling | Demonstrates how to extend AI capabilities by allowing models to call external functions |
+| 11 | `11_code_interpreter.py`<br>`11_code_interpreter.ipynb` | Code Interpreter | Direct LLMs to write python scripts to solve mathematical and statistical problems and accurately perform data analysis|
 
 ## Extended Platforms and Implementations
 
@@ -53,7 +54,7 @@ Complete tutorial series for running AI models locally using Ollama:
 | 8 | `08_function_calling_ollama.*` | Function Calling | Implementing function calling capabilities with Ollama |
 | 9 | `09_remote_ollama.*` | Remote Access | Connecting to and using remote Ollama instances |
 
-### Model Context Protocol (`14_mcp/`)
+### Model Context Protocol (`12_mcp/`)
 Tutorials for implementing MCP servers and integrating with AI systems:
 
 | # | Tutorial Files | Purpose | Description |
@@ -72,7 +73,7 @@ Tutorials for implementing MCP servers and integrating with AI systems:
 - **`ai_solution_building_guide.md`**: Comprehensive guide on building AI solutions, covering workflows vs. agents, design patterns, and best practices
 - **`images/`**: Folder containing diagrams and screenshots used in documentation
 - **`13_ollama/`**: Complete tutorial series for using Ollama to run AI models locally
-- **`14_mcp/`**: Tutorials and examples for implementing Model Context Protocol servers
+- **`12_mcp/`**: Tutorials and examples for implementing Model Context Protocol servers
 
 ## Additional Resources
 
@@ -87,7 +88,7 @@ The `ai_solution_building_guide.md` provides comprehensive guidance on:
 ### Platform-Specific Features
 - **Azure OpenAI**: All core tutorials (01-10) demonstrate Azure OpenAI integration with proper authentication and configuration
 - **Ollama**: Local AI development with privacy and control (13_ollama/ series)
-- **Model Context Protocol**: Building extensible AI systems that can integrate with various tools and services (14_mcp/ series)
+- **Model Context Protocol**: Building extensible AI systems that can integrate with various tools and services (12_mcp/ series)
 
 ## Getting Help
 
@@ -96,7 +97,7 @@ Each tutorial file contains detailed comments explaining the concepts and implem
 ### Repository Structure
 ```
 azure-open-ai/
-├── Core Azure OpenAI Tutorials (01-10)
+├── Core Azure OpenAI Tutorials (01-11)
 │   ├── 01_ask_question_get_ans_azure_api.*
 │   ├── 02_message_roles.*
 │   ├── 03_conversational_chat.*
@@ -106,7 +107,16 @@ azure-open-ai/
 │   ├── 07_streaming_responses.*
 │   ├── 08_chatbot_for_document.*
 │   ├── 09_structured_outputs.*
-│   └── 10_function_calling.*
+│   ├── 10_function_calling.*
+│   └── 11_code_interpreter.*
+├── 12_mcp/             # Model Context Protocol
+│   ├── 01_local-mcp-server-fastmcp.py
+│   ├── 02_http-mcp-server-fastmcp.py
+│   ├── 03_run_with_docker.md
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── requirements.txt
+│   └── screenshots/
 ├── 13_ollama/          # Local AI development with Ollama
 │   ├── 01_ask_question_get_ans_ollama.*
 │   ├── 02_conversational_chat_ollama.*
@@ -119,14 +129,6 @@ azure-open-ai/
 │   ├── 09_remote_ollama.*
 │   ├── README.md
 │   └── requirements.txt
-├── 14_mcp/             # Model Context Protocol
-│   ├── 01_local-mcp-server-fastmcp.py
-│   ├── 02_http-mcp-server-fastmcp.py
-│   ├── 03_run_with_docker.md
-│   ├── Dockerfile
-│   ├── README.md
-│   ├── requirements.txt
-│   └── screenshots/
 ├── images/             # Documentation assets and diagrams
 ├── ai_solution_building_guide.md  # Architecture and design guide
 ├── requirements.txt    # Main dependencies
