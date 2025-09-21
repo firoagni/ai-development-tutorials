@@ -49,8 +49,13 @@
 #       tool_choice="auto"     # Allow the model to choose which function to call
 #   )
 #
-# 4. Use the model’s response to call your API or function
-# 5. Call the responses API again, and include the response from your function to get a final response
+# 4. With function calling enabled, the model can now respond in two ways:
+#    a. Directly answer the user's question if it has enough information.
+#    b. Request for a function call if it needs more information to answer the question.
+# 5. If the model requests a function call, then use the function name and parameters received in the response to execute the function in your code.
+# 6. Capture the function's output.
+# 7. Call the responses API again, and pass the previous conversations, the model's function call request, and the function's output as input.
+# 8. Repeat steps 4-7 until the model provides a final answer without requesting any further function calls.
 #
 # It's important to note that while the models can generate function calls, it's up to the script developer to execute them.
 
@@ -293,7 +298,7 @@ for question in questions:
         # doesn't contain any further function call request
         #---------------------------------------------------------------
         while response.output[0].type == "function_call":   # value to search = "function_call"
-                                             
+
             print("LLM requested function call(s) ...\n")
             
             #---------------------------------------------------------------

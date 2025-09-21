@@ -23,14 +23,18 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 
 ## Core Tutorial Files
 
-| # | Tutorial Files | Category | Purpose | Description |
-|---|----------------|----------|---------|-------------|
-| 1 | `01_ask_question_get_ans_azure_api.py`<br>`01_ask_question_get_ans_azure_api.ipynb` | Basic API Interaction | Ask a question and get an answer via Azure OpenAI library | Uses the Azure OpenAI Python library to demonstrate basic question-answer interactions. |
-| 2 | `02_message_roles.py`<br>`02_message_roles.ipynb` | API Understanding | Understanding Message Roles and Input Formats | Explains the different ways to send input to Azure OpenAI models, and the various message roles (developer, user, assistant). |
-| 3 | `03_conversational_chat.py`<br>`03_coversational_chat.ipynb` | Conversational AI | Conversational Chat with Azure OpenAI | Builds upon single question-answer interactions to create a conversational chatbot. The AI maintains context throughout the conversation using message history. |
-| 4 | `04_conversational_chat_with_token_limit_handling.py`<br>`04_coversational_chat_with_token_limit_handling.ipynb` | Conversational AI | Conversational Chat with Token Limit Handling | Addresses the challenge of growing conversation history consuming more tokens. Implements smart token limit handling and conversation pruning mechanisms. |
-| 5 | `05_server_side_conversation_management.py`<br>`05_server_side_conversation_management.ipynb` | Conversational AI | Server-Side Conversation Management | Demonstrates how to manage conversations on the server side |
-| 6 | `06_few_shot_prompting.py`<br>`06_few_shot_prompting.ipynb` | Advanced Prompting | Few-Shot Prompting | Demonstrates few-shot prompting technique |
+| # | Tutorial Files | Purpose | Description |
+|---|----------------|---------|-------------|
+| 1 | `01_ask_question_get_ans_azure_api.py`<br>`01_ask_question_get_ans_azure_api.ipynb` | Ask a question and get an answer via Azure OpenAI library | Uses the Azure OpenAI Python library to demonstrate basic question-answer interactions. |
+| 2 | `02_message_roles.py`<br>`02_message_roles.ipynb` | Understanding Message Roles and Input Formats | Explains the different ways to send input to Azure OpenAI models, and the various message roles (developer, user, assistant). |
+| 3 | `03_conversational_chat.py`<br>`03_coversational_chat.ipynb` | Conversational Chat with Azure OpenAI | Builds upon single question-answer interactions to create a conversational chatbot. The AI maintains context throughout the conversation using message history. |
+| 4 | `04_conversational_chat_with_token_limit_handling.py`<br>`04_coversational_chat_with_token_limit_handling.ipynb` | Conversational Chat with Token Limit Handling | Addresses the challenge of growing conversation history consuming more tokens. Implements smart token limit handling and conversation pruning mechanisms. |
+| 5 | `05_server_side_conversation_management.py`<br>`05_server_side_conversation_management.ipynb` | Server-Side Conversation Management | Demonstrates how to manage conversations on the server side |
+| 6 | `06_few_shot_prompting.py`<br>`06_few_shot_prompting.ipynb` | Few-Shot Prompting | Demonstrates few-shot prompting technique |
+| 7 | `07_streaming_responses.py`<br>`07_streaming_responses.ipynb` | Streaming Responses | Learn how to provide immediate feedback to users as the AI generates responses. |
+| 8 | `08_chatbot_for_document.py`<br>`08_chatbot_for_document.ipynb` | Chatbot for Document | Implements a chatbot that can answer questions by referencing a specific document |
+| 9 | `09_structured_outputs.py`<br>`09_structured_outputs.ipynb` | Structured Outputs | Shows how to generate structured JSON outputs from AI models |
+| 10 | `10_function_calling.py`<br>`10_function_calling.ipynb` | Function Calling | Demonstrates how to extend AI capabilities by allowing models to call external functions |
 
 ## Extended Platforms and Implementations
 
@@ -81,7 +85,7 @@ The `ai_solution_building_guide.md` provides comprehensive guidance on:
 - **Context Management**: Strategies for handling long conversations and large contexts
 
 ### Platform-Specific Features
-- **Azure OpenAI**: All core tutorials (01-07) demonstrate Azure OpenAI integration with proper authentication and configuration
+- **Azure OpenAI**: All core tutorials (01-10) demonstrate Azure OpenAI integration with proper authentication and configuration
 - **Ollama**: Local AI development with privacy and control (13_ollama/ series)
 - **Model Context Protocol**: Building extensible AI systems that can integrate with various tools and services (14_mcp/ series)
 
@@ -92,11 +96,41 @@ Each tutorial file contains detailed comments explaining the concepts and implem
 ### Repository Structure
 ```
 azure-open-ai/
-├── Core Azure OpenAI Tutorials (01-07)
-├── 13_ollama/          # Local AI development
+├── Core Azure OpenAI Tutorials (01-10)
+│   ├── 01_ask_question_get_ans_azure_api.*
+│   ├── 02_message_roles.*
+│   ├── 03_conversational_chat.*
+│   ├── 04_conversational_chat_with_token_limit_handling.*
+│   ├── 05_server_side_conversation_management.*
+│   ├── 06_few_shot_prompting.*
+│   ├── 07_streaming_responses.*
+│   ├── 08_chatbot_for_document.*
+│   ├── 09_structured_outputs.*
+│   └── 10_function_calling.*
+├── 13_ollama/          # Local AI development with Ollama
+│   ├── 01_ask_question_get_ans_ollama.*
+│   ├── 02_conversational_chat_ollama.*
+│   ├── 03_few_shot_prompting_ollama.*
+│   ├── 04_thinking_model_ollama.*
+│   ├── 05_streaming_ollama.*
+│   ├── 06_thinking_levels_ollama.*
+│   ├── 07_structured_outputs_ollama.*
+│   ├── 08_function_calling_ollama.*
+│   ├── 09_remote_ollama.*
+│   ├── README.md
+│   └── requirements.txt
 ├── 14_mcp/             # Model Context Protocol
-├── ai_solution_building_guide.md  # Architecture guide
-├── images/             # Documentation assets  
-├── requirements.txt    # Dependencies
+│   ├── 01_local-mcp-server-fastmcp.py
+│   ├── 02_http-mcp-server-fastmcp.py
+│   ├── 03_run_with_docker.md
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── requirements.txt
+│   └── screenshots/
+├── images/             # Documentation assets and diagrams
+├── ai_solution_building_guide.md  # Architecture and design guide
+├── requirements.txt    # Main dependencies
+├── test_document.txt   # Sample document for tutorials
+├── dummy_build_data.json  # Sample data for examples
 └── .env.dummy         # Configuration template
 ```
