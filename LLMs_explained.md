@@ -58,7 +58,7 @@ Also note that LLMs are based on artificial neural networks (ANNs) -- which can 
 <img src="images/ilovepizza_token.png" width="600"/><br>
 <img src="images/ilovepizza_token_id.png" width="600"/><br>
 
-**The token ids is what’s actually sent to the LLM.**
+**The token ids are what’s actually sent to the LLM.**
 
 Important notes on token IDs for a given LLM:
 - Same string tokens will always result in same token IDs.
