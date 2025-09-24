@@ -16,11 +16,11 @@ This basically means that LLMs are just autocomplete systems trained to predict 
 
 <img src="images/keyboard.png" width="400"/><br>
 
-So why do LLMs seem so smart while your phone’s autocomplete can feel… well, silly? The difference comes down to training. LLMs are powered by transformer-based neural networks trained on massive datasets containing trillions of words, allowing them to learn complex patterns and relationships between words. This enables them to generate coherent and contextually relevant responses.
+So why do LLMs seem so smart while your phone’s autocomplete can feel… well, silly? The difference comes down to training. LLMs are powered by transformer-based neural networks trained on massive datasets containing trillions of words -- allowing them to learn complex patterns and relationships between words. This enables them to generate coherent and contextually relevant responses.
 
 ## LLMs operate on tokens, not words
 
-Saying that LLMs predict the next `word` is not actually accurate. LLMs don’t see words. They have never seen a word. What they see are called `tokens`. A token is the smallest unit of text that a LLM can read, process and respond.
+Saying that LLMs predict the next `word` is not actually accurate. LLMs don’t see words. They have never seen a word. What they see are called `tokens`. A token is the smallest unit of text that a LLM can understand, read, process and respond.
 
 A token could be:
 * A full word (`apple`)
@@ -43,32 +43,49 @@ or in other tokenization schemes:
 ```
 ["I", " lov", "e", " pi", "zza", "!"]
 ```
+How the model divides the input text into tokens depends on its `vocabulary`.
 
-## The importance of understanding Tokenization
+## Building the Vocabulary
 
-The process that converts a `string` into a sequence of discrete tokens is called `tokenization`. Different LLMs use different tokenization methods, which can lead to variations in how text is broken down into tokens.
+During the time of training, the LLM builds a `vocabulary` - a dictionary of all the tokens it will recognize and use.
 
-Also note that LLMs are based on artificial neural networks (ANNs) -- which can only process numbers (integers and fractions or floats); they don’t quite understand text or strings. To handle this, tokenizers use a `vocabulary` that maps each token to a unique token ID. For example:
-```
-"I"      ->  40
-" love"  ->  3047
-" pizza" ->  27941
-"!"      ->  0
-```
-<img src="images/ilovepizza_token.png" width="600"/><br>
-<img src="images/ilovepizza_token_id.png" width="600"/><br>
+- Initially, the vocabulary consists of individual characters (like letters and punctuation).
+- The training data is then scanned to find the most frequently occurring pairs of characters. For example, if ‘th’ appears often, it becomes a candidate to be added to the vocabulary.
+- These common pairs are then merged to form new tokens. The process continues iteratively, each time identifying and merging the next most frequent pair. The vocabulary grows from individual characters to common pairings and eventually to larger structures like common words or parts of words.
+- There’s a limit to the vocabulary size (e.g., 50,000 tokens in GPT-2). Once this limit is reached, the process stops, resulting in a fixed-size collection of tokens.
+
+Once the vocabulary is built, each token is assigned a unique numerical ID called `token ID`. Even special characters like `!` are also assigned unique IDs.
+
+## Tokenization Process
+
+- When you provide a prompt, the input is first broken down into a sequence of tokens based on the model's  `vocabulary`. This process is called `tokenization`. Tokenization also includes converting the tokens from strings to their corresponding `token IDs`.
+
+    For example:
+    ```
+    "I"      ->  40
+    " love"  ->  3047
+    " pizza" ->  27941
+    "!"      ->  0
+    ```
+    <img src="images/ilovepizza_token.png" width="600"/><br>
+    <img src="images/ilovepizza_token_id.png" width="600"/><br>
+- If a word in prompt is found not present in the vocabulary, it’s broken down into smaller tokens that are in the vocabulary.
 
 **The token ids are what’s actually sent to the LLM.**
 
-Important notes on token IDs for a given LLM:
-- Same string tokens will always result in same token IDs.
+## Important notes on token IDs for a given LLM:
+- Tokens with same strings will always result in same token IDs.
     <br><br><img src="images/same_token_same_id.png" width="650"/><br><br>
 - Same token string but differently cased (e.g. "Pizza" vs "pizza") will return different token IDs.
     <br><br><img src="images/different_case_different_id.png" width="650"/>
 - LLMs receive their input in the form of sequence of token-ids. A small change in the text that may not be perceived by humans can result in a completely different sequence of ids sent to LLMs, which may result in a completely different output generated.
     <br><br><img src="images/small_change_big_difference_1.png" width="650"/><br><br>
     <br><br><img src="images/small_change_big_difference_2.png" width="650"/><br><br>
- 
+
+
+
+
+
 
 ## LLMs generate probabilities, not words
 
@@ -76,6 +93,7 @@ When you ask an LLM a question, it doesn’t actually “know” the answer in t
 
 ## References
 - https://amgadhasan.substack.com/p/explaining-how-llms-work-in-7-levels
+- https://medium.com/the-research-nest/explained-tokens-and-embeddings-in-llms-69a16ba5db33
 - https://medium.com/data-science-at-microsoft/how-large-language-models-work-91c362f5b78f
 - https://old.reddit.com/r/artificial/comments/1bh38a0/why_do_llms_give_different_responses_to_the_same/kvb4rl8/
 - https://gist.github.com/kalomaze/4473f3f975ff5e5fade06e632498f73e
