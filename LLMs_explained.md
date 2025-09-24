@@ -43,7 +43,7 @@ or in other tokenization schemes:
 ```
 ["I", " lov", "e", " pi", "zza", "!"]
 ```
-How the model divides the input text into tokens depends on its `vocabulary`.
+How the input text will be divided into tokens depends on the LLMs `vocabulary`.
 
 ## Building the Vocabulary
 
@@ -80,12 +80,7 @@ Once the vocabulary is built, each token is assigned a unique numerical ID calle
     <br><br><img src="images/different_case_different_id.png" width="650"/>
 - LLMs receive their input in the form of sequence of token-ids. A small change in the text that may not be perceived by humans can result in a completely different sequence of ids sent to LLMs, which may result in a completely different output generated.
     <br><br><img src="images/small_change_big_difference_1.png" width="650"/><br><br>
-    <br><br><img src="images/small_change_big_difference_2.png" width="650"/><br><br>
-
-
-
-
-
+    <br><img src="images/small_change_big_difference_2.png" width="650"/><br><br>
 
 ## LLMs generate probabilities, not words
 
