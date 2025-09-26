@@ -103,7 +103,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 ## The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
 
-<img src="images/gpt.png" width="600"/><br>
+<img src="images/gpt.png" width="700"/><br>
 
 **Advantages of Transformer Algorithm over previous ones**:
 - **Self-attention:** Rather than considering one token at a time to predict the next token, Transformers considers all tokens in its context window at once to figure out how they connect. Examples:
@@ -158,7 +158,7 @@ Let's say you ask an LLM: "The capital of France is ___"
 
 The LLM doesn't just think "Paris". Instead, it thinks something like this:
 
-<img src="images/capital_probabilities.png" width="400"/><br>
+<img src="images/capital_probabilities.png" width="600"/><br>
 
 **Every single token** in its vocabulary (which can be 50,000+ words!) gets a probability score based on how likely it is to be the next word in the sequence.
 
@@ -180,20 +180,18 @@ The most obvious strategy is to always pick the word with the highest probabilit
 
 This is where **temperature** comes in. Temperature is like a creativity dial that controls how "adventurous" the LLM gets when picking words.
 
-**0 temperature**
-- The LLM always picks the highest-probability word (greedy sampling)
+- **0 temperature**
+    - The LLM always picks the highest-probability word (greedy sampling)
+- **Low temperature (0.1-0.3): Conservative and predictable**
+    - The LLM almost always picks high-probability words
+    - More factual and consistent responses
+    - Good for answering questions or writing formal documents
+- **High temperature (0.7-1.0+): Creative and unpredictable**
+    - The LLM considers lower-probability words more seriously
+    - More creative and varied responses
+    - Good for creative writing or brainstorming
 
-**Low temperature (0.1-0.3): Conservative and predictable**
-- The LLM almost always picks high-probability words
-- More factual and consistent responses
-- Good for answering questions or writing formal documents
-
-**High temperature (0.7-1.0+): Creative and unpredictable**
-- The LLM considers lower-probability words more seriously  
-- More creative and varied responses
-- Good for creative writing or brainstorming
-
-<video controls src="images/6ht56x.mp4" title="Temperature Explained"></video>
+Graph demonstration with voiceover: https://files.catbox.moe/6ht56x.mp4
 
 
 ### Other Sampling Strategies
