@@ -93,7 +93,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - **Model parameters**: Model Parameters = the numbers in token embeddings (e.g., [0.7, -0.2, 0.9] for “cat”) + weights. 
     - Variables that the model adjusts during training to improve prediction accuracy.
     - The more parameters an LLM has, the more it can “remember” about language patterns.
-- **The Transformer Algorithm**: This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called “Attention Is All You Need”.
+- **The Transformer Algorithm**: This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
 
 <em> These models do not store or retain copies of the data they are trained on. Instead, as the model learns, its parameters are adjusted to predict the next token with greater accuracy.</em>
 
