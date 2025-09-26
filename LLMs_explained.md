@@ -208,7 +208,7 @@ Understanding that LLMs work with probabilities helps explain:
 - **Why they sometimes make mistakes**: A wrong answer might have seemed "probable" based on the context
 - **Why they can be creative**: They're not just retrieving stored answers — they're generating based on learned patterns
 
-## References
+### References
 - https://medium.com/@amgad-hasan/explaining-how-llms-work-in-7-levels-of-abstraction-3179de558686
 - https://gist.github.com/kalomaze/4473f3f975ff5e5fade06e632498f73e
 
