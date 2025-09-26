@@ -193,9 +193,7 @@ This is where **temperature** comes in. Temperature is like a creativity dial th
 - More creative and varied responses
 - Good for creative writing or brainstorming
 
-<video controls>
-  <source src="https://files.catbox.moe/6ht56x.mp4" type="video/mp4">
-</video>
+<video controls src="images/6ht56x.mp4" title="Temperature Explained"></video>
 
 
 ### Other Sampling Strategies
@@ -214,5 +212,6 @@ Understanding that LLMs work with probabilities helps explain:
 
 ## References
 - https://medium.com/@amgad-hasan/explaining-how-llms-work-in-7-levels-of-abstraction-3179de558686
+- https://gist.github.com/kalomaze/4473f3f975ff5e5fade06e632498f73e
 
 
