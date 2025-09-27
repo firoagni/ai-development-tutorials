@@ -81,15 +81,16 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 
 **Key Terms one should know**:
 - **Weights**: Weights are like dials that control how much attention each token pays to others. In “The cat chased the dog,” the model learns to give more weight to “chased” when shaping “cat”’s embedding, so it reflects the action. 
-- **Context Window**: The number of tokens the model can consider at once when predicting the next token. For example, if the context window is 128K tokens, the model looks at the last 128K tokens to predict the next one. In the above example, the context window is 5 tokens: ["The", "cat", "sat", "on", "the"].
+- **Context Window**: The number of tokens the model can consider at once when predicting the next token. For example, if the context window is 128K tokens, the model looks at the last 128K tokens to predict the next one. In the above example, the context window is 5 tokens: ["The", "cat", "sat", "on", "the"]. A longer context window means the model can "remember" more from the input, but it also increases computational cost.
 - **Backpropagation**: The method used to update the weights and embeddings based on the error of the prediction. Its a feedback loop that helps the model learn from its mistakes.
-- **Model parameters**: Model Parameters = the numbers in token embeddings (e.g., [0.7, -0.2, 0.9] for “cat”) + weights.
-    - Variables that the model adjusts during training to improve prediction accuracy.
+- **Model parameters**: Variables that the model adjusts during training to improve prediction accuracy.
+    - Model Parameters = the numbers in token embeddings (e.g., [0.7, -0.2, 0.9] for “cat”) + weights.
     - The more parameters an LLM has, the more it can “remember” about language patterns.
 
 **Notes**:
 - Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
-- Models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
+- You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
+- In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
 - LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve their accuracy to predict the next token.
 
 ## The Transformer Algorithm
