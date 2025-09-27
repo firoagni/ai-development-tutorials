@@ -193,7 +193,6 @@ This is where **temperature** comes in. Temperature is like a creativity dial th
 
 Graph demonstration with voiceover: https://files.catbox.moe/6ht56x.mp4
 
-
 ### Other Sampling Strategies
 
 1. **Top-k sampling**: Top K sets a hard limit on how many tokens can be selected. So top_k = 5 would mean you only allow the model to pick from the top 5 candidates and nothing else. This is considered a very "naive" and simplistic way to truncate choices.
@@ -212,4 +211,34 @@ Understanding that LLMs work with probabilities helps explain:
 - https://medium.com/@amgad-hasan/explaining-how-llms-work-in-7-levels-of-abstraction-3179de558686
 - https://gist.github.com/kalomaze/4473f3f975ff5e5fade06e632498f73e
 
+## Tokenization Revisited: Why LLMs break words into pieces?
 
+LLMs don’t strictly follow 1 word = 1 token formula. Instead, a single word might get split into multiple tokens. 
+
+**Why?**<br>
+If every word had its own token, then the LLM's vocabulary—the dictionary of all unique tokens that LLM can recognize-would be huge (millions of tokens). 
+
+Larger the vocabulary, higher the computational requirements.
+
+To optimize, LLM like ChatGPT use a method called **Byte Pair Encoding (BPE)**. Here’s how BPE works:
+
+- Initially, the vocabulary consists of individual characters (like letters and punctuation).
+- The training data is then scanned to find the most frequently occurring pairs of characters. For example, if ‘th’ appears often, it becomes a candidate to be added to the vocabulary.
+- These common pairs are then merged to form new tokens. The process continues iteratively, each time identifying and merging the next most frequent pair. The vocabulary grows from individual characters to common pairings and eventually to larger structures like common words or parts of words.
+- There’s a limit to the vocabulary size (e.g., 50,000 tokens in GPT-2). Once this limit is reached, the process stops, resulting in a fixed-size collection of tokens.
+
+**Result:** Common words ends up as single tokens, while rare or complex words are broken down into smaller, more manageable pieces. For example:
+
+| Word        | Tokenization (BPE)       |
+|-------------|--------------------------|
+| apple       | apple                    |
+| unplayable  | un + play + able         |
+| extraordinary | extra + ordinary       |
+
+**BPE advantage:**
+- **Keeps the vocabulary small and efficient:**
+    - Instead of storing `play`, `player`, `playing`, `work`, `worker`, `working` separately, BPE can store `play`, `work`, `er`, `ing`. 
+    - Fewer tokens = faster and more efficient computation.
+- **Handles new or rare words**
+    - Suppose the model knows `bio` and `logy` but has never seen `biology`. It can combine the known tokens: `bio` + `logy` = `biology`.
+    - Suppose the model encounters a completely new word like `quizzaciously`. It can break it down into smaller, familiar parts: `quiz` + `zac` + `ious` + `ly`.
