@@ -28,17 +28,9 @@ The first idea is to assign each word a unique number, like “cat” = 17, “d
 | dog     | 42       |
 | banana  | 99       |
 
-For simplicity, we’re considering whole words as tokens. In reality, however, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases.
+**NOTE:**: For simplicity, we're considering 1 word = 1 token. In reality, however, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases (see [why LLMs break words into pieces](#tokenization-revisited-why-llms-break-words-into-pieces)).
 
-Here's a real demonstration of how the sentence "I love pizza!" is tokenized in GPT-4o:
-```
-"I love pizza!" -> ["I", " love", " pizza", "!"] -> [40, 3047, 27941, 0]
-```
-
-<img src="images/ilovepizza_token.png" width="600"/><br>
-<img src="images/ilovepizza_token_id.png" width="600"/><br>
-
-Note that the token IDs like "42" for "dog" and "17" for "cat" are just unique labels — they don’t tell the computer anything about how the words are related. Token IDs are like jersey numbers: useful for identification, but meaningless for understanding.
+Token IDs like "42" for "dog" and "17" for "cat" are just unique labels — they don’t tell the computer anything about how the words are related. Token IDs are like jersey numbers: useful for identification, but meaningless for understanding.
 
 **What we want**: A way to represent words so the computer knows:
   - “Dog” and “puppy” are similar (both are animals).
@@ -98,7 +90,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 **Notes**:
 - Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
 - Models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
-- LLM models do not store or retain copies of the data they are trained on. Instead, models learn from the data to predict the next token with greater accuracy.
+- LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve their accuracy to predict the next token.
 
 ## The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
@@ -242,3 +234,11 @@ To optimize, LLM like ChatGPT use a method called **Byte Pair Encoding (BPE)**. 
 - **Handles new or rare words**
     - Suppose the model knows `bio` and `logy` but has never seen `biology`. It can combine the known tokens: `bio` + `logy` = `biology`.
     - Suppose the model encounters a completely new word like `quizzaciously`. It can break it down into smaller, familiar parts: `quiz` + `zac` + `ious` + `ly`.
+
+Here's a real demonstration of how the sentence "I love pizza!" is tokenized in GPT-4o:
+```
+"I love pizza!" -> ["I", " love", " pizza", "!"] -> [40, 3047, 27941, 0]
+```
+
+<img src="images/ilovepizza_token.png" width="600"/><br>
+<img src="images/ilovepizza_token_id.png" width="600"/><br>
