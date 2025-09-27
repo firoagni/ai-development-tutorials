@@ -243,3 +243,50 @@ Here's a real demonstration of how the sentence "I love pizza!" is tokenized in 
 
 <img src="images/ilovepizza_token.png" width="600"/><br>
 <img src="images/ilovepizza_token_id.png" width="600"/><br>
+
+## LLMs struggle with analytics
+
+Here's what nobody wants to admit: ChatGPT and similar AI tools regularly make embarrassing errors with data that would get a junior analyst fired.
+
+Upload a simple sales spreadsheet and ask it to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
+
+This isn't a rare glitch—it's systematic. AI tools consistently struggle with:
+- **Basic counting**: Missing rows, double-counting entries, or stopping partway through datasets
+- **Data boundaries**: Skipping the last few rows of a file or ignoring edge cases
+- **Filter accuracy**: When you ask for "sales above $1,000," it might include $999 transactions or mysteriously exclude valid $1,500 ones
+- **Calculation errors**: Simple math that any calculator would get right
+
+The "sorry" response is particularly frustrating because it reveals the core problem: these tools don't actually understand they made a mistake until you point it out. They're not double-checking their work—they're generating plausible-sounding answers and hoping for the best.
+
+### Why This Happens (And Why It Matters)
+
+AI models don't actually "see" your data the way you do. When processing a spreadsheet, they're making statistical predictions about what the next token (word, number, or symbol) should be based on patterns they learned during training. They're not systematically working through your data—they're essentially improvising based on what "looks right."
+
+This creates a trust problem that goes beyond simple errors. In business contexts, wrong numbers don't just embarrass you in meetings—they drive bad decisions. Marketing budgets get misallocated, inventory gets over-ordered, and opportunities get missed because the analysis was fundamentally flawed.
+
+Even worse, AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
+
+### The Current State: Proceed With Extreme Caution
+
+Recent improvements in AI models haven't solved these fundamental reliability issues. While newer versions are better at understanding what you're asking for, they're still prone to the same systematic errors in execution.
+
+Some organizations are building verification systems—automated checks that validate AI-generated analysis against known benchmarks. Others are using AI only for exploratory analysis, then requiring human verification before any results influence decisions.
+
+The most honest assessment is this: current AI tools are powerful for generating hypotheses and initial insights, but they're not ready to be trusted with consequential analysis without extensive human oversight.
+
+### What You Should Actually Do
+
+**Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
+
+**Build verification into your workflow**: 
+- Start with questions you already know the answer to as a sanity check
+- Cross-reference AI results with simple tools like Excel pivot tables or basic SQL queries
+- Sample-check AI calculations on subsets of your data you can verify manually
+
+**Use AI as a starting point, not an endpoint**: Let AI generate initial queries, suggest analysis approaches, or identify potential patterns. Then do the actual analysis with reliable tools, using AI's suggestions as a guide.
+
+**Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
+
+**The harsh reality**: If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
+
+The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.
