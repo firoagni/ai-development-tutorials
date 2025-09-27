@@ -4,6 +4,21 @@ This repository contains a comprehensive collection of Python-based tutorials fo
 
 Each tutorial builds upon the previous ones, demonstrating progressively advanced concepts and techniques.
 
+## Before You Start
+
+Before diving into the tutorials, we strongly recommend reading these two foundational documents in order:
+
+1. **`LLMs_explained.md`**: A comprehensive guide that explains how Large Language Models work, covering essential concepts like tokens, embeddings, and the transformer architecture. This will give you a solid understanding of the technology you'll be working with.
+
+2. **`ai_solution_building_guide.md`**: A practical guide that covers key architectural patterns and best practices for building AI solutions, including:
+   - Workflows vs. Agents: Understanding when to use each approach
+   - Function calling and tool integration
+   - Context engineering fundamentals
+   - Design patterns for AI solutions
+   - Model Context Protocol (MCP) overview
+
+These documents will provide you with the theoretical foundation and architectural understanding needed to make the most of the tutorials.
+
 ## Prerequisites
 
 1. **Python 3**: Make sure Python 3 is installed on your system
@@ -65,25 +80,42 @@ Tutorials for implementing MCP servers and integrating with AI systems:
 
 ## Supporting Files
 
+### Core Documentation
+- **`LLMs_explained.md`**: Essential reading that provides a deep dive into how Large Language Models work, including:
+  - Tokens and embeddings
+  - Transformer architecture
+  - Training and fine-tuning processes
+  - Model behavior and limitations
+
+- **`ai_solution_building_guide.md`**: Must-read guide for designing AI solutions, covering:
+  - Workflows vs Agents architecture patterns
+  - Function calling and tool integration
+  - Context engineering best practices
+  - Model Context Protocol (MCP) implementation
+  - DevOps considerations and challenges
+
+### Project Files
 - **`requirements.txt`**: Lists all Python dependencies needed for the tutorials
 - **`.env.dummy`**: Template for environment variables configuration (rename to `.env` and fill with your credentials)
 - **`.gitignore`**: Prevents sensitive files and local development artifacts from being committed
 - **`test_document.txt`**: Sample document used in document-based chatbot tutorials
 - **`dummy_build_data.json`**: Sample data file used in code interpreter examples
-- **`ai_solution_building_guide.md`**: Comprehensive guide on building AI solutions, covering workflows vs. agents, design patterns, and best practices
 - **`images/`**: Folder containing diagrams and screenshots used in documentation
 - **`13_ollama/`**: Complete tutorial series for using Ollama to run AI models locally
 - **`12_mcp/`**: Tutorials and examples for implementing Model Context Protocol servers
 
 ## Additional Resources
 
+### Foundational Knowledge
+- **Understanding LLMs** (`LLMs_explained.md`): Master the fundamentals of how Large Language Models work, from tokenization to transformer architecture. This knowledge is crucial for making informed decisions about model selection and implementation.
+
 ### Architecture and Design Guidance
-The `ai_solution_building_guide.md` provides comprehensive guidance on:
-- **Workflows vs. Agents**: When to use structured workflows versus autonomous agents
-- **Design Patterns**: Best practices for building reliable AI systems  
-- **Function Calling**: How to extend AI capabilities with external tools
-- **RAG (Retrieval Augmented Generation)**: Implementing document-based AI systems
-- **Context Management**: Strategies for handling long conversations and large contexts
+- **Building AI Solutions** (`ai_solution_building_guide.md`): Learn proven patterns and practices for creating reliable AI systems:
+  - **Workflows vs. Agents**: Choose the right architecture for your use case
+  - **Design Patterns**: Industry-tested patterns for building reliable AI systems
+  - **Function Calling**: Extend AI capabilities through tool integration
+  - **Context Engineering**: Master the art of providing the right context
+  - **MCP Integration**: Implement standardized tool communication
 
 ### Platform-Specific Features
 - **Azure OpenAI**: All core tutorials (01-10) demonstrate Azure OpenAI integration with proper authentication and configuration
