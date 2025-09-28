@@ -244,6 +244,62 @@ Here's a real demonstration of how the sentence "I love pizza!" is tokenized in 
 <img src="images/ilovepizza_token.png" width="600"/><br>
 <img src="images/ilovepizza_token_id.png" width="600"/><br>
 
+## Self-Attention Deep Dive: How LLMs understand relationships between words
+
+The groundbreaking research paper "Attention Is All You Need" revolutionized artificial intelligence and changed everything we knew about how machines could understand language. This paper introduced the concept of **self-attention** as the core mechanism for processing text, replacing older approaches and setting the foundation for all modern AI language models, including ChatGPT, GPT-4, and Claude.
+
+Here's something fascinating that this paper revealed: if you only looked at the word "it" and its immediate neighbors in the sentence "The cat sat on the mat because it was comfortable," you'd be completely lost. Looking at just "because it was" tells you nothing about what "it" refers to. You need to scan the **entire sentence** to understand that "it" points to "mat" rather than "cat."
+
+This is exactly why self-attention is so powerful - it doesn't just look at nearby words, but systematically examines **every** word (actually token) in its context to understand relationships and meaning. For each word, it asks: "Which other words in this sentence should I pay attention to in order to understand this word better?"
+
+Let's use the example: "The cat sat on the mat because it was comfortable."
+
+When the AI encounters the word "it," self-attention helps it scan through all the words in the sentence and decide which one "it" most likely refers to.
+
+### The N×N Attention Matrix
+
+Here's how it works: self-attention creates a N×N matrix, where N is the number of words (tokens) in the context. Our context has 10 tokens, so we get a 10×10 matrix where each word can attend to every other word, including itself.
+
+```
+            The   cat   sat   on    the   mat   because  it   was    comfortable
+The         0.11  0.08  0.05  0.03  0.15  0.07   0.02   0.04  0.03    0.05
+cat         0.08  0.24  0.18  0.12  0.08  0.15   0.06   0.11  0.08    0.07
+sat         0.05  0.21  0.19  0.26  0.06  0.17   0.08   0.09  0.13    0.06
+on          0.03  0.14  0.33  0.17  0.08  0.20   0.05   0.07  0.11    0.04
+the         0.17  0.06  0.04  0.05  0.19  0.23   0.03   0.06  0.05    0.04
+mat         0.07  0.17  0.14  0.23  0.11  0.26   0.08   0.20  0.14    0.12
+because     0.02  0.08  0.11  0.06  0.03  0.14   0.23   0.17  0.20    0.18
+it          0.05  0.20  0.08  0.11  0.06  0.42   0.03   0.02  0.04    0.06  ← This row!
+was         0.04  0.11  0.15  0.08  0.05  0.17   0.14   0.08  0.23    0.22
+comfortable 0.06  0.09  0.07  0.04  0.05  0.28   0.12   0.08  0.18    0.25
+```
+
+Each cell in this matrix represents how much one word "attends to" another word.
+- Rows represent the word doing the attending
+- Columns represent the word being attended to
+- Values show the strength of attention (higher = more important)
+
+The row for "it" (highlighted above) shows how much attention the word "it" pays to every other word in the sentence. Notice how "mat" gets the highest score (0.45) in that row.
+
+### Why "It" points to "Mat" instead of "Cat"
+
+During pretraining, the model encountered thousands of similar sentences:
+- "The dog lay on the bed because it was soft"
+- "She chose the chair because it was comfortable" 
+- "He avoided the rock because it was hard"
+
+Each time, the model adjusted its internal understanding, gradually learning that comfort-related explanations typically refer to surfaces, furniture, or locations rather than living beings.
+
+### Beyond Pronouns
+
+While our example focuses on pronoun resolution, self-attention works for all kinds of word relationships. It helps models understand:
+- Which adjectives modify which nouns
+- How verbs relate to their subjects and objects  
+- Which parts of long sentences connect to each other
+- The overall meaning and sentiment of text
+
+Self-attention is essentially teaching AI to read between the lines, just like humans do. It transforms a sequence of individual tokens into a web of meaningful relationships, enabling machines to understand not just what words mean individually, but how they work together to create meaning.
+
 ## LLMs struggle with analytics
 
 Here's what nobody wants to admit: ChatGPT and similar AI tools regularly make embarrassing errors with data that would get a junior analyst fired.
@@ -266,9 +322,18 @@ This creates a trust problem that goes beyond simple errors. In business context
 
 Even worse, AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
 
+### Recent Improvements: The Code Generation Approach
+
+Recent LLM implementations have developed a more promising strategy for handling data analysis. Instead of trying to process data directly through language generation, modern AI tools increasingly recognize when they need to write and execute Python code to perform calculations.
+
+However, this improvement hasn't fully solved the problem. Writing code introduces its own set of challenges:
+- The AI must write *correct* Python code, which isn't guaranteed.
+- Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
+- Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
+
 ### The Current State: Proceed With Extreme Caution
 
-Recent improvements in AI models haven't solved these fundamental reliability issues. While newer versions are better at understanding what you're asking for, they're still prone to the same systematic errors in execution.
+While the shift toward code generation represents meaningful progress, it hasn't eliminated the fundamental reliability concerns. The tools are now more likely to get basic math right, but they can still make conceptual errors about what analysis to perform or how to interpret results.
 
 Some organizations are building verification systems—automated checks that validate AI-generated analysis against known benchmarks. Others are using AI only for exploratory analysis, then requiring human verification before any results influence decisions.
 
