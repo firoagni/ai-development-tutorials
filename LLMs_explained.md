@@ -327,9 +327,10 @@ Even worse, AI-generated mistakes often look professional and convincing. The to
 Recent LLM implementations have developed a more promising strategy for handling data analysis. Instead of trying to process data directly through language generation, modern AI tools increasingly recognize when they need to write and execute Python code to perform calculations.
 
 However, this improvement hasn't fully solved the problem. Writing code introduces its own set of challenges:
+- The AI must first recognize that a problem requires computational analysis rather than language-based reasoning - which it doesn't always do correctly.
 - The AI must write *correct* Python code, which isn't guaranteed.
-- Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
-- Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
+    - Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
+    - Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
 
 ### The Current State: Proceed With Extreme Caution
 
