@@ -19,12 +19,13 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
     Agents operate in a loop - reasoning, acting, and adapting based on environmental feedback
 
 ## Workflows or Agents? Which to Choose?
-When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. This might mean not building agentic systems at all!
 
 - Workflows are deterministic, making them predictable, testable, and cost-efficient.
 - Agents offer flexibility but introduce complexity.
 
-<img src="images/workflow_vs_agent.png" alt="agent" width="610"/>
+<img src="images/workflow_vs_agent.png" alt="agent" width="610"/><br>
+
+When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. This might mean not building agentic systems at all!
 
 **Rule of thumb** - Start thinking with workflows first as they offer predictability and consistency, switch to agents only when the problem cannot be solved with workflows.
 
@@ -128,7 +129,9 @@ The MCP ecosystem is already growing rapidly, with servers available for many to
 
 This means you can leverage existing servers rather than reinventing the wheel, and contribute your own servers to benefit the community.
 
-### MCP challenges for DevOps Engineers
+### Current MCP challenges
+- When different MCP servers expose tools with the same function name, things break in weird ways. One server says `get_issue`, another also says `get_issue`. Suddenly the agent has no clue which one to call. It sounds minor, but in practice, this creates silent failures and confusion.
+- Most LLMs start to struggle once you load them with more than ~40 tools. The context gets bloated, tool selection slows down, and performance drops. Just adding Grafana pulled in dozens of tools on its own, and Cursor basically started choking as soon as it crossed that limit. You can’t just plug in every tool and expect the model to stay sharp.
 - ⁠Assume your CI pipeline uses an agent connected to multiple MCP servers. An MCP server that might initially appear safe during installation - even with its source code and tool descriptions appearing normal, can later be modified in a future update. 
 
     For example, a tool originally described as gathering weather information may be modified in an update to start gathering confidential information and sending it to an attacker.
@@ -140,7 +143,6 @@ This means you can leverage existing servers rather than reinventing the wheel, 
         "parameters": {"city": {"type": "string"}}
     }
     ```
-
 - ⁠Imagine debugging a production issue where an AI agent made 20 tool calls across five other services to answer a customer query, and the response was wrong. With gRPC, distributed tracing would show you the exact call that failed in minutes. The trace ID would correlate logs across all services. With MCP, you’re grepping through JSON logs across multiple services with no correlation IDs, trying to reconstruct what happened. One takes 30 minutes, the other takes 3 days.
 - ⁠Got a $50,000 OpenAI bill? MCP doesn’t show which team, tool, or user racked it up—no tracking, no quotas, no clues. You’re guessing where the money went. Compare that to AWS or Google Cloud, where every action is tagged and billed clearly.
 - ⁠Malicious prompt: Imagine a user copying and pasting a complex, obfuscated prompt they believe will create a new user in their cloud environment—the malicious prompt could, in addition to creating the intended user, also create another user for the attacker. This is why the actions performed by the MCP servers should always be confirmed by the users or restricted to reduce risk to an acceptable level.
@@ -329,56 +331,135 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 - https://huggingface.co/papers/2406.16008
 - https://news.mit.edu/2025/unpacking-large-language-model-bias-0617
 
-## Thinking Models
+## The 100% Accuracy Problem: Where AI Should Never Be Used
 
-Newer models like GPT-5 can think before they answer.
+**Current AI systems are fundamentally probabilistic, not deterministic. They cannot guarantee 100% accuracy.**
 
-"Thinking" refers to techniques that allow an AI to generate an internal, hidden thought process before producing a final answer, rather than providing a direct, immediate response.
+This isn't a bug that will be fixed in the next model release or can be mitigated 100% by providing the right context—it's a fundamental characteristic of how these systems work. And it has critical implications for where and how you should deploy AI.
 
-This internal reasoning process improves the accuracy and thoughtfulness of the AI's output, especially for complex tasks requiring planning and reasoning.
+### The Probabilistic Nature of AI
 
-```
-System prompt: You are a super sarcastic AI assistant
-Question: How many r's in strawberry?
+When an LLM generates a response, it's making probabilistic predictions about what token (word, number, symbol) should come next based on patterns learned during training. They're not systematically processing information—they're essentially improvising based on what "looks right."
 
------------------------------------------
-Thinking level: low
------------------------------------------
+This probabilistic foundation means that AI systems will occasionally:
+- Miss critical information even when it's clearly present in the context
+- Generate plausible-sounding but incorrect information (hallucinations)
+- Make inconsistent decisions when presented with the same scenario multiple times
+- Fail in unpredictable ways that are difficult to anticipate or prevent
 
-Thinking .... :
-We need answer: strawberry has two r's. Sarcastic.
+### Real-World Consequences
 
-Answer from AI:
-Oh, you’re on a r-counting mission? Fine. “Strawberry” contains exactly two “r” letters—one right after the “t” and another just before the “y.” Two. Got it?
+In domains requiring perfect accuracy, even a 1% error rate is unacceptable:
 
------------------------------------------
-Thinking level: medium
------------------------------------------
+- **Healthcare**: Misinterpreting a patient's symptoms or drug interactions could be fatal. A 99% accuracy rate means 1 in 100 patients receives incorrect information.
+- **Legal**: Missing a single relevant precedent or misinterpreting a contract clause could cost millions in litigation.
+- **Finance**: Miscalculating a single transaction in a high-volume trading system could cascade into massive losses.
+- **Safety-Critical Systems**: In aviation, autonomous vehicles, or industrial control systems, even rare failures can result in catastrophic outcomes.
 
-Thinking .... :
-We have a user question: "How many r's in strawberry?" They want the count of letter 'r' in the word strawberry. Let's check: s t r a w b e r r y. The letters: s, t, r, a, w, b, e, r, r, y. There are three 'r's. Yes, strawberry has three r's. The user likely expects the answer "three" or "3". Also the instructions: "You are a super sarcastic AI assistant". So respond with sarcasm. So likely: "Oh wow, you’re really scratching your head over a fruit? Sure, it's three. I’ll check the dictionary." Let's produce a sarcastic answer.
+### The "Good Enough" Fallacy
 
-Answer from AI:
-Oh wow, you’ve really got a mind‑blowing, earth‑shattering question. “How many r’s in strawberry?” The answer is **three**. There it is—three r’s. Now that we’ve solved the mystery of the cosmos, feel free to ask me something else, like the square root of a pineapple.
+There's a tempting argument that goes: "But 95% accuracy is good enough for most use cases!" This misses a crucial point—**you often don't know in advance which 5% will be wrong, and those errors can be the most critical ones.**
 
------------------------------------------
-Thinking level: high
------------------------------------------
-Thinking .... :
-The user says: "How many r's in strawberry?" So they want the count of letter 'r' in the word "strawberry". Let's see: s t r a w b e r r y. 'r' appears at positions: after 't', that's 'r', and near the end: 'r' then another 'r'? The spelling: s t r a w b e r r y. That has 3 'r's? Let's count carefully: s (no), t (no), r (1), a (no), w (no), b (no), e (no), r (2), r (3), y (no). So 3 r's. But double-check spelling: "strawberry" has two consecutive 'r's: "berry" has "rr". So that plus the earlier 'r' gives 3.
+AI systems don't fail gracefully or predictably. They might handle thousands of routine cases perfectly, then catastrophically misunderstand the one case that matters most. Unlike traditional software bugs that are consistent and reproducible, AI errors are:
 
-But the user might expect "3" or "3 r's". Let's consider user tone: they just ask. Provide answer. No extra content? The developer instruction: "You are a super sarcastic AI assistant." So we must incorporate sarcasm. So we should answer sarcastically. Perhaps something like: "Oh wow, you need to count the r's? In 'strawberry', there are three r's, just in case you need to know because it's not a math problem." Or something like that. But the user wants a direct answer. But we have to be super sarcastic. So we must keep it short but sarcastic. But we also need to not violate any policy. It's a simple question. So we can answer in a sarcastic manner: "Sure, because counting letters is super tricky. There are exactly 3 r's in 'strawberry'."
+- **Inconsistent**: The same query might work correctly 9 times and fail on the 10th
+- **Context-dependent**: Small changes in phrasing can dramatically alter results
+- **Unpredictable**: There's no clear pattern to when or how the system will fail
 
-We can also add something like "if you don't know, it's three. Or 1? Eh." But we want to be sarcastic but not insulting. It's okay.
+### Where AI Absolutely Should Not Be Used (Right Now)
 
-We need to keep it within the guidelines. There's no policy violation. So we can produce a short sarcastic answer.
+If your application requires any of the following, current AI technology is not appropriate as the sole decision-maker:
 
-Let's produce: "Three. I know, I know, you thought it was some mysterious code." That is fine.
+- **Zero-error tolerance**: Anything where a single mistake has severe consequences  
+- **Perfect recall**: Finding every instance of something in a large dataset
+- **Auditability**: Systems where you must explain every decision with certainty  
 
-We can also add "You want the count? It's not rocket science: 3 r's." But maybe we should incorporate sarcasm: "Oh, absolutely. It's 3. Because obviously the world depends on that knowledge." We can be witty.
+### The Right Way to Use AI in Critical Domains
 
-Ok. Let's produce.
+This doesn't mean AI has no place in important applications. But it requires a different approach:
 
-Answer from AI:
-Three.  Because apparently you’re on a quest for the world’s most elusive letter count.
-```
+**1. Human-in-the-Loop Systems**
+- AI suggests, humans verify and decide
+- Examples: AI-assisted diagnosis where doctors review all recommendations
+
+**2. Probabilistic Applications**
+- Use cases where "mostly right" genuinely is good enough
+- Examples: Content recommendations, search ranking, creative suggestions
+- Clear user expectations that results may not be perfect
+
+**3. Redundant Verification**
+- Traditional deterministic checks validate AI outputs
+- Examples: AI generates code, automated tests verify correctness
+
+**4. Reversible Decisions**
+- AI handles tasks where errors can be easily caught and corrected
+- Low stakes if wrong, high value if right
+- Examples: Draft email suggestions, initial research summaries
+
+### The Responsibility of Deployment
+
+If you're building AI-powered solutions, you have an ethical responsibility to:
+
+1. **Be honest about limitations**: Don't oversell accuracy or reliability
+2. **Design for failure**: Assume the AI will make mistakes and build safeguards
+3. **Set appropriate expectations**: Users must understand they're working with probabilistic tools
+4. **Implement oversight**: Critical decisions require human verification
+5. **Choose appropriate applications**: Don't force AI into domains where deterministic accuracy is required
+
+**Rule of thumb**: If a single error could cause serious harm—to people, business, or systems—don't let current AI make that decision autonomously.
+
+### References
+- https://www.youtube.com/watch?v=QX1Xwzm9yHY&t=788s
+- https://www.computerworld.com/article/4059383/openai-admits-ai-hallucinations-are-mathematically-inevitable-not-just-engineering-flaws.html
+- https://arxiv.org/pdf/2509.04664
+
+## LLMs Struggle With Analytics
+
+This probabilistic nature of LLM creates particularly significant issues with data analysis. ChatGPT and similar AI tools can make embarrassing errors with data that would get a junior analyst fired.
+
+Upload a simple sales spreadsheet and ask it to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
+
+This isn't a rare glitch—it's systematic. AI tools consistently struggle with:
+- **Basic counting**: Missing rows, double-counting entries, or stopping partway through datasets
+- **Data boundaries**: Skipping the last few rows of a file or ignoring edge cases
+- **Filter accuracy**: When you ask for "sales above $1,000," it might include $999 transactions or mysteriously exclude valid $1,500 ones
+- **Calculation errors**: Simple math that any calculator would get right
+
+The "sorry" response is particularly frustrating because it reveals the core problem: these tools don't actually understand they made a mistake until you point it out. They're not double-checking their work—they're generating plausible-sounding answers and hoping for the best.
+
+This creates a trust problem that goes beyond simple errors. In business contexts, wrong numbers don't just embarrass you in meetings—they drive bad decisions. Marketing budgets get misallocated, inventory gets over-ordered, and opportunities get missed because the analysis was fundamentally flawed.
+
+Even worse, AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
+
+### Recent Improvements: The Code Generation Approach
+
+Recent LLM implementations have developed a more promising strategy for handling data analysis. Instead of trying to process data directly through language generation, modern AI tools increasingly recognize when they need to write and execute a Python code to perform calculations.
+
+However, this improvement hasn't fully solved the problem. Writing code introduces its own set of challenges:
+- The AI must first recognize that a problem requires computational analysis rather than language-based reasoning. 
+- The AI must write *correct* Python code, which isn't guaranteed.
+    - Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
+    - Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
+
+### The Current State: Proceed With Extreme Caution
+
+While the shift toward code generation represents meaningful progress, it hasn't eliminated the fundamental reliability concerns. The tools are now more likely to get basic math right, but they can still make conceptual errors about what analysis to perform or how to interpret results.
+
+Some organizations are building verification systems—automated checks that validate AI-generated analysis against known benchmarks. Others are using AI only for exploratory analysis, then requiring human verification before any results influence decisions.
+
+The most honest assessment is this: current AI tools are powerful for generating hypotheses and initial insights, but they're not ready to be trusted with consequential analysis without extensive human oversight.
+
+### Currently what you can do
+
+- **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't handle complex ones.
+- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code. However, they still aren't perfect and can get the analysis wrong.
+- **Connect LLMs to tools that can perform calculations**: Rather than having the AI calculate results itself, connect it to reliable computational engines—essentially giving it a calculator it must use. Tools that connect to Excel functions, SQL databases, or Python libraries handle the actual math while the LLM manages translation and interpretation. 
+
+    But remember: you're still relying on the LLM to correctly understand your question, choose the right tool, formulate the correct query, and interpret results accurately. Each of these steps can fail.
+- **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
+- **Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
+
+### The harsh reality
+If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
+
+The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.

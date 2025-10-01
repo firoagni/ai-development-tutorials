@@ -300,59 +300,56 @@ While our example focuses on pronoun resolution, self-attention works for all ki
 
 Self-attention is essentially teaching AI to read between the lines, just like humans do. It transforms a sequence of individual tokens into a web of meaningful relationships, enabling machines to understand not just what words mean individually, but how they work together to create meaning.
 
-## LLMs struggle with analytics
+## Thinking Models
 
-Here's what nobody wants to admit: ChatGPT and similar AI tools regularly make embarrassing errors with data that would get a junior analyst fired.
+Newer models like GPT-5 can think before they answer.
 
-Upload a simple sales spreadsheet and ask it to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
+"Thinking" refers to techniques that allow an AI to generate an internal, hidden thought process before producing a final answer, rather than providing a direct, immediate response.
 
-This isn't a rare glitch—it's systematic. AI tools consistently struggle with:
-- **Basic counting**: Missing rows, double-counting entries, or stopping partway through datasets
-- **Data boundaries**: Skipping the last few rows of a file or ignoring edge cases
-- **Filter accuracy**: When you ask for "sales above $1,000," it might include $999 transactions or mysteriously exclude valid $1,500 ones
-- **Calculation errors**: Simple math that any calculator would get right
+This internal reasoning process improves the accuracy and thoughtfulness of the AI's output, especially for complex tasks requiring planning and reasoning.
 
-The "sorry" response is particularly frustrating because it reveals the core problem: these tools don't actually understand they made a mistake until you point it out. They're not double-checking their work—they're generating plausible-sounding answers and hoping for the best.
+```
+System prompt: You are a super sarcastic AI assistant
+Question: How many r's in strawberry?
 
-### Why This Happens (And Why It Matters)
+-----------------------------------------
+Thinking level: low
+-----------------------------------------
 
-AI models don't actually "see" your data the way you do. When processing a spreadsheet, they're making statistical predictions about what the next token (word, number, or symbol) should be based on patterns they learned during training. They're not systematically working through your data—they're essentially improvising based on what "looks right."
+Thinking .... :
+We need answer: strawberry has two r's. Sarcastic.
 
-This creates a trust problem that goes beyond simple errors. In business contexts, wrong numbers don't just embarrass you in meetings—they drive bad decisions. Marketing budgets get misallocated, inventory gets over-ordered, and opportunities get missed because the analysis was fundamentally flawed.
+Answer from AI:
+Oh, you’re on a r-counting mission? Fine. “Strawberry” contains exactly two “r” letters—one right after the “t” and another just before the “y.” Two. Got it?
 
-Even worse, AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
+-----------------------------------------
+Thinking level: medium
+-----------------------------------------
 
-### Recent Improvements: The Code Generation Approach
+Thinking .... :
+We have a user question: "How many r's in strawberry?" They want the count of letter 'r' in the word strawberry. Let's check: s t r a w b e r r y. The letters: s, t, r, a, w, b, e, r, r, y. There are three 'r's. Yes, strawberry has three r's. The user likely expects the answer "three" or "3". Also the instructions: "You are a super sarcastic AI assistant". So respond with sarcasm. So likely: "Oh wow, you’re really scratching your head over a fruit? Sure, it's three. I’ll check the dictionary." Let's produce a sarcastic answer.
 
-Recent LLM implementations have developed a more promising strategy for handling data analysis. Instead of trying to process data directly through language generation, modern AI tools increasingly recognize when they need to write and execute Python code to perform calculations.
+Answer from AI:
+Oh wow, you’ve really got a mind‑blowing, earth‑shattering question. “How many r’s in strawberry?” The answer is **three**. There it is—three r’s. Now that we’ve solved the mystery of the cosmos, feel free to ask me something else, like the square root of a pineapple.
 
-However, this improvement hasn't fully solved the problem. Writing code introduces its own set of challenges:
-- The AI must first recognize that a problem requires computational analysis rather than language-based reasoning - which it doesn't always do correctly.
-- The AI must write *correct* Python code, which isn't guaranteed.
-    - Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
-    - Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
+-----------------------------------------
+Thinking level: high
+-----------------------------------------
+Thinking .... :
+The user says: "How many r's in strawberry?" So they want the count of letter 'r' in the word "strawberry". Let's see: s t r a w b e r r y. 'r' appears at positions: after 't', that's 'r', and near the end: 'r' then another 'r'? The spelling: s t r a w b e r r y. That has 3 'r's? Let's count carefully: s (no), t (no), r (1), a (no), w (no), b (no), e (no), r (2), r (3), y (no). So 3 r's. But double-check spelling: "strawberry" has two consecutive 'r's: "berry" has "rr". So that plus the earlier 'r' gives 3.
 
-### The Current State: Proceed With Extreme Caution
+But the user might expect "3" or "3 r's". Let's consider user tone: they just ask. Provide answer. No extra content? The developer instruction: "You are a super sarcastic AI assistant." So we must incorporate sarcasm. So we should answer sarcastically. Perhaps something like: "Oh wow, you need to count the r's? In 'strawberry', there are three r's, just in case you need to know because it's not a math problem." Or something like that. But the user wants a direct answer. But we have to be super sarcastic. So we must keep it short but sarcastic. But we also need to not violate any policy. It's a simple question. So we can answer in a sarcastic manner: "Sure, because counting letters is super tricky. There are exactly 3 r's in 'strawberry'."
 
-While the shift toward code generation represents meaningful progress, it hasn't eliminated the fundamental reliability concerns. The tools are now more likely to get basic math right, but they can still make conceptual errors about what analysis to perform or how to interpret results.
+We can also add something like "if you don't know, it's three. Or 1? Eh." But we want to be sarcastic but not insulting. It's okay.
 
-Some organizations are building verification systems—automated checks that validate AI-generated analysis against known benchmarks. Others are using AI only for exploratory analysis, then requiring human verification before any results influence decisions.
+We need to keep it within the guidelines. There's no policy violation. So we can produce a short sarcastic answer.
 
-The most honest assessment is this: current AI tools are powerful for generating hypotheses and initial insights, but they're not ready to be trusted with consequential analysis without extensive human oversight.
+Let's produce: "Three. I know, I know, you thought it was some mysterious code." That is fine.
 
-### What You Should Actually Do
+We can also add "You want the count? It's not rocket science: 3 r's." But maybe we should incorporate sarcasm: "Oh, absolutely. It's 3. Because obviously the world depends on that knowledge." We can be witty.
 
-**Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
+Ok. Let's produce.
 
-**Build verification into your workflow**: 
-- Start with questions you already know the answer to as a sanity check
-- Cross-reference AI results with simple tools like Excel pivot tables or basic SQL queries
-- Sample-check AI calculations on subsets of your data you can verify manually
-
-**Use AI as a starting point, not an endpoint**: Let AI generate initial queries, suggest analysis approaches, or identify potential patterns. Then do the actual analysis with reliable tools, using AI's suggestions as a guide.
-
-**Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
-
-**The harsh reality**: If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
-
-The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.
+Answer from AI:
+Three.  Because apparently you’re on a quest for the world’s most elusive letter count.
+```
