@@ -344,6 +344,7 @@ When an LLM generates a response, it's making probabilistic predictions about wh
 This probabilistic foundation means that AI systems will occasionally:
 - Miss critical information even when it's clearly present in the context
 - Generate plausible-sounding but incorrect information (hallucinations)
+    <br><br><img src="images/hallucination.png" alt="hallucination graph" width="200"/><br><br>
 - Make inconsistent decisions when presented with the same scenario multiple times
 - Fail in unpredictable ways that are difficult to anticipate or prevent
 
@@ -388,7 +389,7 @@ This doesn't mean AI has no place in important applications. But it requires a d
 - Clear user expectations that results may not be perfect
 
 **3. Redundant Verification**
-- Traditional deterministic checks validate AI outputs
+- Where traditional deterministic checks validate AI outputs
 - Examples: AI generates code, automated tests verify correctness
 
 **4. Reversible Decisions**
