@@ -93,7 +93,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
 - LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve their accuracy to predict the next token.
 
-## The Transformer Algorithm
+### The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
 
 <img src="images/gpt.png" width="700"/><br>

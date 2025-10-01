@@ -452,15 +452,18 @@ The most honest assessment is this: current AI tools are powerful for generating
 
 ### Currently what you can do
 
-- **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't handle complex ones.
-- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code. However, they still aren't perfect and can get the analysis wrong.
+- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code (called code interpreter). However, they still aren't perfect and can get the analysis wrong.
 - **Connect LLMs to tools that can perform calculations**: Rather than having the AI calculate results itself, connect it to reliable computational engines—essentially giving it a calculator it must use. Tools that connect to Excel functions, SQL databases, or Python libraries handle the actual math while the LLM manages translation and interpretation. 
 
-    But remember: you're still relying on the LLM to correctly understand your question, choose the right tool, formulate the correct query, and interpret results accurately. Each of these steps can fail.
+**However, the fundamental problem persists**: 
+Even with reasoning models and tool integration, these solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI used Python" or "the AI called a tool" doesn't guarantee correctness—just that the math within the execution is accurate.
+
+Additional steps you can take:
+- **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't be able to handle complex ones.
 - **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
 - **Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
 
-### The harsh reality
+### The reality
 If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
 
 The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.
