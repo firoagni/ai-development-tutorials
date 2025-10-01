@@ -464,3 +464,7 @@ The most honest assessment is this: current AI tools are powerful for generating
 If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
 
 The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.
+
+### References
+- https://www.tinybird.co/blog-posts/why-llms-struggle-with-analytics-and-how-we-fixed-that
+- https://www.reddit.com/r/LLMDevs/comments/1ixa80j/why_do_llms_struggle_to_understand_structured/
