@@ -18,6 +18,8 @@ So why do LLMs seem so smart while your phone’s autocomplete can feel… well,
 
 ## How do LLMs learn? A beginner's guide to tokens, embeddings, pretraining, and fine-tuning
 
+Interactive demo: https://ig.ft.com/generative-ai
+
 Imagine you’re trying to teach a computer what the word “dog” means. To you, “dog” brings up images of a wagging tail, barking, or a furry pet. But to a computer, it’s just a random string of letters: D-O-G. Computers love numbers, not words, so we need a way to turn words into something they can work with.
 
 The first idea is to assign each word a unique number, like “cat” = 17, “dog” = 42, “banana” = 99. This is called `tokenization`, where each entity is called a `token` and the number representing it is called its `token ID`.
@@ -28,7 +30,7 @@ The first idea is to assign each word a unique number, like “cat” = 17, “d
 | dog     | 42       |
 | banana  | 99       |
 
-**NOTE:**: For simplicity, we're considering 1 word = 1 token. In reality, however, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases (see [why LLMs break words into pieces](#tokenization-revisited-why-llms-break-words-into-pieces)).
+**NOTE**: For simplicity, we're considering 1 word = 1 token. In reality, however, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases (see [why LLMs break words into pieces](#tokenization-revisited-why-llms-break-words-into-pieces)).
 
 Token IDs like "42" for "dog" and "17" for "cat" are just unique labels — they don’t tell the computer anything about how the words are related. Token IDs are like jersey numbers: useful for identification, but meaningless for understanding.
 
@@ -82,7 +84,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 **Key Terms one should know**:
 - **Weights**: Weights are like dials that control how much attention each token pays to others. In “The cat chased the dog,” the model learns to give more weight to “chased” when shaping “cat”’s embedding, so it reflects the action. 
 - **Context Window**: The number of tokens the model can consider at once when predicting the next token. For example, if the context window is 128K tokens, the model looks at the last 128K tokens to predict the next one. In the above example, the context window is 5 tokens: ["The", "cat", "sat", "on", "the"]. A longer context window means the model can "remember" more from the input, but it also increases computational cost.
-- **Backpropagation**: The method used to update the weights and embeddings based on the error of the prediction. Its a feedback loop that helps the model learn from its mistakes.
+- **Backpropagation**: The algorithm used to update the weights and embeddings based on the error of the prediction. Its a feedback loop that helps the model learn from its mistakes.
 - **Model parameters**: Variables that the model adjusts during training to improve prediction accuracy.
     - Model Parameters = the numbers in token embeddings (e.g., [0.7, -0.2, 0.9] for “cat”) + weights.
     - The more parameters an LLM has, the more it can “remember” about language patterns.
@@ -91,7 +93,8 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
 - In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
-- LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve their accuracy to predict the next token.
+- LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve model parameters to predict the next token with higher accuracy.
+- Pretraining is expensive, requiring powerful hardware (like GPUs or TPUs) and costing billions of dollars for top-tier models. 
 
 ### The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
@@ -101,7 +104,8 @@ This is the algorithm that all modern LLMs are based on. This algorithm was intr
 **Advantages of Transformer Algorithm over previous ones**:
 - **Self-attention:** Rather than considering one token at a time to predict the next token, Transformers considers all tokens in its context window at once to figure out how they connect. Examples:
     - In “The cat chased the dog,” the Transformer notices the token “cat” is linked to “chased” and “dog,” not just nearby tokens. 
-    - In Transformer algorithm, the token “cat” is understood differently in “The cat chased the dog” (hunter vibe) vs. “I pet the cat” (cuddly vibe).
+    - The token “cat” is understood differently in “The cat chased the dog” (hunter vibe) vs. “I pet the cat” (cuddly vibe). 
+    - In “The bank approved my loan” vs. “I sat by the bank of the river,” the token “bank” is interpreted differently based on context (financial vs. geographical).
 
     It’s like reading the whole sentence to get the full story.
 
