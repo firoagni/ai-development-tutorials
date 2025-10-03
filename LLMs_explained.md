@@ -172,8 +172,6 @@ The LLM doesn't just think "Paris". Instead, it thinks something like this:
 
 Think of it like your brain when someone asks "What's your favorite color?" You might immediately think "blue," but your brain also considers "red," "green," etc. — just with lower confidence.
 
-![alt text](image.png)
-
 ### LLM doesn't always pick the highest probability word!
 
 The most obvious strategy is to always pick the word with the highest probability (known as greedy sampling). However, LLMs don't always do this. Here's why:
@@ -201,7 +199,9 @@ This is where **temperature** comes in. Temperature is like a creativity dial th
     - More creative and varied responses
     - Good for creative writing or brainstorming
 
-Graph demonstration with voiceover: https://files.catbox.moe/6ht56x.mp4
+Graph demonstration temperature with voiceover: https://files.catbox.moe/6ht56x.mp4
+
+![temperature](images/temperature_animation.gif)
 
 ### Other Sampling Strategies
 
