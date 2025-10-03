@@ -199,6 +199,8 @@ This is where **temperature** comes in. Temperature is like a creativity dial th
     - More creative and varied responses
     - Good for creative writing or brainstorming
 
+![alt text](images/temperature_animation.gif)
+
 Graph demonstration with voiceover: https://files.catbox.moe/6ht56x.mp4
 
 ### Other Sampling Strategies
