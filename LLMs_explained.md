@@ -10,6 +10,8 @@ Here’s how LLM works: when you give an LLM a prompt, it generates text - one w
 
 ![LLM predicting one word at a time](images/next_token_llm.gif)
 
+<img src="images/llm_next_word_prediction.gif" width="600"/><br>
+
 This basically means that LLMs are just autocomplete systems trained to predict the next word in a sequence based on the words that came before it. This is similar to how your phone's keyboard suggests the next word as you type a message.
 
 <img src="images/keyboard.png" width="400"/><br>
@@ -18,7 +20,7 @@ So why do LLMs seem so smart while your phone’s autocomplete can feel… well,
 
 ## How do LLMs learn? A beginner's guide to tokens, embeddings, pretraining, and fine-tuning
 
-Interactive demo: https://ig.ft.com/generative-ai
+<em>Interactive demo: https://ig.ft.com/generative-ai</em>
 
 Imagine you’re trying to teach a computer what the word “dog” means. To you, “dog” brings up images of a wagging tail, barking, or a furry pet. But to a computer, it’s just a random string of letters: D-O-G. Computers love numbers, not words, so we need a way to turn words into something they can work with.
 
@@ -76,7 +78,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - Each token is assigned a random embedding, like [0.1, -0.4, 0.7] for “cat.”
 - From the input text, a sentence is picked, for example, “The cat sat on the mat”
 - Although we know the next word in "The cat sat on the" is “mat,” the LLM is asked to predict it. Ex: "The cat sat on the __"
-- The LLM uses the current embeddings of "The", "cat", "sat", "on" and "the" to predict the next token. If it’s wrong, it tweaks the embedding numbers slightly to increase the probablity of getting "mat" as the answer next time.
+- The LLM uses the current embeddings of "The", "cat", "sat", "on" and "the" to predict the next token. If the prediction turns out to be wrong (say it predicted "dog"), it tweaks the embedding numbers slightly to increase the probablity of getting "mat" as the answer next time.
 - This process repeats billions of times, with the LLM adjusting embeddings and weights to get better at predicting missing tokens.
 
     <img src="images/word2vec_animation.gif" width="500"/><br>
@@ -93,7 +95,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
 - In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
-- LLM models do not store or retain copies of the data they are trained on. Instead, models use the training data to improve model parameters to predict the next token with higher accuracy.
+- LLM models do not store or retain copies of the data they are trained on. Instead, the training data is only used to improve the model parameters to predict the next token with higher accuracy.
 - Pretraining is expensive, requiring powerful hardware (like GPUs or TPUs) and costing billions of dollars for top-tier models. 
 
 ### The Transformer Algorithm
@@ -140,7 +142,16 @@ It’s like sending a kid to a special camp for writing email replies or answeri
 
 Some examples of fine-tuning methods:
 - **Supervised fine-tuning**: Provide examples of correct responses to prompts to guide the model's behavior.
+    
+    Example: Here's a screenshot from the [modern-english-to-shakespearen-english dataset](https://huggingface.co/datasets/harpreetsahota/modern-to-shakesperean-translation):<br>
+    
+    <img src="images/supervised_fine_tuning.png" width="600"/><br>
 - **Direct preference optimization (DPO)**: Provide a preferred and non-preferred responses for a prompt, and optimizing the model to favor the preferred response
+
+    Example: Here's a screenshot from a [DPO dataset](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized/viewer/default/train_prefs?row=3):<br>
+
+    ![alt text](images/dpo.png)
+
 - **Reinforcement learning from human feedback (RLHF)**: The model generates *multiple* outputs, and humans select the best one. The model learns to prefer responses that humans like.
 
 ### References
