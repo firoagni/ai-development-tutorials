@@ -94,9 +94,9 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 **Notes**:
 - Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
-- In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, weight adjustments are more crucial than embedding tweaks.
+- In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, **weight adjustments are more crucial than embedding tweaks**.
 - LLM models do not store or retain copies of the data they are trained on. Instead, the training data is only used to improve the model parameters to predict the next token with higher accuracy.
-- Pretraining is expensive, requiring powerful hardware (like GPUs or TPUs) and costing billions of dollars for top-tier models. 
+- Pretraining is expensive, requiring powerful hardware and can cost billions of dollars.
 
 ### The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
