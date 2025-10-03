@@ -8,9 +8,9 @@ LLMs such as OpenAI’s ChatGPT and Anthropic’s Claude are AI-powered assistan
 
 Here’s how LLM works: when you give an LLM a prompt, it generates text - one word at a time. After predicting a word, it adds that word to the prompt and uses the updated prompt to predict the next word. This process repeats again and again until it produces a full response.
 
-![LLM predicting one word at a time](images/next_token_llm.gif)
-
 <img src="images/llm_next_word_prediction.gif" width="600"/><br>
+
+![LLM predicting one word at a time](images/next_token_llm.gif)
 
 This basically means that LLMs are just autocomplete systems trained to predict the next word in a sequence based on the words that came before it. This is similar to how your phone's keyboard suggests the next word as you type a message.
 
