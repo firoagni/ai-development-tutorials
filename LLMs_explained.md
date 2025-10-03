@@ -172,6 +172,8 @@ The LLM doesn't just think "Paris". Instead, it thinks something like this:
 
 Think of it like your brain when someone asks "What's your favorite color?" You might immediately think "blue," but your brain also considers "red," "green," etc. — just with lower confidence.
 
+![alt text](image.png)
+
 ### LLM doesn't always pick the highest probability word!
 
 The most obvious strategy is to always pick the word with the highest probability (known as greedy sampling). However, LLMs don't always do this. Here's why:
@@ -199,8 +201,6 @@ This is where **temperature** comes in. Temperature is like a creativity dial th
     - More creative and varied responses
     - Good for creative writing or brainstorming
 
-![alt text](images/temperature_animation.gif)
-
 Graph demonstration with voiceover: https://files.catbox.moe/6ht56x.mp4
 
 ### Other Sampling Strategies
@@ -216,6 +216,20 @@ Understanding that LLMs work with probabilities helps explain:
 - **Why you get different answers**: Even with the same prompt, the LLM might pick different probable words each time
 - **Why they sometimes make mistakes**: A wrong answer might have seemed "probable" based on the context
 - **Why they can be creative**: They're not just retrieving stored answers — they're generating based on learned patterns
+
+### Cheat Sheet
+
+Link: https://community.openai.com/t/cheat-sheet-mastering-temperature-and-top-p-in-chatgpt-api/172683
+
+| Use Case | Temperature | Top_P | Description |
+|----------|-------------|-------|-------------|
+| Code Generation | 0.2 | 0.1 | Generates code that adheres to established patterns and conventions. Output is more deterministic and focused. Useful for generating syntactically correct code. |
+| Creative Writing | 0.7 | 0.8 | Generates creative and diverse text for storytelling. Output is more exploratory and less constrained by patterns. |
+| Chatbot Responses | 0.5 | 0.5 | Generates conversational responses that balance coherence and diversity. Output is more natural and engaging. |
+| Code Comment Generation | 0.3 | 0.2 | Generates code comments that are more likely to be concise and relevant. Output is more deterministic and adheres to conventions. |
+| Data Analysis Scripting | 0.2 | 0.1 | Generates data analysis scripts that are more likely to be correct and efficient. Output is more deterministic and focused. |
+Exploratory Code Writing | 0.6 | 0.7 | Generates code that explores alternative solutions and creative approaches. Output is less constrained by established patterns. |
+
 
 ### References
 - https://medium.com/@amgad-hasan/explaining-how-llms-work-in-7-levels-of-abstraction-3179de558686
