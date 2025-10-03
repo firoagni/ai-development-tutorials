@@ -32,7 +32,7 @@ The first idea is to assign each word a unique number, like “cat” = 17, “d
 | dog     | 42       |
 | banana  | 99       |
 
-**NOTE**: For simplicity, we're considering 1 word = 1 token. In reality, however, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases (see [why LLMs break words into pieces](#tokenization-revisited-why-llms-break-words-into-pieces)).
+**NOTE**: For simplicity, we're considering 1 word = 1 token. In reality, a token could be a full word (`dog`), part of a word (`ing` in `running`), punctuation (`.` or `,`), or even a single character in some cases (see [why LLMs break words into pieces](#tokenization-revisited-why-llms-break-words-into-pieces)).
 
 Token IDs like "42" for "dog" and "17" for "cat" are just unique labels — they don’t tell the computer anything about how the words are related. Token IDs are like jersey numbers: useful for identification, but meaningless for understanding.
 
