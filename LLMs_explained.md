@@ -113,6 +113,43 @@ This is the algorithm that all modern LLMs are based on. This algorithm was intr
 
 - **Positional encodings:** Transformers also care about token order. Transformer understands that “The cat chased the dog” is different from “The dog chased the cat.”
 
+### How Do We Know When Pretraining Is Complete?
+
+Pretraining is **unsupervised** (there’s no human marking LLM predictions as right or wrong), so how do we know if the model is improving? Also, the million-dollar question (literally): how do you know when to stop the training?
+
+For that, we use a metric called `loss`. Loss is a number that indicates how far off the model’s current prediction is from the actual next token.
+
+For our example “The cat sat on the ___”, the true next word is “mat”. 
+
+- When the model predicts "dog" but the actual next word is "mat," that's a big error (high loss)
+- When it predicts "mat" - the expected prediction, the error is zero (low loss)
+
+Lower loss value means better predictions. Therefore, if we see the loss values decreasing over training iterations, it means the model is learning.
+
+Remember: 
+- In pretraining, we actually *do* know the correct answer—it's literally the next word in our training text! We just hide it from the model and see if it can predict it. That’s what lets us measure loss.
+- Loss value is calculated for every prediction and averaged.
+
+<img src="images/loss.png" width="600"/><br>
+
+| Iteration | LLM Prediction | Loss | Observation |
+|-----------|----------------|------|-------------|
+| 1 | *banana* → 50% <br>*galaxy* → 30%<br>*mat* → 10%<br>*sofa* → 10% | **2.30**<br>(Very High)| Model thinks that the likelihood of "mat" is unlikely (just 10% probability) → high loss.|
+| 100 | *mat* → 40%<br>*sofa* → 30%<br>*floor* → 20%<br>*banana* → 10% | **0.92**<br>(Low) | "mat" is getting more probable → loss decreasing. |
+| 5000 | *mat* → 70%<br>*sofa* → 20%<br>*floor* → 8%<br>*banana* → 2% | **0.36**<br>(Lower) | Training is working - as the loss steadily decreasing |
+| 10000 | *mat* → 80%<br>*sofa* → 15%<br>*floor* → 4%<br>*banana* → 1% | **0.22**<br>(Very Low) | The model is confident that the true next word is "mat". |
+| 20000 | *mat* → 82%<br>*sofa* → 14%<br>*floor* → 3%<br>*banana* → 1% | **0.20**<br>(Very Low) | Plateau<br>At this point, the model is barely improving (from 0.22 → 0.20).<br>Training longer costs huge amounts of compute but gives very little gain. It’s a strong signal that training can stop. |
+
+
+
+Loss formula:
+```
+Loss = -log(Predicted Probability of True Next Token)
+```
+This means: if the model gives 80% probability to the correct word, loss = -log(0.8) ≈ 0.22. If it gives 100% probability, loss = -log(1.0) = 0.
+
+
+
 ### The base model - the result of pretraining
 After pretraining, the model that is generated is known as the **base model**, **foundation model** or **pretrained model**. 
 
@@ -146,7 +183,7 @@ Some examples of fine-tuning methods:
     Example: Here's a screenshot from the [modern-english-to-shakespearen-english dataset](https://huggingface.co/datasets/harpreetsahota/modern-to-shakesperean-translation):<br>
     
     <img src="images/supervised_fine_tuning.png" width="600"/><br>
-- **Direct preference optimization (DPO)**: Provide a preferred and non-preferred responses for a prompt, and optimizing the model to favor the preferred response
+- **Direct preference optimization (DPO)**: Provide a preferred and non-preferred responses for a prompt -- optimizing the model to favor the preferred response
 
     Example: Here's a screenshot from a [DPO dataset](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized/viewer/default/train_prefs?row=3):<br>
 
