@@ -195,11 +195,60 @@ Some examples of fine-tuning methods:
 - [Deep Dive into LLMs like ChatGPT - YouTube](https://www.youtube.com/watch?v=7xTGNNLPyMI) - Andrej Karpathy, one of founding members of OpenAI, dropped a 3-hour, 31-minute deep dive on LLMs — a goldmine of information.
 - [Understanding how words are converted to numbers - YouTube](https://www.youtube.com/watch?v=viZrOnJclY0) - The tutorial is based on Word2Vec - an older algorithm, but the concepts of tokens and embeddings are similar.
 
+## Inference: Putting Your LLM to Work
+
+After pretraining and fine-tuning, your model is ready to actually do things. This stage is called **inference** — when the model takes a user's input - called **prompt** - and generates a response.
+
+Think of it like this:
+- **Pretraining** = learning to read by consuming the entire internet
+- **Fine-tuning** = learning specific skills (customer service, coding, writing)
+- **Inference** = actually doing the job
+
+Let's say you ask: "What's the capital of France?"
+
+Here's what happens under the hood:
+
+1. **Tokenization**: The input prompt is broken down into tokens. For example, "What's the capital of France?" might become ["What", "'s", "the", "capital", "of", "France", "?"].
+2. **Convert to Token IDs**: Each token is converted to its corresponding token ID using the model's vocabulary.
+    ```
+    ["What", "'s", "the", "capital", "of", "France", "?"] -> [123, 456, 789, 101112, 131415, 161718, 192021]
+    ```
+3. **Embedding Lookup**: The token IDs are mapped to their embedding vectors.
+    ```
+    [123, 456, 789, 101112, 131415, 161718, 192021] -> [[0.1, -0.2, ...], [0.3, 0.4, ...], ...]
+    ```
+    Note: Embeddings are **not calculated** during inference. They were learned during pretraining and are now frozen. The model simply looks them up from a stored table — like a dictionary lookup. This makes inference much faster!
+4. **Add Positional Encodings**: Since word order matters, positional encodings are added to the embeddings to give the model a sense of sequence.
+5. **Self-Attention**: The model uses self-attention to understand relationships between all tokens in the context. It's asking: "What do these words mean together?"
+6. **Predict Next Token**: The model predicts the next token based on the context.
+7. **Autoregressive Loop**: The predicted token is added to the input, and steps 2-6 repeat until the model generates a complete response or hits a maximum length.
+
+As you can see, inference steps 1-5 are similar to pretraining, but with a few key differences:
+| Step                  | Pretraining                          | Inference                           |
+|-----------------------|-------------------------------------|------------------------------------|
+| Tokenization          | Yes                                 | Yes                                |
+| Update Embeddings     | Yes (embeddings are learned and updated) | No (embeddings are looked up, not generated) |
+| Update Weights        | Yes (weights are updated based on loss) | No (weights are frozen during pretraining)            |
+| Add Positional Encodings | Yes                              | Yes                                |
+| Self-Attention        | Yes                                 | Yes                                |
+
+### Computational Requirements
+- Uses less compute than pretraining but still requires powerful hardware (GPUs/TPUs) for fast responses.
+- VRAM (Video RAM) is crucial for storing model parameters and handling large context windows.
+
+### I want to run a LLM on my hardware, but I don't have a Graphic Card (GPU). Can I still do it?
+
+Yes, you can run LLMs on a CPU only system, but it will be significantly slower and may not handle large models or context windows well.
+
+The model will run, but:
+- It will execute much more slowly, since CPUs aren’t optimized for the massively parallel math operations (like matrix multiplications) that neural networks require.
+- In the absence of VRAM, the model’s parameters will be stored in system RAM (and possibly swapped to disk if RAM runs out).
+- Larger models (e.g., Llama 3, GPT-like models, Stable Diffusion) may not fit into system RAM and could fail to load at all.
+- Large context windows (long prompts or conversations) become harder to process — you might hit memory errors or crashes.
+
 ## LLMs generate probabilities, not words
 
-When you ask an LLM a question, it doesn’t actually “know” the answer in the way a human does. Instead, based on its training data and based on the context of your prompt, it generates a list of possible next token along with their probabilities.
-
-Let's say you ask an LLM: "The capital of France is ___"
+When you ask an LLM: "The capital of France is ___"
 
 The LLM doesn't just think "Paris". Instead, it thinks something like this:
 
