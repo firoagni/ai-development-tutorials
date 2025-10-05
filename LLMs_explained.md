@@ -151,7 +151,7 @@ This means: if the model gives 80% probability to the correct word, loss = -log(
 
 **Important Notes:** 
 
-1. **The values in the above graph are table are illustrative examples, not real training data.** In actual training:
+1. **The values in the above graph and table are illustrative examples, not real training data.** In actual training:
    - **Loss does NOT decrease smoothly** at every iteration
    - Individual steps can have **large fluctuations and spikes**
    - The model might perform worse on some examples even after thousands of iterations
