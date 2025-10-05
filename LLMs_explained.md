@@ -130,8 +130,6 @@ Remember:
 - In pretraining, we actually *do* know the correct answer—it's literally the next word in our training text! We just hide it from the model and see if it can predict it. That’s what lets us measure loss.
 - Loss value is calculated for every prediction and averaged.
 
-<img src="images/loss.png" width="600"/><br>
-
 | Iteration | Context | True Next Token | LLM Prediction | Loss | Observation |
 |-----------|---------|-----------------|----------------|------|-------------|
 | 1 | "The cat sat on the" | *mat* | *banana* → 50% <br>*galaxy* → 30%<br>*mat* → 10%<br>*sofa* → 10% | **2.30**<br>(Very High)| Model is essentially guessing randomly. It thinks "banana" is most likely, which is completely wrong → very high loss.|
@@ -149,7 +147,15 @@ Loss = -log(Predicted Probability of True Next Token)
 ```
 This means: if the model gives 80% probability to the correct word, loss = -log(0.8) ≈ 0.22. If it gives 100% probability, loss = -log(1.0) = 0.
 
+Also note that the values in the above table are illustrative examples, not real training data. In actual training:
+- **Loss does NOT decrease smoothly** at every iteration
+- Individual steps can have **large fluctuations and spikes**
+- The model might perform worse on some examples even after thousands of iterations
+- What matters is the **overall trend** when plotting loss over many iterations
+- When you **average the loss** over batches and plot it, you'll see a clear downward pattern → indicating the model is learning
+- The noisy, jagged nature of training is completely normal and expected
 
+<img src="images/loss_real.png" width="600"/><br>
 
 ### The base model - the result of pretraining
 After pretraining, the model that is generated is known as the **base model**, **foundation model** or **pretrained model**. 
