@@ -132,15 +132,16 @@ Remember:
 
 <img src="images/loss.png" width="600"/><br>
 
-| Iteration | LLM Prediction | Loss | Observation |
-|-----------|----------------|------|-------------|
-| 1 | *banana* → 50% <br>*galaxy* → 30%<br>*mat* → 10%<br>*sofa* → 10% | **2.30**<br>(Very High)| Model thinks that the likelihood of "mat" is unlikely (just 10% probability) → high loss.|
-| 100 | *mat* → 40%<br>*sofa* → 30%<br>*floor* → 20%<br>*banana* → 10% | **0.92**<br>(Low) | "mat" is getting more probable → loss decreasing. |
-| 5000 | *mat* → 70%<br>*sofa* → 20%<br>*floor* → 8%<br>*banana* → 2% | **0.36**<br>(Lower) | Training is working - as the loss steadily decreasing |
-| 10000 | *mat* → 80%<br>*sofa* → 15%<br>*floor* → 4%<br>*banana* → 1% | **0.22**<br>(Very Low) | The model is confident that the true next word is "mat". |
-| 20000 | *mat* → 82%<br>*sofa* → 14%<br>*floor* → 3%<br>*banana* → 1% | **0.20**<br>(Very Low) | Plateau<br>At this point, the model is barely improving (from 0.22 → 0.20).<br>Training longer costs huge amounts of compute but gives very little gain. It’s a strong signal that training can stop. |
-
-
+| Iteration | Context | True Next Token | LLM Prediction | Loss | Observation |
+|-----------|---------|-----------------|----------------|------|-------------|
+| 1 | "The cat sat on the" | *mat* | *banana* → 50% <br>*galaxy* → 30%<br>*mat* → 10%<br>*sofa* → 10% | **2.30**<br>(Very High)| Model is essentially guessing randomly. It thinks "banana" is most likely, which is completely wrong → very high loss.|
+| 10000 | "She placed her keys on the kitchen" | *counter* | *counter* → 35%<br>*table* → 30%<br>*floor* → 20%<br>*moon* → 15% | **1.05**<br>(High) | Model is starting to learn context matters. The true next token "counter" is its top prediction, but still not very confident → Loss decreasing. |
+| 100000 | "Please wipe your feet on the" | *mat* | *mat* → 65%<br>*doormat* → 20%<br>*floor* → 10%<br>*carpet* → 5% | **0.43**<br>(Medium-Low) | Training is working - as the loss steadily decreasing |
+| 500000 | "The airplane flew across the" | *sky* | *sky* → 80%<br>*ocean* → 12%<br>*country* → 6%<br>*clouds* → 2% | **0.22**<br>(Low) |  Model correctly predicted the correct next word with high confidence - Great sign! |
+| 1000000 | "He opened the book and began to" | *read* | *read* → 85%<br>*write* → 10%<br>*study* → 4%<br>*close* → 1% | **0.16**<br>(Very Low) | Model correctly predicted the correct next word with even higher confidence - Nice! |
+| 2000000 | "She wore a beautiful wedding" | *dress* | *dress* → 90%<br>*gown* → 7%<br>*ring* → 2%<br>*veil* → 1% | **0.11**<br>(Very Low) | Model consistently predicting the correct next word with high confidence |
+| 2500000 | "The chef prepared a delicious" | *meal* | *meal* → 91%<br>*dish* → 6%<br>*dinner* → 2%<br>*recipe* → 1% | **0.09**<br>(Very Low) | **Plateau**<br>Minimal improvement from iteration 20000 (0.11 → 0.09).<br>Diminishing returns - model has learned most patterns. |
+| 3000000 | "The scientist conducted an" | *experiment* | *experiment* → 91.5%<br>*investigation* → 5%<br>*analysis* → 2.5%<br>*study* → 1% | **0.09**<br>(Very Low) | **Plateau Confirmed**<br>Loss has flatlined (0.09 → 0.09).<br>Further training provides negligible improvement while consuming massive compute resources. Time to stop training. |RetryClaude does not have the ability to run the code it generates yet.
 
 Loss formula:
 ```
