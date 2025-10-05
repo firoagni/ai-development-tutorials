@@ -219,7 +219,9 @@ Here's what happens under the hood:
     ```
     Note: Embeddings are **not calculated** during inference. They were learned during pretraining and are now frozen. The model simply looks them up from a stored table — like a dictionary lookup. This makes inference much faster!
 4. **Add Positional Encodings**: Since word order matters, positional encodings are added to the embeddings to give the model a sense of sequence.
-5. **Self-Attention**: The model uses self-attention to understand relationships between all tokens in the context. It's asking: "What do these words mean together?"
+5. **Self-Attention**: The model uses self-attention to understand relationships between all tokens in the context. It's like the LLM asking: "What do these words mean **together**?" and "Which words are important to answer the user query?"
+
+    For the prompt “What’s the capital of France?”, the model draws on what it learned during pretraining to understand that the user is asking for the name of a city and identifies that “capital” and “France” are the most important tokens for predicting the answer.
 6. **Predict Next Token**: The model predicts the next token based on the context.
 7. **Autoregressive Loop**: The predicted token is added to the input, and steps 2-6 repeat until the model generates a complete response or hits a maximum length.
 
