@@ -121,7 +121,7 @@ For that, we use a metric called `loss`. Loss is a number that indicates how far
 
 For our example “The cat sat on the ___”, the true next word is “mat”. 
 
-- When the model predicts "dog" but the actual next word is "mat," that's a big error (high loss)
+- When the model predicts "banana" but the actual next word is "mat," that's a big error (high loss)
 - When it predicts "mat" - the expected prediction, the error is zero (low loss)
 
 Lower loss value means better predictions. Therefore, if we see the loss values decreasing over training iterations, it means the model is learning.
@@ -149,15 +149,25 @@ Loss = -log(Predicted Probability of True Next Token)
 ```
 This means: if the model gives 80% probability to the correct word, loss = -log(0.8) ≈ 0.22. If it gives 100% probability, loss = -log(1.0) = 0.
 
-Also note that the values in the above graph and table are illustrative examples, not real training data. In actual training:
-- **Loss does NOT decrease smoothly** at every iteration
-- Individual steps can have **large fluctuations and spikes**
-- The model might perform worse on some examples even after thousands of iterations
-- What matters is the **overall trend** when plotting loss over many iterations
-- When you **average the loss** over batches and plot it, you'll see a clear downward pattern → indicating the model is learning
-- The noisy, jagged nature of training is completely normal and expected
+**Important Notes:** 
 
-<img src="images/loss_real.png" width="600"/><br>
+1. **The values in the above graph are table are illustrative examples, not real training data.** In actual training:
+   - **Loss does NOT decrease smoothly** at every iteration
+   - Individual steps can have **large fluctuations and spikes**
+   - The model might perform worse on some examples even after thousands of iterations
+   - What matters is the **overall trend** when plotting loss over many iterations
+   - When you **average the loss** over batches and plot it, you'll see a clear downward pattern → indicating the model is learning
+   - The noisy, jagged nature of training is completely normal and expected
+
+    <br><img src="images/loss_real.png" width="500"/><br>
+
+2. **Model Size Matters:** The more parameters an LLM has, the more it can "remember" about language patterns:
+   - **Smaller models** might plateau at higher loss values.
+   - **Medium models** can achieve lower loss.
+   - **Larger models** can reach even lower loss.
+   - More parameters = more capacity to capture nuanced language patterns = better predictions = lower loss
+
+    <br><img src="images/loss_parameters.png" width="600"/><br>
 
 ### The base model - the result of pretraining
 After pretraining, the model that is generated is known as the **base model**, **foundation model** or **pretrained model**. 
