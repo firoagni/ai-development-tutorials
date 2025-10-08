@@ -330,6 +330,83 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 - https://huggingface.co/papers/2406.16008
 - https://news.mit.edu/2025/unpacking-large-language-model-bias-0617
 
+## Deterministic Output from LLMs is Nearly Impossible
+
+While building AI-powered systems, we often desire that the same input should return the same output. This allure of deterministic outputs isn't just about satisfying our inner perfectionist—determinism is oftentimes necessary in production systems:
+
+- **Debuggability:** When something goes wrong, you can reproduce it.
+- **Testing:** Your test suites actually mean something.
+- **Compliance:** Auditors love it when you can show them the exact same result twice.
+- **Caching:** Why process the same document twice if you know you’ll get the same result?
+
+But here’s the kicker: Send the exact same input to an LLM, and you get a slightly different output each time.
+
+This isn't a bug that will be fixed—it's a fundamental characteristic of how LLMs work.
+
+<em>LLMs are probabilistic models. They predict the next token based on all previous tokens. Even a tiny variation early in generation can lead to completely different outputs later.</em> 
+
+Here's an example of this "butterfly effect" in LLMs:
+
+Let's say you ask an LLM to summarize a document. Here are three real responses to the identical prompt:
+
+- **Response 1:** "The report discusses quarterly revenue growth of 15%, driven primarily by international expansion..."
+- **Response 2:** "This quarterly report highlights a 15% increase in revenue, with international markets being the key driver..."
+- **Response 3:** "Revenue grew 15% this quarter. The main factor was expansion into international markets..."
+
+Same information, different words, different structure. Now imagine you're parsing these outputs programmatically. Your regex that worked yesterday? Broken today. Your downstream system expecting a specific format? Good luck.
+
+The divergence compounds. If the model chooses "The report discusses" instead of "This quarterly report highlights," every subsequent token is generated from a slightly different context. By the end of a paragraph, you might have completely different phrasings, orderings, or even included details.
+
+Remember:
+
+- LLMs generate probabilities, not words:
+
+    When you ask an LLM: "The capital of France is ___". The LLM doesn't just think "Paris". Instead, it thinks something like this:
+    
+    <img src="images/capital_probabilities.png" width="500"/><br>
+    
+    **Every single word** in its vocabulary gets a probability score based on how likely it is to be the next word in the sequence.
+
+- LLM doesn't always pick the highest probability word!
+
+    The most obvious strategy is to always pick the word with the highest probability (known as greedy sampling). However, LLMs don't always do this.
+
+Can you force LLM to pick the word with the highest probablity? Well, yes.
+
+Almost all LLM APIs offer a parameter called `temperature` to control the randomness in outputs. Set it to 0, and the model will be forced to choose the highest-probability word.
+
+### Myth: Setting temperature=0 Gurantees Determinism
+
+Here's where it gets tricky: Even with temperature set to 0, several technical factors can cause non-deterministic outputs:
+
+1. **Floating-point arithmetic:** GPUs use floating-point math that can produce slightly different probability calculations due to rounding errors.
+
+2. **Non-deterministic operations:** Some GPU operations are inherently non-deterministic for performance reasons. Matrix multiplications might use different algorithms depending on the input size.
+
+3. **Provider infrastructure:** The model serving your request today might be on different hardware than yesterday, using a different batch size, or running a slightly different version of the inference engine.
+
+4. **Tied probabilities:** Sometimes two tokens have identical (or near-identical) probabilities. Temperature 0 doesn't have a well-defined answer for breaking ties.
+
+So even with temperature set to 0, you might see occasional variations. They're rarer and smaller than with higher temperatures, but they exist.
+
+**Major LLM providers are explicit about this:**
+
+- **OpenAI** [states that their API can only be “mostly deterministic”](https://platform.openai.com/docs/advanced-usage#reproducible-outputs) irrespective of the value of the temperature parameter. They’ve added a [seed parameter](https://cookbook.openai.com/examples/reproducible_outputs_with_the_seed_parameter) that improves reproducibility but still doesn’t guarantee identical outputs due to system updates and load balancing across different hardware. It’s a “best effort” kind of situation.
+
+- **Anthropic** follows a similar approach. The Claude API can produce slightly different outputs across calls, even with identical inputs and temp=0. No promises, no guarantees. Their [documentation](https://docs.claude.com/en/api/messages) mentions: “Note that even with temperature of 0.0, the results will not be fully deterministic.”
+
+- **Google (Vertex AI/Gemini)** also embraces non-determinism. Their [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) acknowledges that identical requests may produce different results. It reads: “A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, but a small amount of variation is still possible.”
+
+**Why nobody's fixing this:**
+- **Performance Tradeoffs:** Deterministic operations are [often 2-5x slower](https://proceedings.mlsys.org/paper_files/paper/2022/file/427e0e886ebf87538afdf0badb805b7f-Paper.pdf) than their optimized non-deterministic counterparts. When you’re serving millions of requests, that matters.
+- **Infrastructure Complexity:** Ensuring identical hardware/software states across distributed systems is like herding cats—if the cats were quantum particles that exist in multiple states simultaneously.
+- **Limited Demand:** Think about this: most use cases can tolerate minor variations in output. The folks who really need determinism are a minority, relatively speaking.
+- **Model Updates:** Providers regularly update models and infrastructure. Even if they could guarantee determinism today, tomorrow’s model update would break it.
+
+### References
+- https://unstract.com/blog/understanding-why-deterministic-output-from-llms-is-nearly-impossible
+- https://arxiv.org/html/2408.04667v5 - Research paper
+
 ## The 100% Accuracy Problem: Where AI Should Never Be Used
 
 **Current AI systems are fundamentally probabilistic, not deterministic. They cannot guarantee 100% accuracy.**
