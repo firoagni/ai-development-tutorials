@@ -243,14 +243,13 @@ RAG is like asking a librarian for help: Instead of dragging every book in the l
 
 ## Code-RAG: Retrieve Relevant Context from Across the Entire Codebase
 
-Code-RAG is a specialized approach to RAG that focuses on chunking and retrieving "code snippets" from a "codebase". This is particularly useful for tasks like code completion, bug fixing, or understanding complex code structures.
+Code-RAG is a specialized variant of RAG designed specifically for working with source code rather than natural language documents. While traditional RAG retrieves "text passages" from "documents", Code-RAG retrieves "code snippets" from a "codebase".
 
 ### How Code-RAG Works
-
-1. **Chunking the Codebase:** The entire codebase is divided into smaller, manageable chunks (e.g., functions, classes, or files).
-2. **Indexing:** These chunks are indexed for quick retrieval based on relevance to the query.
-3. **Retrieval:** When a query is made, the most relevant code chunks are retrieved and passed to the LLM.
-4. **Response Generation:** The LLM generates a response based on the retrieved code snippets, providing contextually relevant information.
+1. **Breaking Down Your Code:** Code-RAG splits your entire codebase into smaller, digestible pieces. What makes it special? Unlike traditional-RAG techniques, Code-RAG actually understands how code works. It divides your code in smart ways—keeping complete functions, classes, or modules together—instead of randomly cutting it at line breaks. This means each piece makes sense on its own.
+2. **Indexing:** These code chunks are then indexed for quick retrieval based on relevance to the query.
+3. **Retrieval:** When a query is made, the most relevant chunks are retrieved and passed to the LLM.
+4. **Response Generation:** The LLM generates a response based on these code snippets, providing contextually relevant information.
 
 🎥 [Tutorial](https://www.youtube.com/watch?v=Jw-4oC5HtK4)
 
@@ -272,27 +271,27 @@ Coding assistants - Github Copilot, Windsurf, Cursor, Cody has chosen the former
 
 [From the official Github Copilot documentation:](https://code.visualstudio.com/docs/copilot/reference/workspace-context#_how-does-atworkspace-find-the-most-relevant-context)
 
-Since your full workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context. This context is then passed to the model to answer your question. If the context is too large, only the most relevant parts of the context are used. To make this process faster and more accurate, Copilot builds an index of your codebase. This index helps surface the right snippets for the model.
+<em>Since your full workspace can be too large to pass entirely to LLM, Github Copilot extracts the most relevant information from different sources to generate the relevant context. This context is then passed to the model to answer your question. If the context is too large, only the most relevant parts of the context are used. To make this process faster and more accurate, Copilot builds an index of your codebase. This index helps surface the right snippets for the model.
 
-You can check the index type and its status anytime in the Copilot status dashboard in the Status Bar.
+You can check the index type and its status anytime in the Copilot status dashboard in the Status Bar.</em>
 
-<img src="images/copilot_index.png" alt="copilot index" width="780"/>
+<img src="images/copilot_index.png" alt="copilot index" width="780"/><br>
 
 [From the official Windsurf documentation:](https://docs.windsurf.com/context-awareness/overview)
 
-Yes, Windsurf does index your codebase. It performs retrieval-augmented generation (RAG) on your codebase using our own [M-Query](https://www.youtube.com/watch?v=DuZXbinJ4Uc&t=606s) techniques.
+<em>Yes, Windsurf does index your codebase. It performs retrieval-augmented generation (RAG) on your codebase using our own [M-Query](https://www.youtube.com/watch?v=DuZXbinJ4Uc&t=606s) techniques.</em>
 
 [Cursor](https://read.engineerscodex.com/p/how-cursor-indexes-codebases-fast):
 
 <img src="images/cursor.png" alt="statement from Cursor CEO" width="580"/>
 
-<img src="images/cursor_rag.png" alt="cursor rag" width="580"/>
+<img src="images/cursor_rag.png" alt="cursor rag" width="580"/><br>
 
-Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents doesn’t use RAG at all. Instead, they just greps your repo line by line (what they call “agentic search”)—no semantics, no structure, just raw string matching.
+Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents **doesn’t use RAG at all**. Instead, they just greps your repo line by line (what they call “agentic search”)—no semantics, no structure, just raw string matching.
 
 [A Claude engineer's response on Hacker News:](https://news.ycombinator.com/item?id=43164089)
 
-<img src="images/claudecode.png" alt="claude code strategy" width="880"/>
+<img src="images/claudecode.png" alt="claude code strategy" width="880"/><br>
 
 RAG or Grep? Which approach is better? Well, the jury is still out, but there are compelling arguments on both sides. One example: https://milvus.io/blog/why-im-against-claude-codes-grep-only-retrieval-it-just-burns-too-many-tokens.md
 
