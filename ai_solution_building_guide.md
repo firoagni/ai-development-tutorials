@@ -10,23 +10,22 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 ### Workflows: You're in Control
 
-**Workflows** are basically like flowcharts - each step is explicitly defined, from start to finish.
+**Workflows** are like flowcharts - where each step is explicitly defined, from start to finish.
 
 <img src="images/workflow.png" alt="workflow" width="600"/>
 
-- Some steps involve AI (like generating text or analyzing data), while others are regular code (like database queries or calculations)
-- The entire flow is predetermined and follows the same path every time
+- The entire flow is predetermined—all steps, decision points, and branching logic are defined in advance by the developer
+- Steps can be either AI-powered (LLM calls) or traditional code (database queries, API calls, calculations or business logic)
 
-**Example:** Use AI to extract the customer’s details from a chat conversation → Pass those details to the LLM to generate a SQL query → Execute the query → Provide the results back to the LLM to craft a personalized response → Return the response to the customer.
-
+**Example:** Extract customer details from a chat conversation **(AI)** → Generate a SQL query from the customer's data **(AI)** → Execute the query **(Code + Database)** → Craft a personalized response from the results **(AI)** → Return the response to the customer **(Code)**
 ### Agents: The AI Decides
 
-**Agents**, on the other hand, are systems where LLMs maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
+**Agents**, on the other hand, are systems where the LLM maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
 
 <img src="images/agent.png" alt="agent" width="580"/>
 
-- You give the AI a goal and a set of tools (like search, calculator, database access)
-- The AI decides which tools to use, when, and in what order
+- You give the LLM a goal and a set of tools (like search, calculator, database access)
+- The LLM decides which tools to use, when, and in what order
 
 **Example:**<br>
 User: "Help this customer with their issue about a missing refund."<br>
@@ -49,7 +48,7 @@ Agents are **adaptive** — they dynamically plan and execute based on context.
 - ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
 - ✅ **Adaptive**: No need to anticipate every use case or map out all the steps in advance. Let the LLM chart the right path
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
-- ❌ **Expensive**: They're clever, but may take incorrect routes or use more LLM calls than necessary
+- ❌ **Expensive**: Each decision requires an LLM call ($$), and agents may explore wrong paths before succeeding—expect costs to be 5-10x higher than equivalent workflows.
 
 ### Choosing Wisely
 **Golden Rule: Find the simplest solution possible, add complexity only when needed.**
@@ -57,9 +56,11 @@ Agents are **adaptive** — they dynamically plan and execute based on context.
 - **Use Workflows over Agents when:** 
     - You know all the steps in advance
     - You need strict control over the execution flow
+    - Debugging and cost optimization are priorities
 - **Use Agents over Workflows when:**
     - The path is unpredictable or involves complex decision-making
     - The solution needs to adapt to many different scenarios
+    - Building and maintaining explicit logic would be prohibitively complex
 
 Given that agent-based solutions are faster to build, fully autonomous, and easier to scale, you might be tempted to always choose agents and ignore workflows altogether. However, remember that the convenience agents offer comes at a cost: agent-based systems are inherently unpredictable, costlier, harder to control and debug. Without careful oversight, that “flexibility” can quickly turn into a long-term operational headache.
 
