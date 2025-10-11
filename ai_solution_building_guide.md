@@ -1,6 +1,6 @@
 # Building AI Solutions? Things You Should Know
 
-Building AI-powered solutions requires more than just plugging in a large language model — it’s about making deliberate architectural choices, balancing simplicity with flexibility, and understanding the trade-offs involved.
+Building AI-powered solutions requires more than just plugging in a large language model (LLM) — it’s about making deliberate architectural choices, balancing simplicity with flexibility, and understanding the trade-offs involved.
 
 This document highlights key patterns, pitfalls, and best practices to help you design AI systems that are both effective and reliable.
 
