@@ -59,7 +59,7 @@ Find the simplest solution possible—increase complexity only when needed. This
 1. **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first<br>
 1. **Use Workflows when:** 
     - You know all the steps in advance
-    - You need predictable, consistent behavior
+    - You value predictable, consistent behavior
     - Debugging and cost optimization are priorities
 1. **Use Agents over Workflows when:**
     - Defining a workflow is impossible or too complex
