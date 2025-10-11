@@ -11,8 +11,9 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
     
     <img src="images/workflow.png" alt="workflow" width="600"/>
 
-    Each step is explicit, like a recipe, with clear inputs, processes, and outputs.
-- Agents, on the other hand, are systems where LLMs maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools (functions) available to its disposal and taking actions
+    Think of workflows as flowcharts—each step in the logic is explicit, with clear inputs, processes, and outputs.
+
+- Agents, on the other hand, are systems where LLMs maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
 
     <img src="images/agent.png" alt="agent" width="580"/>
 
@@ -20,21 +21,37 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 ## Workflows or Agents? Which to Choose?
 
-- Workflows are deterministic, making them predictable, testable, and cost-efficient.
-- Agents offer flexibility but introduce complexity.
-
 <img src="images/workflow_vs_agent.png" alt="agent" width="610"/><br>
 
-When building applications with LLMs, find the simplest solution possible - increase complexity only when needed. This might mean not building agentic systems at all!
+**Workflows** are like recipes - each step happens in a specific order, and you can control what comes next. This makes them:
+- ✅ **Predictable**: They follow a clear path with no surprises
+- ✅ **Debuggable**: When something breaks, you know exactly where to look
+- ❌ **Rigid**: Adding new features often means rewriting logic and updating the flow
+- ❌ **Brittle**: Can fail when presented with unexpected inputs or cases you didn't anticipate
 
-**Rule of thumb** - Start thinking with workflows first as they offer predictability and consistency, switch to agents only when the problem cannot be solved with workflows.
+**Agents** are autonomous. They decide their own steps based on the situation, like a chef who improvises their approach. Agents are:
+- ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
+- ✅ **Adaptive**: No need to anticipate every use case or map out all the steps in advance. Let the LLM chart the right path
+- ❌ **Unpredictable**: You can't always anticipate which path they'll take
+- ❌ **Expensive**: They're clever, but may take incorrect routes or use more LLM calls than necessary
+
+The above comparison might make agents seem like the obvious choice for **all** use cases—they're faster to build and easier to scale. But that convenience comes at a cost: agent-based systems are inherently unpredictable, making them harder to control, harder to debug, and nearly impossible to estimate costs for in advance. Without careful oversight, that "flexibility" can turn into a long-term operational headache.
+
+**Golden Rule: Find the simplest solution possible, add complexity only when needed.**
+- **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first.
+- **Use Workflows over Agents when:** 
+    - You know all the steps in advance
+    - You need strict control and predictability
+- **Use Agents over Workflows when:**
+    - The path is unpredictable or involves complex decision-making
+    - The solution needs to adapt to many different scenarios
 
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
 - https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
-## To use, or not to use a Framework?
+## Frameworks. To use, or not to use?
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
