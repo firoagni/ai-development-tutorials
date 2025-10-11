@@ -12,9 +12,9 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 **Workflows** are like flowcharts - where each step is explicitly defined, from start to finish, in advance, by the developer.
 
-<img src="images/workflow.png" alt="workflow" width="600"/><br>
-
 Steps in a Workflow can either be AI-powered (LLM calls) or traditional code (database queries, API calls, calculations, or business logic).
+
+<img src="images/workflow.png" alt="workflow" width="600"/><br>
 
 **Example:** Extract customer details from the chat **(AI)** → Generate a SQL query from the customer's data **(AI)** → Execute the query **(Code + Database)** → Craft a personalized response from the results **(AI)** → Return the response to the customer **(Code)**
 ### Agents: The AI Decides
