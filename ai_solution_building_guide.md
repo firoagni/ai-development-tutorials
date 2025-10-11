@@ -38,31 +38,34 @@ Agents are **adaptive** — they dynamically plan and execute based on context.
 
 <img src="images/workflow_vs_agent.png" alt="agent" width="610"/><br>
 
-**Workflows** are like recipes - each step happens in a specific order, and you can control what comes next. This makes them:
+**Workflows** are:
 - ✅ **Predictable**: They follow a clear path with no surprises
 - ✅ **Debuggable**: When something breaks, you know exactly where to look
 - ❌ **Rigid**: Adding new features often means rewriting logic and updating the flow
 - ❌ **Brittle**: Can fail when presented with unexpected inputs or cases you didn't anticipate
 
-**Agents** are autonomous. They decide their own steps based on the situation, like a chef who improvises their approach. Agents are:
+**Agents** are autonomous. They decide their own steps based on the situation. Agents are:
 - ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
 - ✅ **Adaptive**: No need to anticipate every use case or map out all the steps in advance. Let the LLM chart the right path
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **Expensive**: Each decision requires an LLM call ($$), and agents may explore wrong paths before succeeding—expect costs to be 5-10x higher than equivalent workflows.
 
-### Choosing Wisely
-**Golden Rule: Find the simplest solution possible, add complexity only when needed.**
-- **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first.
-- **Use Workflows over Agents when:** 
-    - You know all the steps in advance
-    - You need strict control over the execution flow
-    - Debugging and cost optimization are priorities
-- **Use Agents over Workflows when:**
-    - The path is unpredictable or involves complex decision-making
-    - The solution needs to adapt to many different scenarios
-    - Building and maintaining explicit logic would be prohibitively complex
+Given that agent-based AI-solutions are easier to implement, fully autonomous, and easier to scale -- you might be tempted to **always** choose agents over workflows. However, keep in mind that convenience and autonomy comes at a cost: **agent-based systems are inherently unpredictable, 5-10x costlier, and harder to debug when things go south**. Without careful oversight, that "flexibility" can quickly turn into a long-term operational headache.
 
-Given that agent-based solutions are faster to build, fully autonomous, and easier to scale, you might be tempted to always choose agents and ignore workflows altogether. However, remember that the convenience agents offer comes at a cost: agent-based systems are inherently unpredictable, costlier, harder to control and debug. Without careful oversight, that “flexibility” can quickly turn into a long-term operational headache.
+**The appeal is understandable, but resist the temptation.** 
+
+Find the simplest solution possible—increase complexity only when needed. This might mean not building agentic systems at all!
+
+1. **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first<br>
+1. **Use Workflows when:** 
+    - You know all the steps in advance
+    - You need predictable, consistent behavior
+    - Debugging and cost optimization are priorities
+1. **Use Agents over Workflows when:**
+    - Defining a workflow is impossible or too complex
+    - The solution needs to adapt to many different scenarios (e.g., you're building a jack-of-all-trades solution like an AI assistant)
+
+Default to workflows for their predictability and consistency. Use agents only when workflows cannot solve the problem.
 
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
