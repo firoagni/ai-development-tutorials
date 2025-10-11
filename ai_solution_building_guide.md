@@ -10,14 +10,13 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 ### Workflows: You're in Control
 
-**Workflows** are like flowcharts - where each step is explicitly defined, from start to finish.
+**Workflows** are like flowcharts - where each step is explicitly defined, from start to finish, in advance, by the developer
 
 <img src="images/workflow.png" alt="workflow" width="600"/>
 
-- The entire flow is predetermined—all steps, decision points, and branching logic are defined in advance by the developer
-- Steps can be either AI-powered (LLM calls) or traditional code (database queries, API calls, calculations or business logic)
+Steps can be either AI-powered (LLM calls) or traditional code (database queries, API calls, calculations, or business logic)
 
-**Example:** Extract customer details from a chat conversation **(AI)** → Generate a SQL query from the customer's data **(AI)** → Execute the query **(Code + Database)** → Craft a personalized response from the results **(AI)** → Return the response to the customer **(Code)**
+**Example:** Extract customer details from the chat **(AI)** → Generate a SQL query from the customer's data **(AI)** → Execute the query **(Code + Database)** → Craft a personalized response from the results **(AI)** → Return the response to the customer **(Code)**
 ### Agents: The AI Decides
 
 **Agents**, on the other hand, are systems where the LLM maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
