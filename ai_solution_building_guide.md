@@ -34,7 +34,24 @@ When building applications with LLMs, find the simplest solution possible - incr
 - https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
-## How to Build an Agent?
+## To use, or not to use a Framework?
+
+There are many frameworks that make creating AI-powered systems easier to implement, including:
+- LangGraph from LangChain
+- n8n - a drag and drop GUI LLM workflow builder
+- Amazon Bedrock's AI Agent framework
+
+From Anthropic:
+
+<em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
+
+We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
+</em>
+
+### Reference
+- https://www.anthropic.com/engineering/building-effective-agents
+
+## Building Agent on Your Own? Things to Know
 
 An LLM, for all its power, is confined by its training data. It has no access to real-time information and cannot perform actions. It’s like a brilliant brain isolated from the world.
 
@@ -78,23 +95,6 @@ In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/eng
 ![alt text](images/workflows_agent_design_patterns.png)
 
 [Implementation of these patterns in LangChain](https://langchain-ai.github.io/langgraph/tutorials/workflows/)
-
-## When and how to use Frameworks
-
-There are many frameworks that make creating AI-powered systems easier to implement, including:
-- LangGraph from LangChain
-- n8n - a drag and drop GUI LLM workflow builder
-- Amazon Bedrock's AI Agent framework
-
-From Anthropic:
-
-<em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
-
-We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
-</em>
-
-### Reference
-- https://www.anthropic.com/engineering/building-effective-agents
 
 ## Model Context Protocol (MCP)
 
