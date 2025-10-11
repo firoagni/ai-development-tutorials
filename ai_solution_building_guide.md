@@ -7,17 +7,33 @@ This document highlights key patterns, pitfalls, and best practices to help you 
 ## Workflows vs Agents
 
 You can build AI-powered solutions by either creating **Workflows** or **Agents**
-- ⁠Workflows are structured pipelines where LLMs and functions are orchestrated through predefined code paths.
-    
-    <img src="images/workflow.png" alt="workflow" width="600"/>
 
-    Think of workflows as flowcharts—each step in the logic is explicit, with clear inputs, processes, and outputs.
+### Workflows: You're in Control
 
-- Agents, on the other hand, are systems where LLMs maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
+**Workflows** are basically like flowcharts - each step is explicitly defined, from start to finish.
 
-    <img src="images/agent.png" alt="agent" width="580"/>
+<img src="images/workflow.png" alt="workflow" width="600"/>
 
-    Agents operate in a loop - reasoning, acting, and adapting based on environmental feedback
+- Some steps involve AI (like generating text or analyzing data), while others are regular code (like database queries or calculations)
+- The entire flow is predetermined and follows the same path every time
+
+**Example:** Use AI to extract the customer’s details from a chat conversation → Pass those details to the LLM to generate a SQL query → Execute the query → Provide the results back to the LLM to craft a personalized response → Return the response to the customer.
+
+### Agents: The AI Decides
+
+**Agents**, on the other hand, are systems where LLMs maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
+
+<img src="images/agent.png" alt="agent" width="580"/>
+
+- You give the AI a goal and a set of tools (like search, calculator, database access)
+- The AI decides which tools to use, when, and in what order
+
+**Example:**<br>
+User: "Help this customer with their issue about a missing refund."<br>
+The agent might reason:<br>
+<em>"First, I'll query the customer database to check their account status. I see a recent order—let me check the refund policy in the knowledge base. The refund was processed 3 days ago, so I'll check the payment system status. The refund is pending and will arrive in 2-5 business days. Now I'll draft a response explaining this to the customer."</em>
+
+Agents are **adaptive** — they dynamically plan and execute based on context.
 
 ## Workflows or Agents? Which to Choose?
 
@@ -35,16 +51,17 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **Expensive**: They're clever, but may take incorrect routes or use more LLM calls than necessary
 
-The above comparison might make agents seem like the obvious choice for **all** use cases—they're faster to build and easier to scale. But that convenience comes at a cost: agent-based systems are inherently unpredictable, making them harder to control, harder to debug, and nearly impossible to estimate costs for in advance. Without careful oversight, that "flexibility" can turn into a long-term operational headache.
-
+### Choosing Wisely
 **Golden Rule: Find the simplest solution possible, add complexity only when needed.**
 - **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first.
 - **Use Workflows over Agents when:** 
     - You know all the steps in advance
-    - You need strict control and predictability
+    - You need strict control over the execution flow
 - **Use Agents over Workflows when:**
     - The path is unpredictable or involves complex decision-making
     - The solution needs to adapt to many different scenarios
+
+Given that agent-based solutions are faster to build, fully autonomous, and easier to scale, you might be tempted to always choose agents and ignore workflows altogether. However, remember that the convenience agents offer comes at a cost: agent-based systems are inherently unpredictable, costlier, harder to control and debug. Without careful oversight, that “flexibility” can quickly turn into a long-term operational headache.
 
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
