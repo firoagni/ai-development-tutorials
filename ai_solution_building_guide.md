@@ -68,7 +68,7 @@ Given that agent-based solutions are faster to build, fully autonomous, and easi
 - https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
-## Frameworks. To use, or not to use?
+## Frameworks: To use, or not to use?
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
