@@ -195,7 +195,7 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - ⁠Got a $50,000 OpenAI bill? MCP doesn’t show which team, tool, or user racked it up—no tracking, no quotas, no clues. You’re guessing where the money went. Compare that to AWS or Google Cloud, where every action is tagged and billed clearly.
 - ⁠Malicious prompt: Imagine a user copying and pasting a complex, obfuscated prompt they believe will create a new user in their cloud environment—the malicious prompt could, in addition to creating the intended user, also create another user for the attacker. This is why the actions performed by the MCP servers should always be confirmed by the users or restricted to reduce risk to an acceptable level.
 
-## Guardrails are Essential
+## Guardrails
 
 The moment you give your AI system tool access, you're no longer building a simple chatbot. You've crossed the line from passive conversation to active capability—and everything changes.
 
