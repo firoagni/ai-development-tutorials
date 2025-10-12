@@ -99,6 +99,14 @@ We suggest that developers start by using LLM APIs directly: many patterns can b
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
 
+## Design Patterns for Creating AI Solutions
+
+In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), you’ll find a comprehensive overview of design patterns for both workflows and agents.
+
+![alt text](images/workflows_agent_design_patterns.png)
+
+[Implementation of these patterns in LangChain](https://langchain-ai.github.io/langgraph/tutorials/workflows/)
+
 ## Building Agent on Your Own? Things to Know
 
 An LLM, for all its power, is confined by its training data. It has no access to real-time information and cannot perform actions. It’s like a brilliant brain isolated from the world.
@@ -135,14 +143,6 @@ Think of LLM agent a manager and the tools it has access to as its team of speci
 
 ## Tools vs Functions
 **Functions** that you make available to LLMs are called **tools** in AI context.
-
-## Design Patterns for Creating AI Solutions
-
-In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents), you’ll find a comprehensive overview of design patterns for both workflows and agents.
-
-![alt text](images/workflows_agent_design_patterns.png)
-
-[Implementation of these patterns in LangChain](https://langchain-ai.github.io/langgraph/tutorials/workflows/)
 
 ## Model Context Protocol (MCP)
 
