@@ -199,7 +199,8 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 
 The moment you give your AI system tool access, you're no longer building a simple chatbot. You've crossed the line from passive conversation to active capability—and everything changes.
 
-A chatbot that answers questions wrong? Annoying but survivable. An AI system that executes the wrong database query? That's a 3 AM wake-up call and a very uncomfortable meeting with your CTO.
+- A chatbot that answers questions wrong? Annoying but survivable. 
+- An AI system that executes the wrong database query? That's a 3 AM wake-up call and a very uncomfortable meeting with your CTO.
 
 If your AI solution does anything more than talk—if it reads files, calls APIs, touches databases, sends emails, or interacts with external systems—then guardrails aren't optional. They're the difference between a powerful tool and a production incident.
 
