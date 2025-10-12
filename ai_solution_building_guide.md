@@ -12,26 +12,40 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 **Workflows** are like flowcharts - where each step is explicitly defined, from start to finish, in advance, by the developer.
 
-Steps in a Workflow can either be AI-powered (LLM calls) or traditional code (database queries, API calls, calculations, or business logic).
-
 <img src="images/workflow.png" alt="workflow" width="600"/><br>
 
-**Example:** Extract customer details from the chat **(AI)** → Generate a SQL query from the customer's data **(AI)** → Execute the query **(Code + Database)** → Craft a personalized response from the results **(AI)** → Return the response to the customer **(Code)**
+Some steps in a Workflow are AI-powered (LLM calls) while others are traditional code (database queries, API calls, calculations, or business logic).
+
+**Workflow Example: A Customer Service Bot** 
+
+- Step 1: Extract customer details from the chat [AI]
+- Step 2: Formulate a SQL query from the collected data [AI]
+- Step 3: Execute the query [Code + Database]
+- Step 4: Craft a personalized response from the results [AI]
+- Step 5: Return the response to the customer [Code]
+
+You control the sequence. The AI only does what you tell it to do.
+
 ### Agents: The AI Decides
 
-**Agents**, on the other hand, are systems where the LLM maintains full control over how they accomplish tasks by autonomously deciding the next steps by selecting various tools available at their disposal and taking actions.
+**Agents**, on the other hand, are systems where the LLM maintains **full control** over how they accomplish tasks by autonomously selecting various tools available to its disposal and taking actions.
+
+<img src="images/agent.png" alt="agent" width="580"/><br>
 
 - You give the LLM a goal and a set of tools (like search, calculator, database access)
-- The LLM decides which tools to use, when, and in what order 
+- The LLM decides which tools to use, when, and in what order to fullfill the goal
 
-<br><img src="images/agent.png" alt="agent" width="580"/><br>
+**Same Example, Agent Approach:**
 
-**Example:**<br>
-User: "Help this customer with their issue about a missing refund."<br>
-The agent might reason:<br>
-<em>"First, I'll query the customer database to check their account status. I see a recent order—let me check the refund policy in the knowledge base. The refund was processed 3 days ago, so I'll check the payment system status. The refund is pending and will arrive in 2-5 business days. Now I'll draft a response explaining this to the customer."</em>
+You say: "Help this customer with their refund issue."
 
-Agents are **adaptive** — they dynamically plan and execute based on context.
+The agent thinks:
+- "I need to know who this customer is—let me query the database"
+- "I see they ordered something recently—let me check our refund policy document"
+- "The policy says refunds take 3-5 days—let me check the payment system"
+- "The refund is processing—let me explain this to the customer"
+
+You didn't tell it to do any of those steps. It figured out the plan on its own.
 
 ## Workflows or Agents? Which to Choose?
 
@@ -44,25 +58,22 @@ Agents are **adaptive** — they dynamically plan and execute based on context.
 - ❌ **Brittle**: Can fail when presented with unexpected inputs or cases you didn't anticipate
 
 **Agents** are autonomous. They decide their own steps based on the situation. Agents are:
-- ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
 - ✅ **Adaptive**: No need to anticipate every use case or map out all the steps in advance. Let the LLM chart the right path
+- ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
-- ❌ **Expensive**: Each decision requires an LLM call ($$), and agents may explore wrong paths before succeeding—expect costs to be 5-10x higher than equivalent workflows.
+- ❌ **5-10x more Expensive**: Each decision requires an LLM call ($$), also agents may explore wrong paths before succeeding
 
-Given that agent-based AI-solutions are easier to implement, fully autonomous, and easier to scale -- you might be tempted to **always** choose agents over workflows. However, keep in mind that convenience and autonomy comes at a cost: **agent-based systems are inherently unpredictable, 5-10x costlier, and harder to debug when things go south**. Without careful oversight, that "flexibility" can quickly turn into a long-term operational headache.
+Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent",  -- you might be tempted to **always** choose agents over workflows. 
 
-**The appeal is understandable, but resist the temptation.** 
+However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
 
-Find the simplest solution possible—increase complexity only when needed. This might mean not building agentic systems at all!
-
+**The appeal of using agents everywhere is understandable, but resist the temptation.** 
 1. **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first<br>
-1. **Use Workflows when:** 
-    - You know all the steps in advance
-    - You value predictable, consistent behavior
-    - Debugging and cost optimization are priorities
-1. **Use Agents over Workflows when:**
+1. **Need AI? Start with a workflow:** Workflows are ideal if you know all the steps in advance
+1. **Use Agents "only" when:**
     - Defining a workflow is impossible or too complex
-    - The solution needs to adapt to many different scenarios (e.g., you're building a jack-of-all-trades solution like an AI assistant)
+    - The problem requires adapting to many different, unpredictable situations (like developing a general-purpose AI assistant)
+    - The debugging overhead and the 5-10x cost increase is worth the flexibility
 
 Default to workflows for their predictability and consistency. Use agents only when workflows cannot solve the problem.
 
@@ -75,7 +86,7 @@ Default to workflows for their predictability and consistency. Use agents only w
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
-- n8n - a drag and drop GUI LLM workflow builder
+- n8n - a drag and drop, LLM supported workflow builder
 - Amazon Bedrock's AI Agent framework
 
 From Anthropic:
