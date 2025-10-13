@@ -10,11 +10,11 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 ### Workflows: You're in Control
 
-**Workflows** are like flowcharts - where each step is explicitly defined, from start to finish, in advance, by the developer.
-
-<img src="images/workflow.png" alt="workflow" width="600"/><br>
+**Workflows** are like **flowcharts**, where each step is **explicitly defined**, **from start to finish**, in **advance**, by the developer.
 
 Some steps in a Workflow are AI-powered (LLM calls) while others are traditional code (database queries, API calls, calculations, or business logic).
+
+<img src="images/workflow.png" alt="workflow" width="600"/><br>
 
 **Workflow Example: A Customer Service Bot** 
 
@@ -24,7 +24,7 @@ Some steps in a Workflow are AI-powered (LLM calls) while others are traditional
 - Step 4: Craft a personalized response from the results [AI]
 - Step 5: Return the response to the customer [Code]
 
-You control the sequence. The AI only does what you tell it to do.
+In Workflows, you control the sequence. The AI only does what you tell it to do.
 
 ### Agents: The AI Decides
 
@@ -63,9 +63,7 @@ You didn't tell it to do any of those steps. It figured out the plan on its own.
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **5-10x more Expensive**: Each decision requires an LLM call ($$), also agents may explore wrong paths before succeeding
 
-Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent",  -- you might be tempted to **always** choose agents over workflows. 
-
-However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
+Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent" -- you might be tempted to **always** choose agents over workflows. However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
 
 **The appeal of using agents everywhere is understandable, but resist the temptation.** 
 1. **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first<br>
@@ -90,7 +88,7 @@ In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/eng
 
 [Implementation of these patterns in LangChain](https://langchain-ai.github.io/langgraph/tutorials/workflows/)
 
-## Frameworks: To use, or not to use?
+## Frameworks: To use or not to use?
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
@@ -216,7 +214,7 @@ Without guardrails:
 ---
 **1. Access Boundaries**
 
-Think of access boundaries like a playground fence—the agent has room to explore, but can't wander into traffic.
+Think of access boundaries like a playground fence—your AI application has a safe space to explore, but it can't wander into traffic.
 
 - **File System**: Sandbox the agent to specific directories
   - ✅ Good: Agent operates in `/temp/agent-workspace/` with no escape route
@@ -264,7 +262,7 @@ Even well-meaning agents can generate unsafe or invalid commands. Validate every
 **4. Audit and Recovery**
 
 - **Audit Trails**: Log everything—you'll thank yourself during the post-mortem
-  - What the agent decided to do
+  - What the LLM decided to do
   - Why it made that choice
   - What tools it used and when
   
