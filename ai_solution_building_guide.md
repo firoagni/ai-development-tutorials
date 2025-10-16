@@ -16,17 +16,13 @@ Some steps in a Workflow are AI-powered (LLM calls) while others are traditional
 
 <img src="images/workflow.png" alt="workflow" width="600"/><br>
 
-**Customer Service Bot: Workflow Example** 
+**Workflow Example: A Customer Service Bot** 
 
-**Step 1:** Extract customer details from the chat [AI]  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓  
-**Step 2:** Formulate SQL query from the collected data [AI]  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓  
-**Step 3:** Execute the query [Code + Database]  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓  
-**Step 4:** Craft a personalized response from the results [AI]  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓  
-**Step 5:** Return the response to the customer [Code]
+- Step 1: Extract customer details from the chat [AI]
+- Step 2: Formulate SQL query from the collected data [AI]
+- Step 3: Execute the query [Code + Database]
+- Step 4: Craft a personalized response from the results [AI]
+- Step 5: Return the response to the customer [Code]
 
 In Workflows, you control the sequence. The AI only does what you tell it to do.
 
