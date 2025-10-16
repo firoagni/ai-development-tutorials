@@ -16,7 +16,7 @@ Some steps in a Workflow are AI-powered (LLM calls) while others are traditional
 
 <img src="images/workflow.png" alt="workflow" width="600"/><br>
 
-**Workflow Example: A Customer Service Bot** 
+**Customer Service Bot: Workflow Example** 
 
 Step 1: Extract customer details from the chat [AI]  
 ↓  
