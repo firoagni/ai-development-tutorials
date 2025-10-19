@@ -482,6 +482,8 @@ While building AI-powered systems, we often desire that the same input should re
 
 But here’s the kicker: Send the exact same input to an LLM, and you get a slightly different output each time.
 
+<img src="images/non_determinstic.png" alt="LLM outputs are non deterministic" width="580"/><br>
+
 This isn't a bug that will be fixed—it's a fundamental characteristic of how LLMs work.
 
 <em>LLMs are probabilistic models. They predict the next token based on all previous tokens. Even a tiny variation early in generation can lead to completely different outputs later.</em> 
@@ -544,8 +546,100 @@ So even with temperature set to 0, you might see occasional variations. They're 
 - **Limited Demand:** Think about this: most use cases can tolerate minor variations in output. The folks who really need determinism are a minority, relatively speaking.
 - **Model Updates:** Providers regularly update models and infrastructure. Even if they could guarantee determinism today, tomorrow’s model update would break it.
 
+### Workarounds for the Desperate
+The industry consensus seems to be that **perfect determinism isn’t worth the performance and complexity costs for most applications**. If you need reproducible outputs, the best approach is usually to design your application to be robust to minor variations rather than expecting bit-perfect determinism.
+
+- **Temperature = 0**
+
+  The obvious starting point. While not guaranteed to be perfectly deterministic across all providers, `temp=0` dramatically reduces randomness by making the model greedily select the highest probability token at each step.
+
+- **Use Seed parameters if Available**: 
+  
+  Some providers (OpenAI, Anthropic) support seed parameters that attempt to make outputs more reproducible. Combine seeds with `temp=0` for maximum reproducibility.
+
+  However, understand that seeds are "best effort" hints, not guarantees. They help reduce variation but won't eliminate it entirely, especially across model versions or infrastructure changes.
+
+- **Force Structured Output**
+
+  Structured output is a feature constraint that can force a model to generate responses in JSON format, based on the JSON schema provided by you.
+  
+  While it doesn't guarantee identical content for the same input, it does guarantee syntactically valid JSON that conforms to your provided schema.
+
+  This doesn’t solve non-determinism, but it does ensure you won’t get malformed JSON that crashes your parser at 3 AM.
+
+- **Tighten Your Structured Output Schema**
+
+  Your schema is your contract. Make it bulletproof
+  - Use enums instead of free text wherever possible
+  - Define narrow, specific field types (`"status": "active" | "inactive"` beats `"status": string`)
+  - Set `maxLength`, `pattern`, and range constraints
+  - Use `required` fields aggressively
+
+  **Example**:
+  ```json
+  {
+    "type": "object",
+    "properties": {
+      "sentiment": {"enum": ["positive", "negative", "neutral"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "required": ["sentiment", "confidence"]
+  }
+  ```
+- **Prompt Engineering: Show, Don’t Just Tell**
+
+  Few-shot examples with edge cases are your friend:
+
+  ```python
+  prompt = """
+  Extract order information into this exact JSON structure.
+  Important: Always use these exact field names, never create variations.
+
+  Examples showing exact format required:
+
+  Input: "John bought 2 apples for $3 each on Monday"
+  Output: {"customer_name": "John", "order_date": "2024-11-18", "items": [{"name": "apples", "quantity": 2, "price": 3.0}]}
+
+  Input: "Yesterday Sarah purchased one dozen eggs ($4.99) and milk"
+  Output: {"customer_name": "Sarah", "order_date": "2024-11-17", "items": [{"name": "eggs", "quantity": 12, "price": 4.99}, {"name": "milk", "quantity": 1, "price": null}]}
+
+  Critical rules:
+  - Convert relative dates to YYYY-MM-DD
+  - Use null for missing values, never omit fields
+  - Convert "dozen" to 12, "pair" to 2, etc.
+  """
+  ```
+- **Validation and Retry Logic**
+  
+  Accept that you might need multiple attempts:
+
+  ```python
+  def extract_json_with_fallbacks(input_text, schema, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = llm_call_with_schema(input_text, schema)
+            parsed = json.loads(response)
+            validate(parsed, schema)
+            
+            # Additional business logic validation
+            if not is_business_logic_valid(parsed):
+                raise ValueError("Business logic validation failed")
+                
+            return parsed
+            
+        except (json.JSONDecodeError, ValidationError, ValueError) as e:
+            if attempt < max_retries - 1:
+                # Provide specific feedback for retry
+                input_text = f"{input_text}\n\nPrevious attempt failed: {str(e)}\nPlease correct and try again."
+            else:
+                # Final fallback: use deterministic regex/rule-based extraction
+                return fallback_parser(input_text)
+  ```
+
 ### References
 - https://unstract.com/blog/understanding-why-deterministic-output-from-llms-is-nearly-impossible
+- https://www.vincentschmalbach.com/does-temperature-0-guarantee-deterministic-llm-outputs
+- https://dylancastillo.co/posts/seed-temperature-llms.html
 - https://arxiv.org/html/2408.04667v5 - Research paper
 
 ## The 100% Accuracy Problem: Where AI Should Never Be Used
