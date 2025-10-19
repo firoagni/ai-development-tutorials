@@ -12,7 +12,7 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 **Workflows** are like **flowcharts**, where each step is **explicitly defined**, **from start to finish**, in **advance**, by the developer.
 
-Some steps in a Workflow are AI-powered (LLM calls) while others are traditional code (database queries, API calls, calculations, or business logic).
+Some steps in a Workflow use LLMs, while others use traditional code.
 
 <img src="images/workflow.png" alt="workflow" width="600"/><br>
 
@@ -52,7 +52,7 @@ You didn't tell it to do any of those steps. It figured out the plan on its own.
 <img src="images/workflow_vs_agent.png" alt="agent" width="610"/><br>
 
 **Workflows** are:
-- ✅ **Predictable**: They follow a clear path with no surprises
+- ✅ **Predictable**: Input A always leads to Process B, then Result C
 - ✅ **Debuggable**: When something breaks, you know exactly where to look
 - ❌ **Rigid**: Adding new features often means rewriting logic and updating the flow
 - ❌ **Brittle**: Can fail when presented with unexpected inputs or cases you didn't anticipate
@@ -63,9 +63,12 @@ You didn't tell it to do any of those steps. It figured out the plan on its own.
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **5-10x more Expensive**: Each decision requires an LLM call ($$), also agents may explore wrong paths before succeeding
 
-Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent" -- you might be tempted to **always** choose agents over workflows. However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
+Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent" -- you might be tempted to **always** choose agents over everything. However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
+
+<em>"Sometimes, using an agent is like replacing a microwave with a sous chef — more flexible, but also more expensive, harder to manage, and occasionally makes decisions you didn’t ask for"</em>
 
 **The appeal of using agents everywhere is understandable, but resist the temptation.** 
+
 1. **Start Simple:** Can you solve your problem without LLMs at all? Consider traditional programming first<br>
 1. **Need AI? Start with a workflow:** Workflows are ideal if you know all the steps in advance
 1. **Use Agents "only" when:**
@@ -75,8 +78,22 @@ Given that agent-based AI-solutions are easier to implement, easier to extend, a
 
 Default to workflows for their predictability and consistency. Use agents only when workflows cannot solve the problem.
 
+### In practice, most production systems combine workflows and agents strategically 
+Rather than choosing one approach exclusively, successful implementations use workflows for predictable steps and agents only where flexibility is essential. Example:
+
+```
+Workflow: Payment Processing
+├─ Step 1: Ask user for a task
+├─ Step 2: Determine operation [AI Agent]
+│  └─ Allowed tools: [check_balance, validate_card, verify_bank]
+├─ Step 3: Execute payment
+└─ Step 4: Send confirmation
+```
+This is exactly how many real systems are built. The workflow handles the 80% of predictable work, while the agent jumps in for the 20% that needs creative reasoning or planning.
+
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
+- https://towardsdatascience.com/a-developers-guide-to-building-scalable-ai-workflows-vs-agents
 - https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
