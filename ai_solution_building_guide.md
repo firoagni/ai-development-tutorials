@@ -76,6 +76,14 @@ Given that agent-based AI-solutions are easier to implement, easier to extend, a
     - The problem requires adapting to many different, unpredictable situations (like developing a general-purpose AI assistant)
     - The debugging overhead and the 5-10x cost increase is worth the flexibility
 
+[Anthropic:](https://www.anthropic.com/engineering/building-effective-agents) 
+> <em>"When building applications with LLMs, we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all. Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense.
+>
+> When more complexity is warranted, workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale."</em>
+
+[OpenAI:](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
+> <em>"Before committing to building an agent, validate that your use case can meet these criteria clearly. Otherwise, a deterministic solution [Workflow] may suffice."</em>
+
 Default to workflows for their predictability and consistency. Use agents only when workflows cannot solve the problem.
 
 ### In practice, most production systems combine workflows and agents strategically 
@@ -84,17 +92,35 @@ Rather than choosing one approach exclusively, successful implementations use wo
 ```
 Workflow: Payment Processing
 ├─ Step 1: Ask user for a task
-├─ Step 2: Determine operation [AI Agent]
+├─ Step 2: Determine operation to accomplish task [AI Agent]
 │  └─ Allowed tools: [check_balance, validate_card, verify_bank]
-├─ Step 3: Execute payment
+├─ Step 3: Execute operation
 └─ Step 4: Send confirmation
 ```
-This is exactly how many real systems are built. The workflow handles the 80% of predictable work, while the agent jumps in for the 20% that needs creative reasoning or planning.
+This is exactly how many real systems are built. The workflow handles the 80% of predictable work, while the agent jumps in for the 20% that needs creative reasoning or planning. 
+
+**The question isn't "workflow or agent?" but rather "how much agency does my system need?"**. The higher the percentage of agent involvement in your hybrid system, the more "agentic" it becomes. [Andrew Ng, co-founder of Coursera, writes:](https://x.com/AndrewYNg/status/1801295202788983136) 
+> <em>"Rather than arguing over which work to include or exclude as being a true agent, we can acknowledge that there are different degrees to which systems can be agentic."</em> 
+
+Think of it as a spectrum, not a binary choice. At one end, you have pure workflows—deterministic, predictable, easy to debug. At the other end, you have pure agents—autonomous, flexible, but unpredictable and costly. Most production systems live somewhere in between, carefully balancing predictability with flexibility.
+
+![predictibility vs agency](images/predictibility_v_agency.png)
+
+The right balance depends entirely on your use case. 
+- Need to handle well-defined, repeatable tasks at scale? Lean toward workflows. 
+- Building a system that must adapt to unpredictable user needs across diverse scenarios? Dial up the agency. 
+
+Neither extreme is inherently better—it's about matching the design to your requirements.
+
+**Your application, your choice**
 
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
+- https://blog.langchain.com/how-to-think-about-agent-frameworks
+- https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf
+- https://www.devshorts.in/p/the-silent-battle-over-agents-workflows
+- https://x.com/AndrewYNg/status/1801295202788983136
 - https://towardsdatascience.com/a-developers-guide-to-building-scalable-ai-workflows-vs-agents
-- https://langchain-ai.github.io/langgraph/tutorials/workflows
 - https://medium.com/@neeldevenshah/ai-workflows-vs-ai-agents-vs-multi-agentic-systems-a-comprehensive-guide-f945d5e2e991
 
 ## Design Patterns for Creating AI Solutions
@@ -112,15 +138,20 @@ There are many frameworks that make creating AI-powered systems easier to implem
 - n8n - a drag and drop, LLM supported workflow builder
 - Amazon Bedrock's AI Agent framework
 
-From Anthropic:
+[From Anthropic:](https://www.anthropic.com/engineering/building-effective-agents)
 
 <em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
 
 We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
 </em>
 
+[From Langchain:](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
+
+<em> If your application does not require all of these features [memory management, humand-on-the-loop mechanism, debugging and  observability for LLMs etc.], and/or if you want to build them yourself, then you may not need one [Framework]. Some of them (like short term memory) aren’t terribly complicated. Others of them (like human-on-the-loop, or LLM specific observability) are more complicated.</em>
+
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
+- https://blog.langchain.com/how-to-think-about-agent-frameworks
 
 ## Building Agent on Your Own? Things to Know
 
