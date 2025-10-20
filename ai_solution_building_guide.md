@@ -184,7 +184,7 @@ This is a monumental leap as function calling can transform LLMs from a passive 
 
 Think of LLM agent a manager and the tools it has access to as its team of specialists: a Web Searcher, a Code Interpreter, a Database Expert, and so on. When the manager gets a request that it can’t handle alone, it doesn’t guess. It delegates.
 
-### Reference
+### References
 - https://openai.com/index/function-calling-and-other-api-updates/
 - https://medium.com/@isaikat213/beyond-the-chatbot-how-tool-calling-is-giving-llms-real-world-superpowers-bcb13f754f98
 
@@ -197,6 +197,8 @@ MCP is a protocol that allows AI systems (like Copilot, Windsurf or any custom A
 
 - **Without MCP** - tools you write can only be used within your own code.
 - **With MCP** - tools become accessible to other AI systems
+
+<img src="images/mcp.png" width="480"/>
 
 MCP isn't a revolutionary new technology - it's a new standard. If you've been working with agents for any length of time, you've already been implementing the core concept: giving LLMs access to tools through function calling. What's different is that MCP provides a standardized protocol for these interactions.
 
@@ -241,6 +243,10 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - ⁠Imagine debugging a production issue where an AI agent made 20 tool calls across five other services to answer a customer query, and the response was wrong. With gRPC, distributed tracing would show you the exact call that failed in minutes. The trace ID would correlate logs across all services. With MCP, you’re grepping through JSON logs across multiple services with no correlation IDs, trying to reconstruct what happened. One takes 30 minutes, the other takes 3 days.
 - ⁠Got a $50,000 OpenAI bill? MCP doesn’t show which team, tool, or user racked it up—no tracking, no quotas, no clues. You’re guessing where the money went. Compare that to AWS or Google Cloud, where every action is tagged and billed clearly.
 - ⁠Malicious prompt: Imagine a user copying and pasting a complex, obfuscated prompt they believe will create a new user in their cloud environment—the malicious prompt could, in addition to creating the intended user, also create another user for the attacker. This is why the actions performed by the MCP servers should always be confirmed by the users or restricted to reduce risk to an acceptable level.
+
+### Refernces
+- https://www.reddit.com/r/mcp/comments/1mub6g6/one_month_in_mcp_what_i_learned_the_hard_way/
+- https://julsimon.medium.com/why-mcps-disregard-for-40-years-of-rpc-best-practices-will-burn-enterprises-8ef85ce5bc9b
 
 ## Guardrails
 
@@ -606,7 +612,7 @@ The industry consensus seems to be that **perfect determinism isn’t worth the 
   
   Some providers (OpenAI, Anthropic) support seed parameters that attempt to make outputs more reproducible. Combine seeds with `temp=0` for maximum reproducibility.
 
-  However, understand that seeds are "best effort" hints, not guarantees. They help reduce variation but won't eliminate it entirely, especially across model versions or infrastructure changes.
+  Keep in mind that seeds are "best effort" hints, not guarantees. They help reduce variation but won't eliminate it entirely, especially across model versions or infrastructure changes.
 
 - **Force Structured Output**
 
