@@ -526,6 +526,110 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 - https://huggingface.co/papers/2406.16008
 - https://news.mit.edu/2025/unpacking-large-language-model-bias-0617
 
+## Context Engineering for AI Coding Assistants
+
+Given the inherent challenges of context rot and positional bias, the optimal strategy is to provide LLMs with **short, high-quality context** rather than overwhelming them with every available piece of information. When building your own AI solution from scratch, managing context is largely within your control. But how can you maintain context quality when working with AI coding assistants like Cursor, Copilot, or Windsurf?
+
+To come up with a solution, let us first understand what consumes context windows in AI coding assistants:
+- **Long Conversations:** Long conversations fill the context window, degrading the AI’s performance and increasing costs.
+- **Understanding code flow:** Call graphs, dependency trees, and execution traces that span multiple files
+- **Searching for files:** Directory listings and file content scans across large codebases
+- **Huge JSON blobs from tools:** API responses, configuration files, and structured data dumps from tools
+- **Test/build logs:** Verbose execution output
+
+So how should we manage this context explosion? Let's examine approaches from least to most effective.
+
+### The Naive Way to Manage Assistant Context
+Most of us start by using an AI assistant like a chatbot. You talk back and forth with it, vibing your way through a problem until you either run out of context, give up, or the agent starts apologizing.
+
+### Slightly Better: The Fresh Start
+A slightly smarter way is to just start over when you get off track, discarding your session and starting a new one, perhaps with a little more steering in the prompt.
+```
+[original prompt], but make sure you use [XYZ] approach, because [ABC] approach won't work
+```
+
+### The Strategic Approach
+This approach transforms how you work with AI coding assistants by front-loading structure and maintaining disciplined context hygiene throughout your project.
+
+#### 1. Create a README for AI Assistants
+For your code repository, create a Markdown file called [`AGENTS.md`](https://agents.md/) that serves as the assistants reference manual for the repository. This prevents it from burning tokens on discovery and research. Include:
+- **Project Overview:** What the repository does and its core purpose
+- **Architecture:** High-level system design and architectural decisions
+- **Directory Structure:** What each major directory contains and why
+- **Key Components:** Critical files, classes, and functions with brief descriptions
+- **Data Flow:** How data moves through the system
+- **Dependencies:** External libraries, APIs, and their purposes
+- **Conventions:** Coding standards, naming patterns, and project-specific practices
+
+**Example structure:**
+```markdown
+# Repository Guide
+
+## Overview
+A task management API built with FastAPI and PostgreSQL
+
+## Architecture
+- REST API with async handlers
+- PostgreSQL for persistence
+- Redis for caching
+- Background job queue with Celery
+
+## Directory Structure
+- `/api` - API routes and handlers
+- `/models` - SQLAlchemy models
+- `/services` - Business logic layer
+- `/utils` - Shared utilities
+
+## Key Functions
+- `create_task()` in `/services/tasks.py` - Validates and creates tasks
+- `TaskRepository` in `/models/task.py` - Database operations
+```
+
+#### 2. Decompose Requirement into Atomic Tasks
+Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
+
+- Solve one specific problem
+- Have clear success criteria
+- Be testable in isolation
+
+This granular approach provides two critical benefits:
+- The AI can validate its work immediately, staying grounded in reality
+- If a session derails, you can restart and resume from the failed task rather than the beginning
+
+**Example task breakdown:**
+```markdown
+Instead of: "Build user authentication system"
+
+Break into:
+1. Create User model with password hashing
+2. Implement JWT token generation
+3. Add login endpoint with validation
+4. Create password reset flow
+5. Add role-based access control
+```
+#### 3. Compaction
+
+As your context starts to fill up, pause your work and start over with a fresh context window. Use a prompt like:
+
+```markdown
+Write everything we've accomplished to progress.md. Include:
+- The end goal
+- Our chosen approach and why
+- Steps completed successfully
+- Current blocker or failure we're addressing
+```
+
+This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
+
+---
+
+**The pattern:** Start with structure, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
+
+Reference:
+- https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md
+- https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+- https://agents.md
+
 ## Deterministic Output from LLMs is Nearly Impossible
 
 While building AI-powered systems, we often desire that the same input should return the same output. This allure of deterministic outputs isn't just about satisfying our inner perfectionist—determinism is oftentimes necessary in production systems:
