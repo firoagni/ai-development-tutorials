@@ -140,18 +140,19 @@ There are many frameworks that make creating AI-powered systems easier to implem
 
 [From Anthropic:](https://www.anthropic.com/engineering/building-effective-agents)
 
-<em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
-
-We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
+> <em> These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
+>
+> We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
 </em>
 
 [From Langchain:](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
 
-<em> If your application does not require all of these features [memory management, humand-on-the-loop mechanism, debugging and  observability for LLMs etc.], and/or if you want to build them yourself, then you may not need one [Framework]. Some of them (like short term memory) aren’t terribly complicated. Others of them (like human-on-the-loop, or LLM specific observability) are more complicated.</em>
+> <em> If your application does not require all of these features [memory management, humand-on-the-loop mechanism, debugging and  observability for LLMs etc.], and/or if you want to build them yourself, then you may not need one [Framework]. Some of them (like short term memory) aren’t terribly complicated. Others of them (like human-on-the-loop, or LLM specific observability) are more complicated.</em>
 
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
 - https://blog.langchain.com/how-to-think-about-agent-frameworks
+- https://blog.langchain.com/not-another-workflow-builder/
 
 ## Building Agent on Your Own? Things to Know
 
