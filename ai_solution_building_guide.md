@@ -227,8 +227,10 @@ The MCP ecosystem is already growing rapidly, with servers available for many to
 This means you can leverage existing servers rather than reinventing the wheel, and contribute your own servers to benefit the community.
 
 ### Current MCP challenges
-- When different MCP servers expose tools with the same function name, things break in weird ways. One server says `get_issue`, another also says `get_issue`. Suddenly the agent has no clue which one to call. It sounds minor, but in practice, this creates silent failures and confusion.
 - Most LLMs start to struggle once you load them with more than ~40 tools. The context gets bloated, tool selection slows down, and performance drops. Just adding Grafana pulled in dozens of tools on its own, and Cursor basically started choking as soon as it crossed that limit. You can’t just plug in every tool and expect the model to stay sharp.
+  - Research by [Tiantian Gan and Qiyao Sun](https://arxiv.org/pdf/2505.03275) found that keeping tool selections under 30 tools gave three times better tool selection accuracy.
+  - The Berkeley [Function-Calling Leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) shows every model performs worse when given more than one tool, and models will sometimes call tools that have nothing to do with the task.
+- When different MCP servers expose tools with the same function name, things break in weird ways. One server says `get_issue`, another also says `get_issue`. Suddenly the agent has no clue which one to call. It sounds minor, but in practice, this creates silent failures and confusion.
 - ⁠Assume your CI pipeline uses an agent connected to multiple MCP servers. An MCP server that might initially appear safe during installation - even with its source code and tool descriptions appearing normal, can later be modified in a future update. 
 
     For example, a tool originally described as gathering weather information may be modified in an update to start gathering confidential information and sending it to an attacker.
@@ -247,6 +249,7 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 ### Refernces
 - https://www.reddit.com/r/mcp/comments/1mub6g6/one_month_in_mcp_what_i_learned_the_hard_way/
 - https://julsimon.medium.com/why-mcps-disregard-for-40-years-of-rpc-best-practices-will-burn-enterprises-8ef85ce5bc9b
+- https://www.datacamp.com/blog/context-engineering
 
 ## Guardrails
 
@@ -499,11 +502,27 @@ Although LLMs are often assumed to process context uniformly—such that the 10,
 
 The Chroma [“Context Rot” study](https://research.trychroma.com/context-rot) reveals that simply increasing input length & maximising token windows doesn’t deliver linearly improving accuracy. Instead, LLM performance degrades unevenly & often unpredictably as contexts grow, underscoring the limitations of relying on sheer scale over thoughtful context engineering.
 
-![input token v accuracy chart](images/input_token_vs_accuracy.png)
+<img src="images/input_token_vs_accuracy.png" alt="Context Rot Study" width="680"/><br>
+
+[The Databricks study](https://www.databricks.com/blog/long-context-rag-performance-llms) results are similar. They found that model correctness began dropping around 32,000 tokens for Llama 3.1 405b, with smaller models hitting their limit much earlier. 
+
+<img src="images/databricks_study.png" alt="Context Rot Study" width="780"/><br>
+
+This means models start making mistakes long before their context windows are actually full, which makes you wonder about the real value of very large context windows for complex reasoning tasks.
+
+[Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+> Despite their speed and ability to manage larger and larger volumes of data, we’ve observed that LLMs, like humans, lose focus or experience confusion at a certain point. Studies on needle-in-a-haystack style benchmarking have uncovered the concept of context rot: as the number of tokens in the context window increases, the model’s ability to accurately recall information from that context decreases.
+>
+> While some models exhibit more gentle degradation than others, this characteristic emerges across all models. Context, therefore, must be treated as a finite resource with diminishing marginal returns. Like humans, who have limited working memory capacity, LLMs have an “attention budget” that they draw on when parsing large volumes of context. Every new token introduced depletes this budget by some amount, increasing the need to carefully curate the tokens available to the LLM.
+>
+> This attention scarcity stems from architectural constraints of LLMs. LLMs are based on the transformer architecture, which enables every token to attend to every other token across the entire context. This results in n² pairwise relationships for n tokens.
+>
+> As its context length increases, a model's ability to capture these pairwise relationships gets stretched thin, creating a natural tension between context size and attention focus. Additionally, models develop their attention patterns from training data distributions where shorter sequences are typically more common than longer ones. This means models have less experience with, and fewer specialized parameters for, context-wide dependencies.
 
 ### References
 - [Chroma Context Rot Study](https://research.trychroma.com/context-rot)
 - [Elastic Study](https://www.elastic.co/search-labs/blog/rag-vs-long-context-model-llm)
+- [Databricks Study](https://www.databricks.com/blog/long-context-rag-performance-llms)
 
 ## Recency and Primacy bias in LLM
 Imagine your partner or flatmate asks you to pick up a few things on your quick trip to the supermarket. It’s only six items, so you’re confident you’ll remember and don’t bother writing them down. Once you arrive at the store, you can only remember the first two and the last one, but nothing in between.
@@ -534,12 +553,12 @@ To come up with a solution, let us first understand what consumes context window
 - **Long Conversations:** Long conversations fill the context window, degrading the AI’s performance and increasing costs.
 - **Understanding code flow:** Call graphs, dependency trees, and execution traces that span multiple files
 - **Searching for files:** Directory listings and file content scans across large codebases
-- **Huge JSON blobs from tools:** API responses, configuration files, and structured data dumps from tools
-- **Test/build logs:** Verbose execution output
+- **Huge JSON blobs from tools:** API responses and structured data dumps from tools
+- **Test/build logs:** Execution output
 
 So how should we manage this context explosion? Let's examine approaches from least to most effective.
 
-### The Naive Way to Manage Assistant Context
+### The Naive Way
 Most of us start by using an AI assistant like a chatbot. You talk back and forth with it, vibing your way through a problem until you either run out of context, give up, or the agent starts apologizing.
 
 ### Slightly Better: The Fresh Start
@@ -549,10 +568,9 @@ A slightly smarter way is to just start over when you get off track, discarding 
 ```
 
 ### The Strategic Approach
-This approach transforms how you work with AI coding assistants by front-loading structure and maintaining disciplined context hygiene throughout your project.
 
 #### 1. Create a README for AI Assistants
-For your code repository, create a Markdown file called [`AGENTS.md`](https://agents.md/) that serves as the assistants reference manual for the repository. This prevents it from burning tokens on discovery and research. Include:
+For your code repository, create a Markdown file called [`AGENTS.md`](https://agents.md/) that serves as the assistants reference manual for the repository. Include:
 - **Project Overview:** What the repository does and its core purpose
 - **Architecture:** High-level system design and architectural decisions
 - **Directory Structure:** What each major directory contains and why
@@ -560,6 +578,8 @@ For your code repository, create a Markdown file called [`AGENTS.md`](https://ag
 - **Data Flow:** How data moves through the system
 - **Dependencies:** External libraries, APIs, and their purposes
 - **Conventions:** Coding standards, naming patterns, and project-specific practices
+
+This prevents it from burning tokens on discovery and research. 
 
 **Example structure:**
 ```markdown
@@ -607,9 +627,9 @@ Break into:
 4. Create password reset flow
 5. Add role-based access control
 ```
-#### 3. Compaction
+#### 3. Compaction (a.k.a Context Summarization)
 
-As your context starts to fill up, pause your work and start over with a fresh context window. Use a prompt like:
+As your context starts to fill up, pause your work and start over with a fresh context window. To do this, use a prompt like this:
 
 ```markdown
 Write everything we've accomplished to progress.md. Include:
@@ -628,6 +648,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 Reference:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md
 - https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+- https://www.datacamp.com/blog/context-engineering
 - https://agents.md
 
 ## Deterministic Output from LLMs is Nearly Impossible
