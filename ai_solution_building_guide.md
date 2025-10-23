@@ -605,7 +605,7 @@ A task management API built with FastAPI and PostgreSQL
 - `TaskRepository` in `/models/task.py` - Database operations
 ```
 
-**Do not simply copy your `README.md` as `AGENTS.md`.** These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase. Every line in `AGENTS.md` should answer the question: "Does an AI need this to write better code for this project?" If not, leave it out.
+**Do not simply copy your `README.md` as `AGENTS.md`.** These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase.
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -653,6 +653,38 @@ Reference:
 - https://www.datacamp.com/blog/context-engineering
 - https://agents.md
 - https://devcenter.upsun.com/posts/why-your-readme-matters-more-than-ai-configuration-files/
+
+
+## Andrej Karpathy's Approach to AI Coding Assistants
+
+Andrej Karpathy, a founding member of OpenAI who coined the term "vibe coding," identifies three distinct approaches developers take when working with AI coding tools today.
+- **Complete Rejection** - At one extreme are developers who completely reject LLMs and write everything from scratch. According to Karpathy, "this is probably not the right thing to do anymore."
+- **Autocomplete-Assisted Coding** (Karpathy's Primary Method) - You write code from scratch but leverage coding assistant's autocomplete functionality. This workflow keeps the developer as the architect while accelerating execution. As Karpathy explains: "When you start writing out a little piece of it, it will autocomplete for you and you can just tap through. Most of the time it's correct, sometimes it's not, and you edit it. But you're still very much the architect of what you're writing."
+- **Vibe Coding** - Conversational prompting where developers simply ask the AI to "implement this or that" and let the model generate entire features or components. While Karpathy coined this term, he uses it selectively.
+
+### When Vibe Coding Works (and When It Doesn't)
+
+**Ideal Use Cases:**
+- **Boilerplate code** - Repetitive, copy-paste style implementations
+- **Well-documented patterns** - Code that appears frequently online and in training data.
+- **Unfamiliar languages** - Learning unfamiliar languages or paradigms
+
+He cites his experience rewriting a tokenizer from Python to Rust as an example. Though relatively new to Rust, he successfully used vibe coding because he had a fully understood Python implementation and comprehensive tests to validate the output. "They increase accessibility to languages or paradigms that you might not be as familiar with," he notes.
+
+**Where Vibe Coding Falls Short:**
+
+For non-boilerplate, novel code, Karpathy finds current LLMs have significant "cognitive deficits." The models carry too much memory of typical patterns from their training data, leading them to:
+- Misunderstand unique architectural requirements
+- Bloat the codebase with unnecessary complexity
+- Use deprecated APIs
+- Generate code that requires more cleanup than it's worth
+
+"I feel like they're bloating the code base, bloating the complexity, they keep misunderstanding... It's just not net useful," he observes.
+
+Karpathy also finds typing out full English instructions inefficient compared to autocomplete: "It's annoying to have to type out what I want in English because it's too much typing. If I just navigate to the part of the code that I want, and I go where I know the code has to appear and I start typing out the first few letters, autocomplete gets it and just gives you the code."
+
+### Complete discussion
+- https://www.dwarkesh.com/i/176425744/llm-cognitive-deficits 
 
 ## Deterministic Output from LLMs is Nearly Impossible
 
