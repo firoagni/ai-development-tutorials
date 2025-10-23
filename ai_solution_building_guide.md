@@ -605,6 +605,8 @@ A task management API built with FastAPI and PostgreSQL
 - `TaskRepository` in `/models/task.py` - Database operations
 ```
 
+**Do not simply copy your `README.md` as `AGENTS.md`.** These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase. Every line in `AGENTS.md` should answer the question: "Does an AI need this to write better code for this project?" If not, leave it out.
+
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
 
@@ -650,6 +652,7 @@ Reference:
 - https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
 - https://www.datacamp.com/blog/context-engineering
 - https://agents.md
+- https://devcenter.upsun.com/posts/why-your-readme-matters-more-than-ai-configuration-files/
 
 ## Deterministic Output from LLMs is Nearly Impossible
 
