@@ -967,6 +967,8 @@ However, this improvement hasn't fully solved the problem. Writing code introduc
 - The AI must write *correct* Python code, which isn't guaranteed.
     - Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
     - Wrong assumptions about data structure, column names, or data meaning can lead to sophisticated but incorrect analysis.
+  
+  [Tool use: python interpreter, messiness of the ecosystem](https://youtu.be/EWvNQjAaOHw?t=3540)
 
 ### The Current State: Proceed With Extreme Caution
 
@@ -978,13 +980,17 @@ The most honest assessment is this: current AI tools are powerful for generating
 
 ### Currently what you can do
 
-- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code (called code interpreter). However, they still aren't perfect and can get the analysis wrong.
 - **Connect LLMs to tools that can perform calculations**: Rather than having the AI calculate results itself, connect it to reliable computational engines—essentially giving it a calculator it must use. Tools that connect to Excel functions, SQL databases, or Python libraries handle the actual math while the LLM manages translation and interpretation. 
+- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code (called code interpreter). However, they still aren't perfect and can get the analysis wrong.
 
 **However, the fundamental problem persists**: 
 Even with reasoning models and tool integration, these solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI used Python" or "the AI called a tool" doesn't guarantee correctness—just that the math within the execution is accurate.
 
 Additional steps you can take:
+- **Engineer your prompts for analytical rigor**: For any task involving numbers, calculations, or data manipulation, "explicitly" instruct the AI to follow a hierarchy:
+  - First check if an available tool can answer the question
+  - If not then default to writing and executing a Python script
+  - If neither approach works, explicitly state the limitation to the user rather than hallucinating results.
 - **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't be able to handle complex ones.
 - **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
 - **Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
