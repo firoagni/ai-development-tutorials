@@ -168,7 +168,7 @@ This means: if the model gives 80% probability to the correct word, loss = -log(
 
     <br><img src="images/loss_parameters.png" width="600"/><br>
 
-
+3. [Interesting observation around loss](https://youtu.be/5eqRuVp65eY)
 
 ### The base model - the result of pretraining
 After pretraining, the model that is generated is known as the **base model**, **foundation model** or **pretrained model**. 
