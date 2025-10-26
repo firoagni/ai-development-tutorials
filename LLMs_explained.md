@@ -92,7 +92,6 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
     - The more parameters an LLM has, the more it can “remember” about language patterns.
 
 **Notes**:
-- Pretraining is unsupervised learning because the model learns from raw text without labeled answers.
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
 - In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, **weight adjustments are more crucial than embedding tweaks**.
 - LLM models do not store or retain copies of the data they are trained on. Instead, the training data is only used to improve the model parameters to predict the next token with higher accuracy.
@@ -168,6 +167,8 @@ This means: if the model gives 80% probability to the correct word, loss = -log(
    - More parameters = more capacity to capture nuanced language patterns = better predictions = lower loss
 
     <br><img src="images/loss_parameters.png" width="600"/><br>
+
+
 
 ### The base model - the result of pretraining
 After pretraining, the model that is generated is known as the **base model**, **foundation model** or **pretrained model**. 
@@ -253,8 +254,10 @@ As you can see, inference steps 1-5 are similar to pretraining, but with a few k
 | Add Positional Encodings | Yes                              | Yes                                |
 | Self-Attention        | Yes                                 | Yes                                |
 
+**Continuous learning** is missing in LLMs. During inference LLMs **do not learn**, their parameters are not updated. As soon as the context is cleared, a new session starts, LLM brain resets.
+
 ### Computational Requirements
-- Uses less compute than pretraining but still requires powerful hardware (GPUs/TPUs) for fast responses.
+- Inference uses less compute than pretraining but still requires powerful hardware (GPUs/TPUs) for fast responses.
 - VRAM (Video RAM) is crucial for storing model parameters and handling large context windows.
 
 ### I want to run a LLM on my hardware, but I don't have a Graphic Card (GPU). Can I still do it?
@@ -382,6 +385,9 @@ Here's a real demonstration of how the sentence "I love pizza!" is tokenized in 
 <img src="images/ilovepizza_token.png" width="600"/><br>
 <img src="images/ilovepizza_token_id.png" width="600"/><br>
 
+- [Tokenizer tool used in the demonstration](https://platform.openai.com/tokenizer)
+- [My favorite tool to visualize tokenization](https://tiktokenizer.vercel.app/)
+
 ## Self-Attention Deep Dive: How LLMs understand relationships between words
 
 The groundbreaking research paper "Attention Is All You Need" revolutionized artificial intelligence and changed everything we knew about how machines could understand language. This paper introduced the concept of **self-attention** as the core mechanism for processing text, replacing older approaches and setting the foundation for all modern AI language models, including ChatGPT, GPT-4, and Claude.
@@ -437,6 +443,11 @@ While our example focuses on pronoun resolution, self-attention works for all ki
 - The overall meaning and sentiment of text
 
 Self-attention is essentially teaching AI to read between the lines, just like humans do. It transforms a sequence of individual tokens into a web of meaningful relationships, enabling machines to understand not just what words mean individually, but how they work together to create meaning.
+
+### Isn't N×N Attention Really Expensive?
+Yes, absolutely! A sentence with 1,000 tokens creates a 1,000 × 1,000 matrix - that's 1 million attention calculations. Double your input length, and you quadruple the computation. This quadratic scaling is one of the biggest bottlenecks in modern AI.
+
+Researchers are trying to find optimizations to address this. One such optimization is sparse attention - a filter to use attention only to the important tokens.
 
 ## Thinking Models
 
