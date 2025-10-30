@@ -980,7 +980,7 @@ The most honest assessment is this: current AI tools are powerful for generating
 
 ### Currently what you can do
 If you're going to use AI for analytics, consider these strategies:
-- **Connect LLMs to tools that can perform calculations**: Rather than relying on AI's built-in math abilities (which can falter), provide it access to external computational tools like SQL databases, Python libraries, or spreadsheet functions. Essentially, give AI a calculator that it must use.
+- **Connect LLMs to tools that can perform calculations**: Rather than relying on AI's built-in math abilities (which can falter), provide it access to external computational tools like SQL databases, Python libraries, or spreadsheet functions. Essentially, **give AI a calculator that it must use**.
 - **Engineer your prompts for analytical rigor**: For any task involving numbers, calculations, or data manipulation, "explicitly" instruct the AI to follow a hierarchy:
   - First check if an available tool can answer the question
   - If not, then default to writing a Python script
