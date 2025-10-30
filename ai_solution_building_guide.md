@@ -762,7 +762,6 @@ So even with temperature set to 0, you might see occasional variations. They're 
 - **Model Updates:** Providers regularly update models and infrastructure. Even if they could guarantee determinism today, tomorrow’s model update would break it.
 
 ### Workarounds for the Desperate
-The industry consensus seems to be that **perfect determinism isn’t worth the performance and complexity costs for most applications**. If you need reproducible outputs, the best approach is usually to design your application to be robust to minor variations rather than expecting bit-perfect determinism.
 
 - **Temperature = 0**
 
@@ -772,7 +771,7 @@ The industry consensus seems to be that **perfect determinism isn’t worth the 
   
   Some providers (OpenAI, Anthropic) support seed parameters that attempt to make outputs more reproducible. Combine seeds with `temp=0` for maximum reproducibility.
 
-  Keep in mind that seeds are "best effort" hints, not guarantees. They help reduce variation but won't eliminate it entirely, especially across model versions or infrastructure changes.
+  Keep in mind that seeds are "best effort" hints, not guarantees. They help reduce variation but won't eliminate it entirely.
 
 - **Force Structured Output**
 
