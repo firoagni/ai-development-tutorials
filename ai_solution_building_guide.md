@@ -946,7 +946,7 @@ This probabilistic nature of LLM creates particularly significant issues with da
 
 Upload a simple sales spreadsheet and ask it to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
 
-This isn't a rare glitch—it's systematic. AI tools consistently struggle with:
+This isn't a rare glitch, it's systematic. AI tools consistently struggle with:
 - **Basic counting**: Missing rows, double-counting entries, or stopping partway through datasets
 - **Data boundaries**: Skipping the last few rows of a file or ignoring edge cases
 - **Filter accuracy**: When you ask for "sales above $1,000," it might include $999 transactions or mysteriously exclude valid $1,500 ones
@@ -960,9 +960,9 @@ Even worse, AI-generated mistakes often look professional and convincing. The to
 
 ### Recent Improvements: The Code Generation Approach
 
-Recent LLM implementations have developed a more promising strategy for handling data analysis. Instead of trying to process data directly through language generation, modern AI tools increasingly recognize when they need to write and execute a Python code to perform calculations.
+Recent LLM implementations have developed a more promising strategy, called **code interpreter**, for handling data analysis. Instead of trying to multiply 456 × 789 in their head, LLMs can now recognize that this is a calculation problem and can write a **Python script** to do the math for them.
 
-However, this improvement hasn't fully solved the problem. Writing code introduces its own set of challenges:
+AI writing code, however, has its own challenges:
 - The AI must first recognize that a problem requires computational analysis rather than language-based reasoning. 
 - The AI must write *correct* Python code, which isn't guaranteed.
     - Logic errors in generated scripts can be subtle and harder to spot than obvious calculation mistakes.
@@ -979,20 +979,20 @@ Some organizations are building verification systems—automated checks that val
 The most honest assessment is this: current AI tools are powerful for generating hypotheses and initial insights, but they're not ready to be trusted with consequential analysis without extensive human oversight.
 
 ### Currently what you can do
-
-- **Connect LLMs to tools that can perform calculations**: Rather than having the AI calculate results itself, connect it to reliable computational engines—essentially giving it a calculator it must use. Tools that connect to Excel functions, SQL databases, or Python libraries handle the actual math while the LLM manages translation and interpretation. 
-- **Use Reasoning Models**: Reasoning models (like OpenAI's o1 or DeepSeek R1) are better at recognizing that the problem is computational and should be approached by writing code (called code interpreter). However, they still aren't perfect and can get the analysis wrong.
-
-**However, the fundamental problem persists**: 
-Even with reasoning models and tool integration, these solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI used Python" or "the AI called a tool" doesn't guarantee correctness—just that the math within the execution is accurate.
-
-Additional steps you can take:
+If you're going to use AI for analytics, consider these strategies:
+- **Connect LLMs to tools that can perform calculations**: Rather than relying on AI's built-in math abilities (which can falter), provide it access to external computational tools like SQL databases, Python libraries, or spreadsheet functions. Essentially, give AI a calculator that it must use.
 - **Engineer your prompts for analytical rigor**: For any task involving numbers, calculations, or data manipulation, "explicitly" instruct the AI to follow a hierarchy:
   - First check if an available tool can answer the question
-  - If not then default to writing and executing a Python script
-  - If neither approach works, explicitly state the limitation to the user rather than hallucinating results.
+  - If not, then default to writing a Python script
+  - If neither approach works, explicitly state the limitation to the user rather than hallucinating results
+- **Use Reasoning Models**: Reasoning models (such as OpenAI's o1 or DeepSeek R1) are better at recognizing that problems are computational and should be approached by writing code. Prefer them over standard LLMs for analytics tasks.
+
+**However, the fundamental problem persists**: 
+The above solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI called a tool" or "the AI used Python" doesn't guarantee correctness—just that the math within the execution is accurate.
+
+Additional steps you can take:
 - **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't be able to handle complex ones.
-- **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia—it's professional responsibility.
+- **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia, it's professional responsibility.
 - **Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
 
 ### The reality
