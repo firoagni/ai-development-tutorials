@@ -942,9 +942,7 @@ If you're building AI-powered solutions, you have an ethical responsibility to:
 
 ## LLMs Struggle With Analytics
 
-This probabilistic nature of LLM creates particularly significant issues with data analysis. ChatGPT and similar AI tools can make embarrassing errors with data that would get a junior analyst fired.
-
-Upload a simple sales spreadsheet and ask it to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
+Upload a simple sales spreadsheet and ask your favourite LLM to count how many transactions happened in March. It might give you 1,247 when the real answer is 1,284. Point out the mistake, and you'll get the familiar response: "You're absolutely right, I apologize for the error. Let me recalculate..." Then it might give you 1,301.
 
 This isn't a rare glitch, it's systematic. AI tools consistently struggle with:
 - **Basic counting**: Missing rows, double-counting entries, or stopping partway through datasets
@@ -954,9 +952,9 @@ This isn't a rare glitch, it's systematic. AI tools consistently struggle with:
 
 The "sorry" response is particularly frustrating because it reveals the core problem: these tools don't actually understand they made a mistake until you point it out. They're not double-checking their work—they're generating plausible-sounding answers and hoping for the best.
 
-This creates a trust problem that goes beyond simple errors. In business contexts, wrong numbers don't just embarrass you in meetings—they drive bad decisions. Marketing budgets get misallocated, inventory gets over-ordered, and opportunities get missed because the analysis was fundamentally flawed.
+This creates a trust problem that goes beyond simple errors. In business contexts, wrong numbers don't just embarrass you in meetings, they drive bad decisions. Marketing budgets get misallocated, inventory gets over-ordered, and opportunities get missed because the analysis was fundamentally flawed.
 
-Even worse, AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
+What's worse? AI-generated mistakes often look professional and convincing. The tools format their wrong answers beautifully, provide confident explanations, and present charts that appear authoritative. This makes errors harder to catch than obvious mistakes from traditional tools.
 
 ### Recent Improvements: The Code Generation Approach
 
