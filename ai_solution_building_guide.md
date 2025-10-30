@@ -647,8 +647,8 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 **The pattern:** Start with structure, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
 
-Reference:
-- https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md
+### References:
+- https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
 - https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
 - https://www.datacamp.com/blog/context-engineering
 - https://agents.md
@@ -751,9 +751,9 @@ So even with temperature set to 0, you might see occasional variations. They're 
 
 - **OpenAI** [states that their API can only be “mostly deterministic”](https://platform.openai.com/docs/advanced-usage#reproducible-outputs) irrespective of the value of the temperature parameter. They’ve added a [seed parameter](https://cookbook.openai.com/examples/reproducible_outputs_with_the_seed_parameter) that improves reproducibility but still doesn’t guarantee identical outputs due to system updates and load balancing across different hardware. It’s a “best effort” kind of situation.
 
-- **Anthropic** follows a similar approach. The Claude API can produce slightly different outputs across calls, even with identical inputs and temp=0. No promises, no guarantees. Their [documentation](https://docs.claude.com/en/api/messages) mentions: “Note that even with temperature of 0.0, the results will not be fully deterministic.”
+- **Anthropic** [documentation](https://docs.claude.com/en/api/messages) mentions: “Note that even with temperature of 0.0, the results will not be fully deterministic.”
 
-- **Google (Vertex AI/Gemini)** also embraces non-determinism. Their [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) acknowledges that identical requests may produce different results. It reads: “A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, but a small amount of variation is still possible.”
+- **Google (Vertex AI/Gemini)** [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) states: “A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, **but a small amount of variation is still possible.**”
 
 **Why nobody's fixing this:**
 - **Performance Tradeoffs:** Deterministic operations are [often 2-5x slower](https://proceedings.mlsys.org/paper_files/paper/2022/file/427e0e886ebf87538afdf0badb805b7f-Paper.pdf) than their optimized non-deterministic counterparts. When you’re serving millions of requests, that matters.
@@ -850,6 +850,26 @@ The industry consensus seems to be that **perfect determinism isn’t worth the 
                 # Final fallback: use deterministic regex/rule-based extraction
                 return fallback_parser(input_text)
   ```
+
+- **Generate Code Instead of Answers**
+
+  Rather than asking a language model to solve a problem directly, ask it to generate a **script** that solves the problem.
+
+  For example, instead of saying,
+
+  ```markdown
+  Read all the `CMakeLists.txt` and `.cmake` files in the repository, analyze the targets, sources, and dependencies defined there, and then generate equivalent Bazel `BUILD` and `WORKSPACE` files.
+  ```
+
+  you could say:
+
+  ```markdown
+  **Write a Python script** that reads all the `CMakeLists.txt` and `.cmake` files in the repository, analyzes the targets, sources, and dependencies defined there, and then generates equivalent Bazel `BUILD` and `WORKSPACE` files.
+  ```
+
+  If the script’s logic is sound, you can run it repeatedly on new or modified inputs to produce consistent results. And if you later discover errors in its output for new CMake files, you can simply ask the LLM to update the script rather than starting from scratch.
+
+  This approach is most effective when the problem follows a **clear, rule-based structure**, allowing the script to handle future inputs that follow the same logic or can be adapted through simple script modifications. It is less effective, however, for **unstructured or ambiguous problems**.
 
 ### References
 - https://unstract.com/blog/understanding-why-deterministic-output-from-llms-is-nearly-impossible
