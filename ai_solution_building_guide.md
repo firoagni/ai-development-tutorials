@@ -559,10 +559,10 @@ To come up with a solution, let us first understand what consumes context window
 So how should we manage this context explosion? Let's examine approaches from least to most effective.
 
 ### The Naive Way
-Most of us start by using an AI assistant like a chatbot. You talk back and forth with it, vibing your way through a problem until you either run out of context, give up, or the agent starts apologizing.
+Most of us start by using an AI assistant like a chatbot. You talk back and forth with it, vibing your way through a problem until you find that the LLM has gone off the rails.
 
 ### Slightly Better: The Fresh Start
-A slightly smarter way is to just start over when you get off track, discarding your session and starting a new one, perhaps with a little more steering in the prompt.
+A slightly smarter way is to just start over when it gets off track, discarding your session and starting a new one, perhaps with a little more steering in the prompt.
 ```
 [original prompt], but make sure you use [XYZ] approach, because [ABC] approach won't work
 ```
@@ -570,7 +570,7 @@ A slightly smarter way is to just start over when you get off track, discarding 
 ### The Strategic Approach
 
 #### 1. Create a README for AI Assistants
-For your code repository, create a Markdown file called [`AGENTS.md`](https://agents.md/) that serves as the assistants reference manual for the repository. Include:
+For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/) that serves as the assistant's reference manual for the repository. Include:
 - **Project Overview:** What the repository does and its core purpose
 - **Architecture:** High-level system design and architectural decisions
 - **Directory Structure:** What each major directory contains and why
@@ -579,9 +579,7 @@ For your code repository, create a Markdown file called [`AGENTS.md`](https://ag
 - **Dependencies:** External libraries, APIs, and their purposes
 - **Conventions:** Coding standards, naming patterns, and project-specific practices
 
-This prevents it from burning tokens on discovery and research. 
-
-**Example structure:**
+**Example:**
 ```markdown
 # Repository Guide
 
@@ -605,7 +603,16 @@ A task management API built with FastAPI and PostgreSQL
 - `TaskRepository` in `/models/task.py` - Database operations
 ```
 
-**Do not simply copy your `README.md` as `AGENTS.md`.** These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase.
+`AGENTS.md` files can be stored anywhere within your repository: 
+- **Root-level:** `/AGENTS.md`
+- **Directory-level:** `/api/AGENTS.md`
+
+**Why `AGENTS.md`?** <br>
+When an AI assistant is working, it "automatically" picks the nearest `AGENTS.md` in the directory tree. Since these files provide immediate context about your codebase structure and conventions, they prevent AI assistants from wasting tokens on discovery and research.
+
+**Notes**:<br>
+- Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. Try `Create an AGENTS.md for this repository based on the current codebase structure.`
+- Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase.
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -629,6 +636,8 @@ Break into:
 4. Create password reset flow
 5. Add role-based access control
 ```
+Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
+
 #### 3. Compaction (a.k.a Context Summarization)
 
 As your context starts to fill up, pause your work and start over with a fresh context window. To do this, use a prompt like this:
@@ -866,7 +875,7 @@ So even with temperature set to 0, you might see occasional variations. They're 
   **Write a Python script** that reads all the `CMakeLists.txt` and `.cmake` files in the repository, analyzes the targets, sources, and dependencies defined there, and then generates equivalent Bazel `BUILD` and `WORKSPACE` files.
   ```
 
-  If the script’s logic is sound, you can run it repeatedly on new or modified inputs to produce consistent results. And if you later discover errors in its output for new CMake files, you can simply ask the LLM to update the script rather than starting from scratch.
+  If the script’s logic is sound, you can run it repeatedly on new or modified inputs to produce consistent results. If you later discover errors in its output for new CMake files, you can simply ask the LLM to update the script rather than starting from scratch.
 
   This approach is most effective when the problem follows a **clear, rule-based structure**, allowing the script to handle future inputs that follow the same logic or can be adapted through simple script modifications. It is less effective, however, for **unstructured or ambiguous problems**.
 
