@@ -11,11 +11,15 @@ Before diving into the tutorials, we strongly recommend reading these two founda
 1. **`LLMs_explained.md`**: A comprehensive guide that explains how Large Language Models work, covering essential concepts like tokens, embeddings, and the transformer architecture. This will give you a solid understanding of the technology you'll be working with.
 
 2. **`ai_solution_building_guide.md`**: A practical guide that covers key architectural patterns and best practices for building AI solutions, including:
-   - Workflows vs. Agents: Understanding when to use each approach
-   - Function calling and tool integration
-   - Context engineering fundamentals
-   - Design patterns for AI solutions
-   - Model Context Protocol (MCP) overview
+   - Workflows vs. Agents: Understanding the trade-offs and when to use each approach
+   - Fundamentals of Building Your Own Agent
+   - Model Context Protocol (MCP)
+   - Importance of Context engineering
+   - Retrieval-Augmented Generation (RAG) techniques
+   - Safety considerations for AI systems
+   - Understanding Context window, Context rot and positional bias in LLMs
+   - How AI Coding Assistants Work
+   - AI Solutions: Where to Use and When Not To
 
 These documents will provide you with the theoretical foundation and architectural understanding needed to make the most of the tutorials.
 
@@ -88,11 +92,14 @@ Tutorials for implementing MCP servers and integrating with AI systems:
   - Model behavior and limitations
 
 - **`ai_solution_building_guide.md`**: Must-read guide for designing AI solutions, covering:
-  - Workflows vs Agents architecture patterns
-  - Function calling and tool integration
-  - Context engineering best practices
-  - Model Context Protocol (MCP) implementation
-  - DevOps considerations and challenges
+  - Workflows vs Agents: Deep dive into architecture patterns and hybrid approaches
+  - Function calling, tools, and safety considerations
+  - Context engineering and window management best practices
+  - Code-RAG techniques for efficient codebase searching
+  - Model Context Protocol (MCP) implementation and challenges
+  - Guardrails and safety considerations for AI systems
+  - Understanding context rot and positional bias in LLMs
+  - Strategic approaches for AI coding assistants
 
 ### Project Files
 - **`requirements.txt`**: Lists all Python dependencies needed for the tutorials

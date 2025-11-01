@@ -570,7 +570,7 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 ### The Strategic Approach
 
 #### 1. Create a README for AI Assistants
-For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/) that serves as the assistant's reference manual for the repository. Include:
+For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
 - **Project Overview:** What the repository does and its core purpose
 - **Architecture:** High-level system design and architectural decisions
 - **Directory Structure:** What each major directory contains and why
@@ -607,12 +607,11 @@ A task management API built with FastAPI and PostgreSQL
 - **Root-level:** `/AGENTS.md`
 - **Directory-level:** `/api/AGENTS.md`
 
-**Why `AGENTS.md`?** <br>
-When an AI assistant is working, it "automatically" picks the nearest `AGENTS.md` in the directory tree. Since these files provide immediate context about your codebase structure and conventions, they prevent AI assistants from wasting tokens on discovery and research.
+When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens on discovery and research.
 
-**Notes**:<br>
-- Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. Try `Create an AGENTS.md for this repository based on the current codebase structure.`
+**Notes**:
 - Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase.
+- Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. Try `Create an AGENTS.md for this repository based on the current codebase structure.`
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -756,19 +755,11 @@ Here's where it gets tricky: Even with temperature set to 0, several technical f
 
 So even with temperature set to 0, you might see occasional variations. They're rarer and smaller than with higher temperatures, but they exist.
 
-**Major LLM providers are explicit about this:**
-
-- **OpenAI** [states that their API can only be “mostly deterministic”](https://platform.openai.com/docs/advanced-usage#reproducible-outputs) irrespective of the value of the temperature parameter. They’ve added a [seed parameter](https://cookbook.openai.com/examples/reproducible_outputs_with_the_seed_parameter) that improves reproducibility but still doesn’t guarantee identical outputs due to system updates and load balancing across different hardware. It’s a “best effort” kind of situation.
+- **OpenAI** [states that their API can only be “mostly deterministic” irrespective of the value of the temperature parameter](https://platform.openai.com/docs/advanced-usage#reproducible-outputs). They’ve added a [seed parameter](https://cookbook.openai.com/examples/reproducible_outputs_with_the_seed_parameter) that improves reproducibility but still doesn’t guarantee identical outputs due to system updates and load balancing across different hardware. It’s a “best effort” kind of situation.
 
 - **Anthropic** [documentation](https://docs.claude.com/en/api/messages) mentions: “Note that even with temperature of 0.0, the results will not be fully deterministic.”
 
-- **Google (Vertex AI/Gemini)** [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference) states: “A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, **but a small amount of variation is still possible.**”
-
-**Why nobody's fixing this:**
-- **Performance Tradeoffs:** Deterministic operations are [often 2-5x slower](https://proceedings.mlsys.org/paper_files/paper/2022/file/427e0e886ebf87538afdf0badb805b7f-Paper.pdf) than their optimized non-deterministic counterparts. When you’re serving millions of requests, that matters.
-- **Infrastructure Complexity:** Ensuring identical hardware/software states across distributed systems is like herding cats—if the cats were quantum particles that exist in multiple states simultaneously.
-- **Limited Demand:** Think about this: most use cases can tolerate minor variations in output. The folks who really need determinism are a minority, relatively speaking.
-- **Model Updates:** Providers regularly update models and infrastructure. Even if they could guarantee determinism today, tomorrow’s model update would break it.
+- **Google (Vertex AI/Gemini)** [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference): “A temperature of 0 means that the highest probability tokens are always selected. In this case, responses for a given prompt are mostly deterministic, **but a small amount of variation is still possible.**”
 
 ### Workarounds for the Desperate
 
@@ -861,21 +852,20 @@ So even with temperature set to 0, you might see occasional variations. They're 
 
 - **Generate Code Instead of Answers**
 
-  Rather than asking a language model to solve a problem directly, ask it to generate a **script** that solves the problem.
+  Rather than asking a language model to solve a problem directly, ask it to **generate a script** that solves the problem.
 
-  For example, instead of saying,
+  Instead of saying:
 
   ```markdown
   Read all the `CMakeLists.txt` and `.cmake` files in the repository, analyze the targets, sources, and dependencies defined there, and then generate equivalent Bazel `BUILD` and `WORKSPACE` files.
   ```
-
-  you could say:
+  ask the model to produce code that does this:
 
   ```markdown
   **Write a Python script** that reads all the `CMakeLists.txt` and `.cmake` files in the repository, analyzes the targets, sources, and dependencies defined there, and then generates equivalent Bazel `BUILD` and `WORKSPACE` files.
   ```
 
-  If the script’s logic is sound, you can run it repeatedly on new or modified inputs to produce consistent results. If you later discover errors in its output for new CMake files, you can simply ask the LLM to update the script rather than starting from scratch.
+  If the script’s logic is sound, you can run it repeatedly on new or modified inputs to produce "consistent" results. If you later discover errors in its output for new CMake files, you can simply ask the LLM to update the script rather than starting from scratch.
 
   This approach is most effective when the problem follows a **clear, rule-based structure**, allowing the script to handle future inputs that follow the same logic or can be adapted through simple script modifications. It is less effective, however, for **unstructured or ambiguous problems**.
 
@@ -986,7 +976,7 @@ What's worse? AI-generated mistakes often look professional and convincing. The 
 
 ### Recent Improvements: The Code Generation Approach
 
-Recent LLM implementations have developed a more promising strategy, called **code interpreter**, for handling data analysis. Instead of trying to multiply 456 × 789 in their head, LLMs can now recognize that this is a calculation problem and can write a **Python script** to do the math for them.
+Recent LLM implementations have developed a more promising strategy called "code interpreter" for handling data analysis. Instead of trying to multiply 456 × 789 in their head, LLMs can now recognize that this is a calculation problem and can write a **Python script** to run the math.
 
 AI writing code, however, has its own challenges:
 - The AI must first recognize that a problem requires computational analysis rather than language-based reasoning. 
@@ -1006,12 +996,12 @@ The most honest assessment is this: current AI tools are powerful for generating
 
 ### Currently what you can do
 If you're going to use AI for analytics, consider these strategies:
-- **Connect LLMs to tools that can perform calculations**: Rather than relying on AI's built-in math abilities (which can falter), provide it access to external computational tools like SQL databases, Python libraries, or spreadsheet functions. Essentially, **give AI a calculator that it must use**.
-- **Engineer your prompts for analytical rigor**: For any task involving numbers, calculations, or data manipulation, "explicitly" instruct the AI to follow a hierarchy:
+- **Give AI a calculator**: Imagine asking a very articulate friend to calculate your taxes in their head—they'd probably mess it up. Instead, hand them a calculator that they can use. Same with AI. Connect it to tools that can crunch numbers: databases, Python functions, spreadsheets. The AI becomes the translator, and the tools do the heavy lifting.
+- **Engineer your prompts for analytical rigor**: For any task involving numbers, calculations, or data manipulation, "explicitly" instruct  AI to follow a hierarchy:
   - First check if an available tool can answer the question
   - If not, then default to writing a Python script
   - If neither approach works, explicitly state the limitation to the user rather than hallucinating results
-- **Use Reasoning Models**: Reasoning models (such as OpenAI's o1 or DeepSeek R1) are better at recognizing that problems are computational and should be approached by writing code. Prefer them over standard LLMs for analytics tasks.
+- **Use Reasoning Models**: Reasoning models (such as OpenAI's o1 or DeepSeek R1) are better at recognizing that problems are computational and should be approached by writing code. They also get basic math right that standard LLMs often fumble. Prefer them over standard LLMs for analytic tasks.
 
 **However, the fundamental problem persists**: 
 The above solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI called a tool" or "the AI used Python" doesn't guarantee correctness—just that the math within the execution is accurate.
