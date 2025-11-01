@@ -160,6 +160,8 @@ An LLM, for all its power, is confined by its training data. It has no access to
 
 This limitation is fundamental. LLM can’t browse the web, it can’t run code, and it can’t check your calendar.
 
+<img src="images/caged_llm.png" alt="caged llm" width="410"/><br>
+
 To overcome this, we need to give it tools. 
 
 Enter **function calling**.
