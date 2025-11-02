@@ -552,11 +552,12 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 Given the inherent challenges of context rot and positional bias, the optimal strategy is to provide LLMs with **short, high-quality context** rather than overwhelming them with every available piece of information. When building your own AI solution from scratch, managing context is largely within your control. But how can you maintain context quality when working with AI coding assistants like Cursor, Copilot, or Windsurf?
 
 To come up with a solution, let us first understand what consumes context windows in AI coding assistants:
-- **Long Conversations:** Long conversations fill the context window, degrading the AI’s performance and increasing costs.
-- **Understanding code flow:** Call graphs, dependency trees, and execution traces that span multiple files
-- **Searching for files:** Directory listings and file content scans across large codebases
-- **Huge JSON blobs from tools:** API responses and structured data dumps from tools
-- **Test/build logs:** Execution output
+- Long Conversations with Assistant
+- Assistant understanding code flow
+- Assistant searching for files in the codebase
+- Assistant reading large files
+- Output\logs from the code executed by the assistant
+- JSON blobs returned from tool calls
 
 So how should we manage this context explosion? Let's examine approaches from least to most effective.
 
@@ -609,10 +610,10 @@ A task management API built with FastAPI and PostgreSQL
 - **Root-level:** `/AGENTS.md`
 - **Directory-level:** `/api/AGENTS.md`
 
-When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens on discovery and research.
+When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
 **Notes**:
-- Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file should be minimal and focused solely on what an AI assistant needs to work effectively with your codebase.
+- Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file _should be minimal_ and focused solely on what an AI assistant needs to work effectively with your codebase.
 - Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. Try `Create an AGENTS.md for this repository based on the current codebase structure.`
 
 #### 2. Decompose Requirement into Atomic Tasks
@@ -1005,8 +1006,7 @@ If you're going to use AI for analytics, consider these strategies:
   - If neither approach works, explicitly state the limitation to the user rather than hallucinating results
 - **Use Reasoning Models**: Reasoning models (such as OpenAI's o1 or DeepSeek R1) are better at recognizing that problems are computational and should be approached by writing code. They also get basic math right that standard LLMs often fumble. Prefer them over standard LLMs for analytic tasks.
 
-**However, the fundamental problem persists**: 
-The above solutions make AI analytics more reliable, but they don't make them reliably accurate. The improvements move us from "frequently wrong" to "occasionally wrong"—which is progress, but not enough for high-stakes decisions. Remember that "the AI called a tool" or "the AI used Python" doesn't guarantee correctness—just that the math within the execution is accurate.
+**However, the fundamental problem persists**: The above solutions make AI analytics more reliable, but they don't make them reliably accurate. Remember that "the AI called a tool" or "the AI used Python" doesn't guarantee correctness—just that the math within the execution is accurate.
 
 Additional steps you can take:
 - **Build verification into your workflow**: Start with questions you already know the answer to as a sanity check. If the AI can't get simple cases right, it won't be able to handle complex ones.
