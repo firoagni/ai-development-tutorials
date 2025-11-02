@@ -37,9 +37,9 @@ The first idea is to assign each word a unique number, like “cat” = 17, “d
 Token IDs like "42" for "dog" and "17" for "cat" are just unique labels — they don’t tell the computer anything about how the words are related. Token IDs are like jersey numbers: useful for identification, but meaningless for understanding.
 
 **What we want**: A way to represent words so the computer knows:
-  - “Dog” and “puppy” are similar (both are animals).
-  - “King” and “queen” are related (both are royalty).
-  - “Apple” and “car” are totally different.
+  - “dog” and “cat” are similar (both are animals).
+  - “king” and “queen” are related (both are royalty).
+  - “apple” and “car” are totally different.
 
 ### Solution: Word embeddings!
 
@@ -87,9 +87,12 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
 - **Weights**: Weights are like dials that control how much attention each token pays to others. In “The cat chased the dog,” the model learns to give more weight to “chased” when shaping “cat”’s embedding, so it reflects the action. 
 - **Context Window**: The number of tokens the model can consider at once when predicting the next token. For example, if the context window is 128K tokens, the model looks at the last 128K tokens to predict the next one. In the above example, the context window is 5 tokens: ["The", "cat", "sat", "on", "the"]. A longer context window means the model can "remember" more from the input, but it also increases computational cost.
 - **Backpropagation**: The algorithm used to update the weights and embeddings based on the error of the prediction. Its a feedback loop that helps the model learn from its mistakes.
+    <br><img src="images/backpropagation.gif" width="650"/><br>
 - **Model parameters**: Variables that the model adjusts during training to improve prediction accuracy.
     - Model Parameters = the numbers in token embeddings (e.g., [0.7, -0.2, 0.9] for “cat”) + weights.
     - The more parameters an LLM has, the more it can “remember” about language patterns.
+
+    <img src="images/untrained_to_pretrain.png" width="650"/><br>
 
 **Notes**:
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
@@ -196,6 +199,8 @@ In fine-tuning, you take the pretrained model and give it specific examples:
 - “Here’s how not to insult someone accidentally.”
 
 It’s like sending a kid to a special camp for writing email replies or answering tech support calls.
+
+<img src="images/fine_tuning.gif" width="600"/><br>
 
 Some examples of fine-tuning methods:
 - **Supervised fine-tuning**: Provide examples of correct responses to prompts to guide the model's behavior.
