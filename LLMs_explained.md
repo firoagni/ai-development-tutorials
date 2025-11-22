@@ -84,7 +84,7 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
     <img src="images/word2vec_animation.gif" width="500"/><br>
 
 **Key Terms one should know**:
-- **Weights**: Weights are like dials that control how much attention each token pays to others. In “The cat chased the dog,” the model learns to give more weight to “chased” when shaping “cat”’s embedding, so it reflects the action. 
+- **Weights**: Weights are like dials that control how much attention each token pays to others. In “The cat chased the dog,” the model learns to give more weight to “chased” when shaping “cat”’s embedding, so it reflects the action.       
 - **Context Window**: The number of tokens the model can consider at once when predicting the next token. For example, if the context window is 128K tokens, the model looks at the last 128K tokens to predict the next one. In the above example, the context window is 5 tokens: ["The", "cat", "sat", "on", "the"]. A longer context window means the model can "remember" more from the input, but it also increases computational cost.
 - **Backpropagation**: The algorithm used to update the weights and embeddings based on the error of the prediction. Its a feedback loop that helps the model learn from its mistakes.
     <br><img src="images/backpropagation.gif" width="650"/><br>
@@ -95,10 +95,11 @@ LLMs use a process called `pretraining`. Here’s a simplified version of how it
     <img src="images/untrained_to_pretrain.png" width="650"/><br>
 
 **Notes**:
+- Pretraining is expensive, requiring powerful hardware and can cost billions of dollars.
 - You could scrape data on your own from the web for pretraining, but there’s a catch: raw web data is noisy, often containing duplicates, low-quality text, html tags, and irrelevant information. It requires extensive filtering before it’s usable. A more efficient approach is to use a curated dataset—already cleaned and organized—like [FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), which includes over 1.2 billion web pages.
 - In pretraining, models don’t just adjust embeddings — they primarily adjust the weights. For accurate predictions, **weight adjustments are more crucial than embedding tweaks**.
-- LLM models do not store or retain copies of the data they are trained on. Instead, the training data is only used to improve the model parameters to predict the next token with higher accuracy.
-- Pretraining is expensive, requiring powerful hardware and can cost billions of dollars.
+- If you are confused what weights are, check this youtube video on perceptrons - one of the earliest (and simplest) neural network using weights to remember patterns: : https://www.youtube.com/watch?v=l-9ALe3U-Fg
+- LLM models do not store or retain copies of the data they are trained on. Instead, the training data is only used to improve the model parameters to predict the next token with higher accuracy. 
 
 ### The Transformer Algorithm
 This is the algorithm that all modern LLMs are based on. This algorithm was introduced in 2017 in a paper called [“Attention Is All You Need”](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf).
