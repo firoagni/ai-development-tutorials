@@ -584,26 +584,90 @@ For your code repository, create one or more Markdown files called [`AGENTS.md`]
 
 **Example:**
 ```markdown
-# Repository Guide
+# AGENTS.md
 
-## Overview
-A task management API built with FastAPI and PostgreSQL
+### Do
+- use MUI v3. make sure your code is v3 compatible
+- use emotion `css={{}}` prop format
+- use mobx for state management with `useLocalStore`
+- use design tokens from `DynamicStyles.tsx` for all styling. no hard coding
+- use apex charts for charts. do not supply custom html
+- default to small components. prefer focused modules over god components
+- default to small files and diffs. avoid repo wide rewrites unless asked
 
-## Architecture
-- REST API with async handlers
-- PostgreSQL for persistence
-- Redis for caching
-- Background job queue with Celery
+### Don't
+- do not hard code colors
+- do not use `div`s if we have a component already
+- do not add new heavy dependencies without approval
 
-## Directory Structure
-- `/api` - API routes and handlers
-- `/models` - SQLAlchemy models
-- `/services` - Business logic layer
-- `/utils` - Shared utilities
+### Commands
+# Type check a single file by path
+npm run tsc --noEmit path/to/file.tsx
 
-## Key Functions
-- `create_task()` in `/services/tasks.py` - Validates and creates tasks
-- `TaskRepository` in `/models/task.py` - Database operations
+# Format a single file by path
+npm run prettier --write path/to/file.tsx
+
+# Lint a single file by path
+npm run eslint --fix path/to/file.tsx
+
+# Unit tests - pick one
+npm run vitest run path/to/file.test.tsx
+
+# Full build when explicitly requested
+yarn build:app
+
+Note: Always lint, test, and typecheck updated files. Use project-wide build sparingly.
+
+### Safety and permissions
+
+Allowed without prompt:
+- read files, list files
+- tsc single file, prettier, eslint,
+- vitest single test
+
+Ask first: 
+- package installs,
+- git push
+- deleting files, chmod
+- running full build or end to end suites
+
+### Project structure
+- see `App.tsx` for routes
+- see `AppSideBar.tsx` for the sidebar
+- components live in `app/components`
+- design tokens live in `app/lib/theme/tokens.ts`
+
+### Good and bad examples
+- avoid class-based components like `Admin.tsx`
+- prefer functional components with hooks like `Projects.tsx`
+- forms: copy `app/components/DashForm.tsx`
+- charts: copy `app/components/Charts/Bar.tsx`
+- data grids: copy `app/components/Table.tsx`
+- data layer: use `app/api/client.ts` for HTTP. do not fetch directly inside components
+
+### API docs
+- docs live in `./api/docs/*.md`
+- list projects - `GET /api/projects` using the typed client in `app/api/client.ts`
+- update project name - `PATCH /api/projects/:id` via `client.projects.update`
+- use the Builder.io MCP server to look up docs on Builder APIs
+
+### Code duplication is prohibited
+- You must search for existing functions before creating a new one. If there are no functions to be reused, then a new one could be introduced.
+
+### PR checklist
+- title: `feat(scope): short description`
+- lint, type check, unit tests - all green before commit
+- diff is small and focused. include a brief summary of what changed and why
+- remove any excessive logs or comments before sending a PR
+
+### When stuck
+- ask a clarifying question, propose a short plan, or open a draft PR with notes
+- do not push large speculative changes without confirmation
+
+### Test first mode
+- when adding new features: write or update unit tests first, then code to green
+- Prefer component tests for UI state changes
+- For regressions: add a failing test that reproduces the bug, then fix to green
 ```
 
 Tutorial: [Improve your AI code output with AGENTS.md](https://www.youtube.com/watch?v=KEK_WcSTiuE)
