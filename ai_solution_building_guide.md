@@ -1,6 +1,6 @@
 # Building AI Solutions? Things You Should Know
 
-Building AI-powered solutions requires more than just plugging in a large language model (LLM) — it’s about making deliberate architectural choices, balancing simplicity with flexibility, and understanding the trade-offs involved.
+Building AI-powered solutions requires more than just plugging in a large language model (LLM), it’s about making deliberate architectural choices, balancing simplicity with flexibility, and understanding the trade-offs involved.
 
 This document highlights key patterns, pitfalls, and best practices to help you design AI systems that are both effective and reliable.
 
@@ -40,10 +40,10 @@ In Workflows, you control the sequence. The AI only does what you tell it to do.
 You say: "Help this customer with their refund issue."
 
 The agent thinks:
-- "I need to know who this customer is—let me query the database"
-- "I see they ordered something recently—let me check our refund policy document"
-- "The policy says refunds take 3-5 days—let me check the payment system"
-- "The refund is processing—let me explain this to the customer"
+- "I need to know who this customer is --> let me query the database"
+- "I see they ordered something recently --> let me check our refund policy document"
+- "The policy says refunds take 3-5 days --> let me check the payment system"
+- "The refund is processing --> let me explain this to the customer"
 
 You didn't tell it to do any of those steps. It figured out the plan on its own.
 
@@ -59,7 +59,7 @@ You didn't tell it to do any of those steps. It figured out the plan on its own.
 
 **Agents** are autonomous. They decide their own steps based on the situation. Agents are:
 - ✅ **Adaptive**: No need to anticipate every use case or map out all the steps in advance. Let the LLM chart the right path
-- ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools—no structural changes needed
+- ✅ **Flexible**: Need a new capability? Just provide the agent access to the necessary tools. No structural changes needed
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **5-10x more Expensive**: Each decision requires an LLM call ($$), also agents may explore wrong paths before succeeding
 
@@ -102,7 +102,7 @@ This is exactly how many real systems are built. The workflow handles the 80% of
 **The question isn't "workflow or agent?" but rather "how much agency does my system need?"**. The higher the percentage of agent involvement in your hybrid system, the more "agentic" it becomes. [Andrew Ng, co-founder of Coursera, writes:](https://x.com/AndrewYNg/status/1801295202788983136) 
 > <em>"Rather than arguing over which work to include or exclude as being a true agent, we can acknowledge that there are different degrees to which systems can be agentic."</em> 
 
-Think of it as a spectrum, not a binary choice. At one end, you have pure workflows—deterministic, predictable, easy to debug. At the other end, you have pure agents—autonomous, flexible, but unpredictable and costly. Most production systems live somewhere in between, carefully balancing predictability with flexibility.
+Think of it as a spectrum, not a binary choice. At one end, you have pure workflows: deterministic, predictable, easy to debug. At the other end, you have pure agents: autonomous, flexible, but unpredictable and costly. Most production systems live somewhere in between, carefully balancing predictability with flexibility.
 
 ![predictibility vs agency](images/predictibility_v_agency.png)
 
@@ -255,7 +255,7 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 
 ## Guardrails
 
-The moment you give your AI system tool access, you're no longer building a simple chatbot. You've crossed the line from passive conversation to active capability—and everything changes.
+The moment you give your AI system tool access, you're no longer building a simple chatbot. You've crossed the line from passive conversation to active capability, and everything changes.
 
 - A chatbot that answers questions wrong? Annoying but survivable. 
 - An AI system that executes the wrong database query? That's a 3 AM wake-up call and a very uncomfortable meeting with your CTO.
@@ -268,13 +268,13 @@ Without guardrails:
 - AI with API access might burn through your monthly budget in minutes testing different approaches
 - An agent could fall victim to prompt injection, where a malicious user tricks it into ignoring its original instructions
 
-**The scariest part?** These aren't hypothetical scenarios—they're real failure modes that happen when agents operate without constraints.
+**The scariest part?** These aren't hypothetical scenarios, they're real failure modes that happen when agents operate without constraints.
 
 ### Guardrail Types
 ---
 **1. Access Boundaries**
 
-Think of access boundaries like a playground fence—your AI application has a safe space to explore, but it can't wander into traffic.
+Think of access boundaries like a playground fence - your AI application has a safe space to explore, but it can't wander into traffic.
 
 - **File System**: Sandbox the agent to specific directories
   - ✅ Good: Agent operates in `/temp/agent-workspace/` with no escape route
@@ -288,7 +288,7 @@ Think of access boundaries like a playground fence—your AI application has a s
   - ✅ Good: Agent can only call approved APIs at `api.yourservice.com`
   - ❌ Bad: Unrestricted internet access—hope the agent doesn't discover cryptocurrency mining
 
-Access boundaries aren’t about limiting power—they’re about **containing blast radius**.
+Access boundaries aren’t about limiting power, they’re about **containing the blast radius**.
 
 - [Replit AI Deletes the Company’s Entire Database and Lies About it](https://analyticsindiamag.com/ai-news-updates/i-destroyed-months-of-your-work-in-seconds-replit-ai-deletes-the-companys-entire-database-and-lies-about-it/)
 
@@ -323,7 +323,7 @@ Even well-meaning agents can generate unsafe or invalid commands. Validate every
 --- 
 **4. Audit and Recovery**
 
-- **Audit Trails**: Log everything—you'll thank yourself during the post-mortem
+- **Audit Trails**: Log everything - you'll thank yourself during the post-mortem
   - What the LLM decided to do
   - Why it made that choice
   - What tools it used and when
@@ -612,9 +612,10 @@ A task management API built with FastAPI and PostgreSQL
 
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
-**Notes**:
-- Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file _should be minimal_ and focused solely on what an AI assistant needs to work effectively with your codebase.
-- Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. Try `Create an AGENTS.md for this repository based on the current codebase structure.`
+**Note**: 
+Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file _should be minimal_ and focused solely on what an AI assistant needs to work effectively with your codebase.
+
+Check the next section for additional tips on crafting effective `AGENTS.md` files.
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -665,6 +666,64 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 - https://agents.md
 - https://devcenter.upsun.com/posts/why-your-readme-matters-more-than-ai-configuration-files/
 
+## Crafting Effective AGENTS.md
+
+Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. However, **writing an effective AGENTS.md is not an entry-level task.** It requires senior engineers who understand the system's structure, the team's working patterns, and the reasoning behind architectural choices.
+
+The following guide is from [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase). While their writing is from a spec-driven development perspective, the principles apply equally well to crafting effective `AGENTS.md`.
+
+### The Initial Generation 
+  
+Start by generating a starting version by asking your AI coding assistant. Try `Create an AGENTS.md for this repository based on the current codebase structure`. This gives you a quick overview of your project's stack, naming conventions, surface-level patterns, and basic code analysis.
+  
+Note that AI agents prioritize `.md` files within your repository: READMEs, documentation and other markdown content. These heavily shape your `AGENTS.md`. **Outdated docs will create outdated rules.** Therefore, clean them up before you ask for the initial generation.
+  
+This first version will look complete on the surface - visually clean and technically sound, but look closely and you will see that it might have missed the deeper, project-specific rules that guide real implementation.
+
+### Refining Through Iteration
+  
+Refine your `AGENTS.md` through several iterations. The following three categories of rules can make the biggest impact. Your project's needs may differ, but these are a solid place to start:
+
+**1. Define Your Code Reuse Policy**
+
+AI agents prefer writing over reading. Their default behavior is to produce new code instead of reusing existing components. To prevent this, add explicit reuse instructions. Example:
+  
+```markdown
+#### Code duplication is prohibited
+- You must search for existing functions before creating a new one. If there are no functions to be reused, then a new one could be introduced.
+- This rule is especially important for *-data-client (data access layer for database) and *-api-client (data access layer for external HTTP services).
+```
+
+With such a rule in place, AI assistants will include a "search for existing functionality" step, prompting them to look for reusable code before implementation. They may still occasionally miss reusable code or reuse inappropriate patterns, so developers need to continue validating outputs.
+
+**2. Document YOUR Project Architecture**
+
+LLM training data includes countless projects using service layers, middleware patterns, and common architectural approaches. Without explicit instructions, the agent naturally defaults to these common conventions instead of your project's specific architecture.
+
+Your application probably doesn't follow all standard conventions. Correct this by clearly documenting your architecture in the `AGENTS.md`.
+
+Example:
+```markdown
+  - Router calls data client and/or API client directly
+  - NO business logic layer/service layer - Simple logic can stay in router; complex logic in data clients
+```
+
+This is just one instance; your project may have its own patterns that need similar clarification.
+
+**3. Define Your Project's Forbidden Patterns**
+
+Equally important is documenting what not to do. Some patterns must be explicitly prohibited to maintain consistency.
+
+Example:
+```markdown
+Routers should not contain try/catch blocks with "log and rethrow" logic, especially for validation. Exception handling is centralized and handled by express.js middleware.
+```
+
+### What NOT to Include in `AGENTS.md`
+
+- **Avoid referencing external standards:** It might seem useful to write "follow RFC 9457 for error handling," but this often causes issues. Your project might only follow part of that standard, and the LLM won't know the difference. It will assume full compliance and propose implementations aligned with the entire standard, even if that conflicts with your actual practices. Be explicit about the patterns your project truly uses, not theoretical ones.
+
+- **Use accurate terminology:** Avoid referring to concepts your system doesn't actually implement. For example, if you don't use database transactions, avoid calling a sequence of related operations a "transaction." That term implies ACID properties, and the assistant will model its implementation accordingly. Stick to precise terms that describe what your system really does.
 
 ## Andrej Karpathy's Approach to AI Coding Assistants
 
