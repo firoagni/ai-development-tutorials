@@ -606,6 +606,8 @@ A task management API built with FastAPI and PostgreSQL
 - `TaskRepository` in `/models/task.py` - Database operations
 ```
 
+Tutorial: [Improve your AI code output with AGENTS.md](https://www.youtube.com/watch?v=KEK_WcSTiuE)
+
 `AGENTS.md` files can be stored anywhere within your repository: 
 - **Root-level:** `/AGENTS.md`
 - **Directory-level:** `/api/AGENTS.md`
