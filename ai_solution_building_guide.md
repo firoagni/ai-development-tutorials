@@ -696,7 +696,7 @@ AI agents prefer writing over reading. Their default behavior is to produce new 
 
 With such a rule in place, AI assistants will include a "search for existing functionality" step, prompting them to look for reusable code before implementation. They may still occasionally miss reusable code or reuse inappropriate patterns, so developers need to continue validating outputs.
 
-**2. Document YOUR Project Architecture**
+**2. Document Your Project Architecture**
 
 LLM training data includes countless projects using service layers, middleware patterns, and common architectural approaches. Without explicit instructions, the agent naturally defaults to these common conventions instead of your project's specific architecture.
 
