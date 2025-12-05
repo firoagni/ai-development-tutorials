@@ -299,7 +299,7 @@ Access boundaries aren’t about limiting power, they’re about **containing th
 Agents can enter loops, retry failed approaches, or simply make expensive mistakes. Cap the damage before it happens.
 
 - **Tool Call Limits**: Max 25 tool calls per session (prevents infinite loops)
-  <br><img src="images/tool_limit.png" alt="Tool Limit Option in VSCode Copilot" width="480"/>
+  <br><br><img src="images/tool_limit.png" alt="Tool Limit Option in VSCode Copilot" width="480"/><br>
 - **Token Budgets**: Set spending caps—if the agent hits $10, it stops
 - **Timeouts**: No task should run longer than 5 minutes without intervention
 - **Concurrent Actions**: Limit parallel operations to prevent resource exhaustion
@@ -783,7 +783,7 @@ Standard API Implementation Structure:
 - NO business logic layer/service layer - Simple logic can stay in router; complex logic in data clients
 ```
 
-**3. Define Do's and Dont's**
+**3. Define Do's and Don'ts**
 
 The best way to discover what belongs here? [Run some prompts, review the output, and notice what you liked and what you didn't](https://www.youtube.com/watch?v=KEK_WcSTiuE).
 
