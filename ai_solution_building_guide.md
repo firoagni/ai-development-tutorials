@@ -298,7 +298,8 @@ Access boundaries aren’t about limiting power, they’re about **containing th
 
 Agents can enter loops, retry failed approaches, or simply make expensive mistakes. Cap the damage before it happens.
 
-- **Tool Call Limits**: Max 50 tool calls per session (prevents infinite loops)
+- **Tool Call Limits**: Max 25 tool calls per session (prevents infinite loops)
+  <br><img src="images/tool_limit.png" alt="Tool Limit Option in VSCode Copilot" width="480"/>
 - **Token Budgets**: Set spending caps—if the agent hits $10, it stops
 - **Timeouts**: No task should run longer than 5 minutes without intervention
 - **Concurrent Actions**: Limit parallel operations to prevent resource exhaustion
@@ -553,8 +554,8 @@ Given the inherent challenges of context rot and positional bias, the optimal st
 
 To come up with a solution, let us first understand what consumes context windows in AI coding assistants:
 - Long Conversations with Assistant
-- Assistant understanding code flow
 - Assistant searching for files in the codebase
+- Assistant understanding code flow
 - Assistant reading large files
 - Output\logs from the code executed by the assistant
 - JSON blobs returned from tool calls
@@ -574,17 +575,21 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 
 #### 1. Create a README for AI Assistants
 For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
-- **Project Overview:** What the repository does and its core purpose
-- **Architecture:** High-level system design and architectural decisions
-- **Directory Structure:** What each major directory contains and why
-- **Key Components:** Critical files, classes, and functions with brief descriptions
-- **Data Flow:** How data moves through the system
-- **Dependencies:** External libraries, APIs, and their purposes
-- **Conventions:** Coding standards, naming patterns, and project-specific practices
+- **Project Structure hints** 
+- **Do's and Don'ts**
+- **Common Commands**
+- **Safety and permission guidelines**
+- **API docs**
 
 **Example:**
 ```markdown
 # AGENTS.md
+
+### Project structure
+- see `App.tsx` for routes
+- see `AppSideBar.tsx` for the sidebar
+- components live in `app/components`
+- design tokens live in `app/lib/theme/tokens.ts`
 
 ### Do
 - use MUI v3. make sure your code is v3 compatible
@@ -599,6 +604,9 @@ For your code repository, create one or more Markdown files called [`AGENTS.md`]
 - do not hard code colors
 - do not use `div`s if we have a component already
 - do not add new heavy dependencies without approval
+
+### Code duplication is prohibited
+- You must search for existing functions before creating a new one. If there are no functions to be reused, then a new one could be introduced.
 
 ### Commands
 # Type check a single file by path
@@ -631,12 +639,6 @@ Ask first:
 - deleting files, chmod
 - running full build or end to end suites
 
-### Project structure
-- see `App.tsx` for routes
-- see `AppSideBar.tsx` for the sidebar
-- components live in `app/components`
-- design tokens live in `app/lib/theme/tokens.ts`
-
 ### Good and bad examples
 - avoid class-based components like `Admin.tsx`
 - prefer functional components with hooks like `Projects.tsx`
@@ -648,11 +650,7 @@ Ask first:
 ### API docs
 - docs live in `./api/docs/*.md`
 - list projects - `GET /api/projects` using the typed client in `app/api/client.ts`
-- update project name - `PATCH /api/projects/:id` via `client.projects.update`
 - use the Builder.io MCP server to look up docs on Builder APIs
-
-### Code duplication is prohibited
-- You must search for existing functions before creating a new one. If there are no functions to be reused, then a new one could be introduced.
 
 ### PR checklist
 - title: `feat(scope): short description`
@@ -666,22 +664,10 @@ Ask first:
 
 ### Test first mode
 - when adding new features: write or update unit tests first, then code to green
-- Prefer component tests for UI state changes
 - For regressions: add a failing test that reproduces the bug, then fix to green
 ```
 
-Tutorial: [Improve your AI code output with AGENTS.md](https://www.youtube.com/watch?v=KEK_WcSTiuE)
-
-`AGENTS.md` files can be stored anywhere within your repository: 
-- **Root-level:** `/AGENTS.md`
-- **Directory-level:** `/api/AGENTS.md`
-
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
-
-**Note**: 
-Do not simply copy your `README.md` as `AGENTS.md`. These files serve fundamentally different purposes. `README.md` should remain comprehensive and human-focused, while the `AGENTS.md` file _should be minimal_ and focused solely on what an AI assistant needs to work effectively with your codebase.
-
-Check the next section for additional tips on crafting effective `AGENTS.md` files.
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -734,62 +720,209 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 ## Crafting Effective AGENTS.md
 
-Most coding agents can scaffold `AGENTS.md` for you if you ask nicely. However, **writing an effective AGENTS.md is not an entry-level task.** It requires senior engineers who understand the system's structure, the team's working patterns, and the reasoning behind architectural choices.
+<img src="images/agents_md.png" alt="agents.md" width="780"/><br>
 
-The following guide is from [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase). While their writing is from a spec-driven development perspective, the principles apply equally well to crafting effective `AGENTS.md`.
+Don't just copy-paste your `README.md` into `AGENTS.md` and call it a day. These files serve fundamentally different purposes. 
+- `README.md` is for "humans": comprehensive, welcoming, verbose
+- `AGENTS.md` is for "AI coding assistants": lean, clear, focused 
 
-### The Initial Generation 
+Think of it as the difference between a novel and a cheat sheet.
+
+### The Quick Win
+
+Most coding agents can scaffold an `AGENTS.md` for you if you ask nicely. Try this:
+```
+Create an AGENTS.md for this repository based on the current codebase structure
+```
   
-Start by generating a starting version by asking your AI coding assistant. Try `Create an AGENTS.md for this repository based on the current codebase structure`. This gives you a quick overview of your project's stack, naming conventions, surface-level patterns, and basic code analysis.
-  
-Note that AI agents prioritize `.md` files within your repository: READMEs, documentation and other markdown content. These heavily shape your `AGENTS.md`. **Outdated docs will create outdated rules.** Therefore, clean them up before you ask for the initial generation.
-  
-This first version will look complete on the surface - visually clean and technically sound, but look closely and you will see that it might have missed the deeper, project-specific rules that guide real implementation.
+Note that AI agents prioritize `.md` files within your repository: READMEs, documentation and other markdown content. These heavily shape your `AGENTS.md`. **Outdated docs will create outdated rules.** Therefore, clean them up before you request generation.
 
-### Refining Through Iteration
+### The Reality Check
+
+This AI generated `AGENTS.md` may look complete on the surface—visually clean and technically sound—but look closely and you will see that it might have missed the deeper, project-specific rules that guide real implementation.
+
+Writing an effective `AGENTS.md` isn't an entry-level task. It requires engineers who understand the system's structure, the team's working patterns, and the reasoning behind architectural choices. The kind of knowledge that lives in PR comments, post-mortems, and "oh yeah, don't do *that*" conversations.
+
+The AI can give you a solid foundation. But turning it into something genuinely useful? That takes several iterations by developers who intimately understand the codebase and its quirks.
+
+---
+
+### Cover What Matters
   
-Refine your `AGENTS.md` through several iterations. The following three categories of rules can make the biggest impact. Your project's needs may differ, but these are a solid place to start:
+The following categories of rules can make the biggest impact. Your project's needs may differ, but these are a solid place to start:
 
-**1. Define Your Code Reuse Policy**
+**1. Provide Your Project Structure**
 
-AI agents prefer writing over reading. Their default behavior is to produce new code instead of reusing existing components. To prevent this, add explicit reuse instructions. Example:
+Explicit project structure helps assistants to quickly locate relevant files, reducing context bloat from unnecessary file exploration.
+
+```markdown
+### Project structure
+- see `App.tsx` for routes
+- see `AppSideBar.tsx` for the sidebar
+- components live in `app/components`
+- design tokens live in `app/lib/theme/tokens.ts`
+```
+
+**2. Document Architectural Patterns**
+
+LLM training data includes countless projects using service layers, middleware patterns, and common architectural approaches. Without explicit instructions, the agent naturally defaults to these common conventions instead of your project's specific architecture.
+
+Your application probably doesn't follow all standard conventions. Correct this by clearly documenting your architecture in the `AGENTS.md`.
+
+[EPAM Engineering Team's experience in one of their projects:](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase)
+> ​​In our case, the UI application doesn’t use a service layer because it contains minimal business logic. Our convention is to avoid creating services for entities. However, since router→ service is a widely used pattern, the agent automatically introduced service layers during generation.
+>
+> We had to correct this by clearly documenting our architecture
+
+```markdown
+### Solution Architecture Patterns
+
+Standard API Implementation Structure:  
+- Router function with request validation  
+- Router calls data client and/or API client directly  
+- NO business logic layer/service layer - Simple logic can stay in router; complex logic in data clients
+```
+
+**3. Define Do's and Dont's**
+
+The best way to discover what belongs here? [Run some prompts, review the output, and notice what you liked and what you didn't](https://www.youtube.com/watch?v=KEK_WcSTiuE).
+
+Example:
+```markdown
+### Do
+- use MUI v3. make sure your code is v3 compatible
+- use emotion `css={{}}` prop format
+- use mobx for state management with `useLocalStore`
+- use design tokens from `DynamicStyles.tsx` for all styling. no hard coding
+- use apex charts for charts. do not supply custom html
+- default to small components. prefer focused modules over god components
+- default to small files and diffs. avoid repo wide rewrites unless asked
+
+### Don't
+- do not hard code colors
+- do not use `div`s if we have a component already
+- do not add new heavy dependencies without approval
+```
+
+**4. Encourage Code Reuse**
+
+AI agents prefer writing over reading. Their default behavior is to produce new code instead of reusing existing components. To prevent this, add explicit reuse instructions:
   
 ```markdown
 #### Code duplication is prohibited
 - You must search for existing functions before creating a new one. If there are no functions to be reused, then a new one could be introduced.
 - This rule is especially important for *-data-client (data access layer for database) and *-api-client (data access layer for external HTTP services).
 ```
-
 With such a rule in place, AI assistants will include a "search for existing functionality" step, prompting them to look for reusable code before implementation. They may still occasionally miss reusable code or reuse inappropriate patterns, so developers need to continue validating outputs.
 
-**2. Document Your Project Architecture**
+**5. Build and Test Commands**
 
-LLM training data includes countless projects using service layers, middleware patterns, and common architectural approaches. Without explicit instructions, the agent naturally defaults to these common conventions instead of your project's specific architecture.
+Including common build and test commands helps the AI validate its work.
 
-Your application probably doesn't follow all standard conventions. Correct this by clearly documenting your architecture in the `AGENTS.md`.
+Tip: Along with project-wide build and test commands, provide commands to build and test that can be run on a per-file basis
 
-Example:
 ```markdown
-  - Router calls data client and/or API client directly
-  - NO business logic layer/service layer - Simple logic can stay in router; complex logic in data clients
+# Type check a single file by path
+npm run tsc --noEmit path/to/file.tsx
+
+# Format a single file by path
+npm run prettier --write path/to/file.tsx
+
+# Lint a single file by path
+npm run eslint --fix path/to/file.tsx
+
+# Unit tests - pick one
+npm run vitest run path/to/file.test.tsx
+
+# Full build when explicitly requested
+yarn build:app
+
+Note: Always lint, test, and typecheck updated files. Use project-wide build sparingly.
 ```
 
-This is just one instance; your project may have its own patterns that need similar clarification.
+**6. Use Concrete Examples**
 
-**3. Define Your Project's Forbidden Patterns**
+Examples beat abstractions. Point to real files that show your best patterns. Also call out legacy files to avoid.
 
-Equally important is documenting what not to do. Some patterns must be explicitly prohibited to maintain consistency.
-
-Example:
 ```markdown
-Routers should not contain try/catch blocks with "log and rethrow" logic, especially for validation. Exception handling is centralized and handled by express.js middleware.
+### Good and bad examples
+- avoid class-based components like `Admin.tsx`
+- prefer functional components with hooks like `Projects.tsx`
+- forms: copy `app/components/DashForm.tsx`
+- charts: copy `app/components/Charts/Bar.tsx`
+- data grids: copy `app/components/Table.tsx`
+- data layer: use `app/api/client.ts` for HTTP. do not fetch directly inside components
 ```
+
+**7. Doc References**
+
+Provide paths where your docs live. If your docs are not hosted in the codebase, create MCP servers to expose them to AI assistants.
+
+```markdown
+### API docs
+- docs live in `./api/docs/*.md`
+- list projects - `GET /api/projects` using the typed client in `app/api/client.ts`
+- use the Builder.io MCP server to look up docs on Builder APIs
+```
+
+**8. PR checklist**
+
+Be explicit about what “ready” means.
+
+```markdown
+### PR checklist
+- title: `feat(scope): short description`
+- lint, type check, unit tests - all green before commit
+- diff is small and focused. include a brief summary of what changed and why
+- remove any excessive logs or comments before sending a PR
+```
+
+**9. When stuck, plan first**
+
+Give the agent an escape hatch. If it is unsure, it should ask or propose a plan instead of guessing
+
+```markdown
+### When stuck
+- ask a clarifying question, propose a short plan, or open a draft PR with notes
+- do not push large speculative changes without confirmation
+```
+
+**10. Test-first mode**
+
+Encourage test-first development to keep the agent grounded in reality.
+
+```markdown
+### Test first mode
+- when adding new features: write or update unit tests first, then code to green
+- for regressions: add a failing test that reproduces the bug, then fix to green
+```
+---
 
 ### What NOT to Include in `AGENTS.md`
 
-- **Avoid referencing external standards:** It might seem useful to write "follow RFC 9457 for error handling," but this often causes issues. Your project might only follow part of that standard, and the LLM won't know the difference. It will assume full compliance and propose implementations aligned with the entire standard, even if that conflicts with your actual practices. Be explicit about the patterns your project truly uses, not theoretical ones.
+**1. Avoid referencing external standards** 
 
-- **Use accurate terminology:** Avoid referring to concepts your system doesn't actually implement. For example, if you don't use database transactions, avoid calling a sequence of related operations a "transaction." That term implies ACID properties, and the assistant will model its implementation accordingly. Stick to precise terms that describe what your system really does.
+It might seem useful to write "follow RFC 9457 for error handling," but this often causes issues. Your project might only follow part of that standard, and the LLM won't know the difference. It will assume full compliance and propose implementations aligned with the entire standard, even if that conflicts with your actual practices. Be explicit about the patterns your project truly uses, not theoretical ones.
+
+**2. Use accurate terminology:** 
+
+Avoid referring to concepts your system doesn't actually implement. For example, if you don't use database transactions, avoid calling a sequence of related operations a "transaction." That term implies ACID properties, and the assistant will model its implementation accordingly. Stick to precise terms that describe what your system really does.
+
+---
+
+### Large repository or Monorepo? You can nest `AGENTS.md`
+In monorepos or large repositories with multiple sub-projects, each sub-project can have its own `AGENTS.md` that provides context specific to that part of the codebase.
+ 
+- **Root-level:** `/AGENTS.md`
+- **Directory-level:** `/api/AGENTS.md`
+
+Agents automatically read the nearest file in the directory tree, so the closest one takes precedence and every subproject can ship tailored instructions. Advantage: A legacy subproject can keep React 17 rules while the rest follows Reach 18 conventions.
+
+What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
+
+### References
+- [Improve your AI code output with AGENTS.md - Best Tips](⁠https://www.builder.io/blog/agents-md)
+- [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase) 
 
 ## Andrej Karpathy's Approach to AI Coding Assistants
 
