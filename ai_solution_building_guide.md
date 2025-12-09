@@ -577,7 +577,7 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 
 ### The Strategic Approach
 
-Here's three key steps to manage context effectively:
+Here's three key steps to manage context better:
 
 #### 1. Create a README for AI Assistants
 For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
