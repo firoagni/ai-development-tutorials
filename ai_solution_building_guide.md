@@ -738,7 +738,7 @@ Think of it as the difference between a novel and a cheat sheet.
 
 ### The Quick Win
 
-Most coding agents can scaffold an `AGENTS.md` for you if you ask nicely. Try this:
+As stated in the previous section, most coding agents include built-in commands to scaffold an `AGENTS.md`. If yours doesn't, simply prompt it with:
 ```
 Create an AGENTS.md for this repository based on the current codebase structure
 ```
