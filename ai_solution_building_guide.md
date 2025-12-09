@@ -740,7 +740,7 @@ Think of it as the difference between a novel and a cheat sheet.
 
 ### The Quick Win
 
-As stated in the previous section, most coding agents include built-in commands to scaffold an `AGENTS.md`. If yours doesn't, simply prompt it with:
+Most coding agents include built-in commands to scaffold an `AGENTS.md`. If yours doesn't, simply prompt it with:
 ```
 Create an AGENTS.md for this repository based on the current codebase structure
 ```
