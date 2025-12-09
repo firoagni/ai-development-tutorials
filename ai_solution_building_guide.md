@@ -719,7 +719,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
-Good news is that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in workflows.
+Also note that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in workflows.
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
