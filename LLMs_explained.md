@@ -220,6 +220,7 @@ Some examples of fine-tuning methods:
 ### References
 - [Deep Dive into LLMs like ChatGPT - YouTube](https://www.youtube.com/watch?v=7xTGNNLPyMI) - Andrej Karpathy, one of founding members of OpenAI, dropped a 3-hour, 31-minute deep dive on LLMs — a goldmine of information.
 - [Understanding how words are converted to numbers - YouTube](https://www.youtube.com/watch?v=viZrOnJclY0) - The tutorial is based on Word2Vec - an older algorithm, but the concepts of tokens and embeddings are similar.
+- [Large Language Models explained briefly](https://www.youtube.com/watch?v=LPZh9BOjkQs) - Another great explainer of how LLMs are trained.
 
 ## Inference: Putting Your LLM to Work
 
@@ -243,7 +244,7 @@ Here's what happens under the hood:
     ```
     [123, 456, 789, 101112, 131415, 161718, 192021] -> [[0.1, -0.2, ...], [0.3, 0.4, ...], ...]
     ```
-    Note: Embeddings are **not calculated** during inference. They were learned during pretraining and are now frozen. The model simply looks them up from a stored table — like a dictionary lookup. This makes inference much faster!
+    Note: Embeddings are **not calculated** during inference. They were learned during pretraining and fine-tuning and are now frozen. The model simply looks them up from a stored table — like a dictionary lookup. This makes inference much faster!
 4. **Add Positional Encodings**: Since word order matters, positional encodings are added to the embeddings to give the model a sense of sequence.
 5. **Self-Attention**: The model uses self-attention to understand relationships between all tokens in the context. It's like the LLM asking: "What do these words mean **together**?" and "Which words are important to answer the user query?"
 
@@ -256,7 +257,7 @@ As you can see, inference steps 1-5 are similar to pretraining, but with a few k
 |-----------------------|-------------------------------------|------------------------------------|
 | Tokenization          | Yes                                 | Yes                                |
 | Update Embeddings     | Yes (embeddings are learned and updated) | No (embeddings are looked up, not generated) |
-| Update Weights        | Yes (weights are updated based on loss) | No (weights are frozen during pretraining)            |
+| Update Weights        | Yes (weights are updated based on loss) | No (weights are frozen during pretraining and fine-tuning)            |
 | Add Positional Encodings | Yes                              | Yes                                |
 | Self-Attention        | Yes                                 | Yes                                |
 
