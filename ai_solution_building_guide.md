@@ -553,12 +553,16 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 Given the inherent challenges of context rot and positional bias, the optimal strategy is to provide LLMs with **short, high-quality context** rather than overwhelming them with every available piece of information. When building your own AI solution from scratch, managing context is largely within your control. But how can you maintain context quality when working with AI coding assistants like Cursor, Copilot, or Windsurf?
 
 To come up with a solution, let us first understand what consumes context windows in AI coding assistants:
+
 - Long Conversations with Assistant
 - Assistant searching for files in the codebase
 - Assistant understanding code flow
 - Assistant reading large files
 - Output\logs from the code executed by the assistant
+- MCP tool definitions
 - JSON blobs returned from tool calls
+
+<br><img src="images/context_explosion.png" alt="context visualized in Claude Code" width="580"/><br>
 
 So how should we manage this context explosion? Let's examine approaches from least to most effective.
 
@@ -710,6 +714,10 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 ---
 
 **The pattern:** Start with structure, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
+
+Good news is that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in workflows.
+
+[Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
