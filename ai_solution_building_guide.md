@@ -577,15 +577,15 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 
 ### The Strategic Approach
 
-Here's three key steps to manage context better:
+Here's a three-part strategy to keep your AI coding assistant effective over long sessions:
 
 #### 1. Create a README for AI Assistants
 For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
-- **Project Structure hints** 
-- **Do's and Don'ts**
-- **Common Commands**
-- **Safety and permission guidelines**
-- **API docs**
+- Project Structure hints
+- Do's and Don'ts
+- Common Commands
+- Safety and permission guidelines
+- API docs
 
 **Example:**
 ```markdown
@@ -675,6 +675,8 @@ Ask first:
 
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
+<em> Note: While `AGENTS.md` has emerged as the universal standard for AI coding assistant instructions, some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md-though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.</em>
+
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
 
@@ -719,7 +721,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
-Also note that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in workflows.
+It is worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in commands.
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
