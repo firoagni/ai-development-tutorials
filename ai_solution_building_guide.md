@@ -675,7 +675,12 @@ Ask first:
 
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
-<em> Note: While `AGENTS.md` has emerged as the universal standard for AI coding assistant instructions, some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md-though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.</em>
+---
+**NOTE:**
+
+While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`-though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.
+
+---
 
 #### 2. Decompose Requirement into Atomic Tasks
 Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
@@ -721,7 +726,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
-It is worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in commands.
+It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in commands.
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
