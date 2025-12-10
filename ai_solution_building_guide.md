@@ -135,8 +135,10 @@ In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/eng
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
-- n8n - a drag and drop, LLM supported workflow builder
+- n8n or Flowwise - drag and drop, LLM supported workflow builder
 - Amazon Bedrock's AI Agent framework
+
+<br><img src="images/flowise_agentflow.gif" alt="Flowise" width="780"/><br>
 
 [From Anthropic:](https://www.anthropic.com/engineering/building-effective-agents)
 
