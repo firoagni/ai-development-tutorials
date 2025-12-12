@@ -352,7 +352,7 @@ Prompt injection is real. A user might embed instructions in their message like:
 - **Filter Overrides**: Block attempts to modify the agent's core behavior or system prompts
 ---
 
-If you want to see guardrail implementation in real-world AI-powered solutions, check out how popular AI coding assistants have done it:
+If you want to see guardrail implementation in real-world AI-powered solutions, checking how popular AI coding assistants have done it is a good place to start:
 - [Claude Code Guardrails](https://code.claude.com/docs/en/security#built-in-protections)
 - [Codex Guardrails](https://developers.openai.com/codex/security/)
 
