@@ -214,7 +214,7 @@ MCP isn't a revolutionary new technology - it's a new standard. If you've been w
 1. Define your function as you normally would.
 1. Create an MCP server to make the functions available as tools to the World.
 
-You can use a python library like FastMCP to simplify the process of creating MCP servers.
+You can use a python library like [FastMCP](https://github.com/jlowin/fastmcp) to simplify the process of creating MCP servers.
 
 ### How to consume the tools exposed by MCP servers
 1. **Personal MCP use** - Adding MCP servers to Copilot, Windsurf, Cursor, or other personal AI assistants
