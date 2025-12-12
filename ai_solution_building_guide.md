@@ -30,10 +30,10 @@ In Workflows, you control the sequence. The AI only does what you tell it to do.
 
 **Agents**, on the other hand, are systems where the LLM maintains **full control** over how they accomplish tasks by autonomously selecting various tools available to its disposal and taking actions.
 
-<img src="images/agent.png" alt="agent" width="580"/><br>
-
 - You give the LLM a goal and a set of tools (like search, calculator, database access)
 - The LLM decides which tools to use, when, and in what order to fullfill the goal
+
+<br><img src="images/agent.png" alt="agent" width="580"/><br>
 
 **Same Example, Agent Approach:**
 
