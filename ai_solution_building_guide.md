@@ -40,10 +40,11 @@ In Workflows, you control the sequence. The AI only does what you tell it to do.
 You say: "Help this customer with their refund issue."
 
 The agent thinks:
-- "I need to know who this customer is --> let me query the database"
-- "I see they ordered something recently --> let me check our refund policy document"
-- "The policy says refunds take 3-5 days --> let me check the payment system"
-- "The refund is processing --> let me explain this to the customer"
+- "I need to know who this customer is —> let me query the user database"
+- "Let me check whether they ordered something recently —> let me query the order database"
+- "I see that they ordered something recently which they cancelled a day ago —> let me check the payment system"
+- "The refund is processing —> let me check our refund policy document"
+- "The policy says refunds take 3-5 days —> let me explain this to the customer"
 
 You didn't tell it to do any of those steps. It figured out the plan on its own.
 
@@ -92,7 +93,7 @@ Rather than choosing one approach exclusively, successful implementations use wo
 ```
 Workflow: Payment Processing
 ├─ Step 1: Ask user for a task
-├─ Step 2: Determine operation to accomplish task [AI Agent]
+├─ Step 2: Determine operation to accomplish the said task [AI Agent]
 │  └─ Allowed tools: [check_balance, validate_card, verify_bank]
 ├─ Step 3: Execute operation
 └─ Step 4: Send confirmation
@@ -135,7 +136,7 @@ In [Anthropic's Guide - Building Effective Agents](https://www.anthropic.com/eng
 
 There are many frameworks that make creating AI-powered systems easier to implement, including:
 - LangGraph from LangChain
-- n8n or Flowise - drag and drop, LLM supported workflow builder
+- n8n or Flowise - drag and drop, LLM supported workflow builders
 - Amazon Bedrock's AI Agent framework
 
 <br><img src="images/flowise_agentflow.gif" alt="Flowise" width="780"/><br>
@@ -373,7 +374,7 @@ To understand context engineering, we must first need to expand our definition o
 - **User Prompt:** Immediate task or question from the user.
 - **State / History (short-term Memory):** The current conversation, including user and model responses that have led to this moment.
 - **Long-Term Memory:** Persistent knowledge base, gathered across many prior conversations, containing learned user preferences, summaries of past projects, or facts it has been told to remember for future use.
-- **Available Tools:** Definitions of all the functions or built-in tools it can call (e.g., check_inventory, send_email).
+- **Available Tools:** Definitions of all built-in and MCP provided tools it can call (e.g., check_inventory, send_email).
 - **Structured Output:** What format the LLM should respond in. e.g. For the user query, return a JSON object (instead of a string)
 - **Retrieved Information (RAG):** External information retrieved from documents
 
