@@ -150,7 +150,7 @@ There are many frameworks that make creating AI-powered systems easier to implem
 
 [From Langchain:](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
 
-> <em> If your application does not require all of these features [memory management, humand-on-the-loop mechanism, debugging and  observability for LLMs etc.], and/or if you want to build them yourself, then you may not need one [Framework]. Some of them (like short term memory) aren’t terribly complicated. Others of them (like human-on-the-loop, or LLM specific observability) are more complicated.</em>
+> <em> If your application does not require all of these features [memory management, human-on-the-loop mechanism, debugging and  observability for LLMs etc.], and/or if you want to build them yourself, then you may not need one [Framework]. Some of them (like short term memory) aren’t terribly complicated. Others of them (like human-on-the-loop, or LLM specific observability) are more complicated.</em>
 
 ### Reference
 - https://www.anthropic.com/engineering/building-effective-agents
