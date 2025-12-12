@@ -281,7 +281,7 @@ Think of access boundaries like a playground fence - your AI application has a s
 
 - **File System**: Sandbox the agent to specific directories
   - ✅ Good: Agent operates in `/temp/agent-workspace/` with no escape route
-  - ❌ Bad: Agent has write access to the entire filesystem and all connected network drives
+  - ❌ Bad: Agent has write access to the entire filesystem and all connected network drivesa
   
 - **Database**: Principle of least privilege always wins
   - ✅ Good: Read-only access to most tables, write access only to `support_tickets`
@@ -351,6 +351,10 @@ Prompt injection is real. A user might embed instructions in their message like:
 - **Validate Inputs**: Strip out suspicious patterns that look like instructions
 - **Filter Overrides**: Block attempts to modify the agent's core behavior or system prompts
 ---
+
+If you want to see guardrail implementation in real-world AI-powered solutions, check out how popular AI coding assistants have done it:
+- [Claude Code Guardrails](https://code.claude.com/docs/en/security#built-in-protections)
+- [Codex Guardrails](https://developers.openai.com/codex/security/)
 
 ## Importance of Context Engineering in AI-powered Solutions
 The hard part of building any AI driven solution is making them reliable enough. While they may work for a prototype, they often mess up in more real world and widespread use cases.
