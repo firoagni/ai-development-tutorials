@@ -281,15 +281,17 @@ Think of access boundaries like a playground fence - your AI application has a s
 
 - **File System**: Sandbox the agent to specific directories
   - ✅ Good: Agent operates in `/temp/agent-workspace/` with no escape route
-  - ❌ Bad: Agent has write access to the entire filesystem and all connected network drivesa
-  
-- **Database**: Principle of least privilege always wins
-  - ✅ Good: Read-only access to most tables, write access only to `support_tickets`
-  - ❌ Bad: Full admin credentials because "it's easier"
+  - ❌ Bad: Agent has write access to the entire filesystem and all connected network drives
 
 - **Network**: Whitelist external services rather than hoping the agent behaves
   - ✅ Good: Agent can only call approved APIs at `api.yourservice.com`
   - ❌ Bad: Unrestricted internet access—hope the agent doesn't discover cryptocurrency mining
+
+You can use _Docker containers_ to enforce these access boundaries. Spin up a container, mount only the directories your agent needs, and configure container's network rules to whitelist approved APIs. Run your agent exclusively inside this container, and you no longer need to keep an eye on it to behave - because it literally can't access anything outside its container. Easy to implement, impossible to bypass.
+
+- **Database**: Principle of least privilege always wins
+  - ✅ Good: Read-only access to most tables, write access only to `support_tickets`
+  - ❌ Bad: Full admin credentials because "it's easier"
 
 Access boundaries aren’t about limiting power, they’re about **containing the blast radius**.
 
