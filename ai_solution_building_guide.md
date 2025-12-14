@@ -323,6 +323,8 @@ Even well-meaning agents can generate unsafe or invalid commands. Validate every
     - Are all API parameters suggested by AI are valid and correctly typed?
     - Is the command AI is keen to execute even allowed?
 
+    One of the most effective ways to validate AI outputs is to use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs). Instead of having the AI return free-form text that you then need to parse and validate, structured output is a feature constraint that can force a model to generate responses in JSON format, based on the JSON schema provided by you.     
+
 - **Human in the Loop for Critical Actions**: Require manual approval before the AI can:
     - Delete anything
     - Modify data
