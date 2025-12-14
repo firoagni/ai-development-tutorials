@@ -287,11 +287,13 @@ Think of access boundaries like a playground fence - your AI application has a s
   - ✅ Good: Agent can only call approved APIs at `api.yourservice.com`
   - ❌ Bad: Unrestricted internet access—hope the agent doesn't discover cryptocurrency mining
 
-You can use _Docker containers_ to enforce these access boundaries. Spin up a container, mount only the directories your agent needs, and configure container's network rules to whitelist approved APIs. Run your agent exclusively inside this container, and you no longer need to keep an eye on it to behave - because it literally can't access anything outside its container. Easy to implement, impossible to bypass.
+<em>You can use _Docker containers_ to enforce these access boundaries. Spin up a container, mount only the directories your agent needs, and configure container's network rules to whitelist approved APIs. Run your agent exclusively inside this container, and you no longer need to keep an eye on it to behave—because it literally can't access anything outside its container. Easy to implement, impossible to bypass.</em>
 
 - **Database**: Principle of least privilege always wins
   - ✅ Good: Read-only access to most tables, write access only to `support_tickets`
   - ❌ Bad: Full admin credentials because "it's easier"
+
+<em>Create a dedicated database service account with minimal permissions to enforce database boundaries. Grant only the specific table and operation access your agent needs and nothing more.</em>
 
 Access boundaries aren’t about limiting power, they’re about **containing the blast radius**.
 
