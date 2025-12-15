@@ -293,7 +293,7 @@ Think of access boundaries like a playground fence - your AI application has a s
   - ✅ Good: Read-only access to most tables, write access only to `support_tickets`
   - ❌ Bad: Full admin credentials because "it's easier"
 
-<em>Create a dedicated database service account with minimal permissions to enforce database boundaries. Grant only the specific table and operation access your agent needs and nothing more.</em>
+<em>Enforce database boundaries by creating a dedicated database service account with minimal permissions. Grant only the specific table and operation access your agent needs and nothing more.</em>
 
 Access boundaries aren’t about limiting power, they’re about **containing the blast radius**.
 
@@ -323,7 +323,7 @@ Even well-meaning agents can generate unsafe or invalid commands. Validate every
     - Are all API parameters suggested by AI are valid and correctly typed?
     - Is the command AI is keen to execute even allowed?
 
-    <em>One effective ways to validate AI outputs is to use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs). Instead of having the AI return free-form text that you then need to parse and validate, structured output is a feature that let you define a strict JSON schema and the LLM will generate responses in that exact format.</em>     
+    <em>Instead of LLM returning free-form text that you then need to manually parse and validate, use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs) — a feature that lets you specify a JSON schema and force the LLM to return output that exactly matches that schema. Think of it like asking the LLM a question but requiring it to fill out a specific form with the answer. Advantage: You can add validators for each field to ensure the data meets your requirements.</em><br><br>
 
 - **Human in the Loop for Critical Actions**: Require manual approval before the AI can:
     - Delete anything
