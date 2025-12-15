@@ -358,7 +358,7 @@ Prompt injection is real. A user might embed instructions in their message like:
 - **Filter Overrides**: Block attempts to modify the agent's core behavior or system prompts
 ---
 
-If you want to see real-world guardrail implementation, checking how popular AI coding assistants have done it is a good place to start:
+If you want to see real-world guardrail implementations, checking how popular AI coding assistants have done it is a good place to start:
 - [Claude Code Guardrails](https://code.claude.com/docs/en/security#built-in-protections)
 - [Codex Guardrails](https://developers.openai.com/codex/security/)
 
@@ -739,7 +739,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
-It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, Codex CLI has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar built-in commands.
+It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, [Codex CLI](https://developers.openai.com/codex/guides/slash-commands/) has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar [built-in commands](https://code.claude.com/docs/en/slash-commands).
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
