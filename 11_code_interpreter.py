@@ -84,71 +84,50 @@ deployment_name = AZURE_OPENAI_MODEL  # The deployment name of the model to use
 
 
 # --------------------------------------------------------------
-# Load the content of your data file to a variable
+# Step 1: Upload your file to Azure Server with an "assistants" purpose
 # --------------------------------------------------------------
-file_path = "dummy_build_data.json"  # Path to your local file
-with open(file_path, 'r', encoding='utf-8') as file: 
-    file_content = file.read()
+# What is purpose?
+# When you upload a file to Azure OpenAI, you need to specify the purpose of the file.
+# The following purposes are supported:
+# https://learn.microsoft.com/en-us/rest/api/azureopenai/files/upload?view=rest-azureopenai-2024-10-21&tabs=HTTP#purpose
+#
+# What file formats are supported for upload?
+# https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/code-interpreter?tabs=python#supported-file-types
+# --------------------------------------------------------------
+file = client.files.create(
+    file=open("dummy_build_data.json", "rb"), #multipart file upload requires the file to be in binary not in text
+    purpose='assistants' # This file contains data to be used by AI assistants.
+)
+
+# Use file.id to refer to the file
+print(f"Uploaded file, file ID: {file.id}")
 
 # --------------------------------------------------------------
-# 1. Use OpenAI's Container API to create a container for code interpreter.
-# 2. Add your data file(s) to this container
-# 
-# - https://platform.openai.com/docs/api-reference/containers/createContainers
-# - https://platform.openai.com/docs/api-reference/container-files/createContainerFile
+# Note: You cannot view the content of a file uploaded 
+# to the Azure OpenAI server if the purpose is defined as `assistants`
+#
+# The following code will not work:
+# uploaded_file_content = client.files.content(file.id)
+#
+# The above command will throw the following error:
+# openai.error.InvalidRequestError: The file content is not available for the purpose of "assistants".
 # --------------------------------------------------------------
-# container = client.containers.create(
-#       name="container-for-code-interpreter"
-# )
-#
-# file = client.containers.files.create(
-#     container_id=container.id,      # ID of the container where the file will be uploaded
-#     file=file_content,              # Content of the file to be uploaded
-#     file_id="dummy_build_data.json" # Name of the file inside the container
-# )
-# --------------------------------------------------------------
-# NOTE:
-# --------------------------------------------------------------
-# Currently, support for OpenAI's container API is not available in the Azure OpenAI SDK.
-# Container commands such as the command to create a container will fail:
-#
-#     container = client.containers.create(
-#         name="container-for-code-interpreter"
-#     )
-#
-# Error:
-#   openai.NotFoundError: Error code: 404 -
-#   {'error': {'code': '404', 'message': 'Resource not found'}}
-#
-# Because of this limitation, we cannot directly add our file(s) to the container.
-# Therefore, the code above this comment is commented out.
-#
-# Workaround:
-#   Pass the file content as input to the LLM instead.
-#   This is less than ideal, but works if the file is small enough to fit within the token limit.
-#
-# Hopefully, the Azure team will add container API support soon.
-# --------------------------------------------------------------
-
-developer_message = f"""
-Wrapped within <context> tags is the content of a JSON file you need to analyze.
-<context>
-{file_content}
-</context>
-
-# Instructions
-- The JSON file contains Jenkins build information under the key `results`
-- Each entry in the `results` array contains information about a build.
-- Build status of a build can be found by checking the `build_status` key.
-- Build duration (time build took to complete) can be found by checking the `build_duration` key.
-- Queue time (time build spent in queue) can be found by checking the `queue_time` key.
-- Build label can be found by checking the `build_label` key. When somebody ask about a build, make sure to provide the build label.
-"""
 
 try:
+    # --------------------------------------------------------------
+    # Step 2: Send your request to the Azure OpenAI API, this time with Code Interpreter enabled
+    # --------------------------------------------------------------
     response = client.responses.create(
         model = AZURE_OPENAI_MODEL,
-        instructions = developer_message,
+        instructions = f"""
+            # Instructions
+            - The JSON file contains Jenkins build information under the key `results`
+            - Each entry in the `results` array contains information about a build.
+            - Build status of a build can be found by checking the `build_status` key.
+            - Build duration (time build took to complete) can be found by checking the `build_duration` key.
+            - Queue time (time build spent in queue) can be found by checking the `queue_time` key.
+            - Build label can be found by checking the `build_label` key. When somebody ask about a build, make sure to provide the build label.
+            """,
         input=[
             {
                 "role": "user",
@@ -160,18 +139,18 @@ try:
         ],
         tools=[
             {
-                "type": "code_interpreter", # I want to use code interpreter
-                "container": {              # Create a container for the LLM to generate and run Python code
-                    "type": "auto"          # This approach of auto-creating a container is working in Azure OpenAI
-                }                           #  while manually creating one using the Container API is not
+                "type": "code_interpreter", # Use code interpreter
+                "container": {              # Spin up a container for the LLM to run Python code
+                    "type": "auto",         # Let Azure OpenAI decide the best container type to create. The container will auto-expire if not used for 20 minutes.
+                    "file_ids": [file.id]   # Add the uploaded file to the container so that LLM can access it
+                }
             }
         ],
-        stream=True,     # Its wise to enable streaming for code_interpreter to let users see what's happening behind the scenes
-        background=True  # Background mode enables you to execute long-running tasks without having to worry about timeouts or other connectivity issues.
+        stream=True     # Its wise to enable streaming for code_interpreter to let users see what's happening behind the scenes
     )
 
     # --------------------------------------------------------------
-    # Print the chunks as they come in
+    # Step 3: Print the chunks as they come in
     # --------------------------------------------------------------
     # The incoming chunks will also contain LLM's internal monologues related to code generation and interpretation. 
     #
@@ -185,9 +164,7 @@ try:
     # https://platform.openai.com/docs/api-reference/responses-streaming/response/code_interpreter_call
     # --------------------------------------------------------------
 
-    cursor = None
     for chunk in response:
-        cursor = chunk.sequence_number # What is cursor? Read the comment where this loop ends to find out
         if chunk.type == 'response.created': # LLM has started responding
             print("-" * 80)
             print("AI Analysis Started")
@@ -217,19 +194,11 @@ try:
             print(f"\nError from LLM: {chunk.error.message}")
             break
 
-    # If your connection drops, the response will continue running (thanks to background=True) and you can reconnect:
-    #
-    # for chunk in client.responses.stream(resp.id, starting_after=cursor):
-    #     print(chunk)
-    #
-    # NOTE: 
-    # The above code snippet to resume the stream is not yet implemented in OpenAI SDK.
-    # Keep a tab on this page for updates: https://platform.openai.com/docs/guides/background
-
 except Exception as e:
     print(f"\nError getting answer from LLM: {e}")
-
-
-
-
-
+finally:
+    # --------------------------------------------------------------
+    # Step 4: delete the original file from server to free up space
+    # --------------------------------------------------------------    
+    client.files.delete(file.id)
+    print(f"Deleted file, file ID: {file.id}")
