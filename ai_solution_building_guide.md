@@ -753,7 +753,7 @@ Write everything we've accomplished to progress.md. Include:
 This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
 
 
-> Many modern AI coding assistants include built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new session with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
+> Many modern AI coding assistants comes with built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new session with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
 
 ---
 
