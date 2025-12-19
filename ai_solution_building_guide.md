@@ -590,7 +590,7 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 
 ### The Strategic Approach
 
-Here's a three-part strategy to keep your AI coding assistant effective over long sessions:
+Here's a four-part strategy to keep your AI coding assistant effective over long sessions:
 
 #### 1. Create a README for AI Assistants
 For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
@@ -688,15 +688,34 @@ Ask first:
 
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
----
-**NOTE:**
+- Check the [next section](#crafting-effective-agentsmd) for pointers on crafting effective `AGENTS.md` files.
+- While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`—though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects. </em>
 
-While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`-though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.
+#### 2. Control MCP Bloat
 
----
+Every time you ask a question, the schemas of **every single MCP tool** registered get sent to the underlying LLM model. It doesn't matter if you're asking your AI assistant to read a file, query a database, or just summarize a paragraph—the backend model still has to wade through descriptions of *every* available tool to figure out what might be relevant. 
 
-#### 2. Decompose Requirement into Atomic Tasks
-Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
+<img src="images/mcp_bloat.png" width="580"/><br>
+
+The result?
+- The model is being asked to reason, plan, and choose tools while holding an entire tool universe in its head.
+- Huge chunks of the context window burned on schemas that might never be used.
+- Conversation history, task-specific context and MCP tool definitions - all fighting for space.
+
+Thankfully, "MCP bloat" is a well-known pain point in the AI community, and companies and open-source projects are actively experimenting with various solutions.
+
+**Some Solutions You Can Try Today:**
+
+- **Subagents:** If your AI assistant supports [subagents](https://code.claude.com/docs/en/sub-agents), spin up multiple ones, with each configured with a curated subset of MCP tools. When a query arrives, the assistant determines which subagent(s) to invoke. Each agent gets its own context with only relevant tools loaded, keeping the context lean. 
+
+  <br><img src="images/subagents.png" alt="subagents" width="500"/><br>
+
+- **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
+  - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
+  - **MCP Hub and its Smart Routing Feature**: Uses vector semantic search to automatically find the most relevant tools for the given task. ([documentation](https://docs.mcphubx.com/features/smart-routing))
+
+#### 3. Decompose Requirement into Atomic Tasks
+Now that you've optimized your setup, it's time to focus on execution. Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
 
 - Solve one specific problem
 - Have clear success criteria
@@ -719,9 +738,9 @@ Break into:
 ```
 Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
 
-#### 3. Compaction (a.k.a Context Summarization)
+#### 4. Compaction (a.k.a Context Summarization)
 
-As your context starts to fill up, pause your work and start over with a fresh context window. To do this, use a prompt like this:
+Even with careful management, the filling up of context window is inevitable. When that happens, pause your work and start over with a fresh context window. To do this, use a prompt like this:
 
 ```markdown
 Write everything we've accomplished to progress.md. Include:
@@ -733,15 +752,13 @@ Write everything we've accomplished to progress.md. Include:
 
 This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
 
+It is worth noting that many modern AI coding assistants now come with a built-in command to help compact context. For example, in Claude Code and Codex CLI, you can run the `/compact` to generate a summary of your current session and trigger a new session with this summary preloaded as the new context. What's better? These tools run the compact command automatically when they detect that the context window is nearing its limit.
+
 ---
 
-**The pattern:** Start with structure, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
+**The pattern:** Start with structure, optimize tool usage, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
-
-It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, [Codex CLI](https://developers.openai.com/codex/guides/slash-commands/) has `/init` command to scaffold `AGENTS.md` and `/compact` to summarize context. When faced with complex problems, it automatically breaks them into smaller tasks (called "planning").
-
-Claude Code, too, offers similar [built-in commands](https://code.claude.com/docs/en/slash-commands) and planning capabilities.
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
@@ -762,7 +779,11 @@ Think of it as the difference between a novel and a cheat sheet.
 
 ### The Quick Win
 
-Most coding agents include built-in commands to scaffold an `AGENTS.md`. If yours doesn't, simply prompt it with:
+Most coding agents include built-in commands to scaffold an `AGENTS.md` 
+
+<img src="images/codex_init.png" width="580"/><br>
+
+If yours doesn't, simply prompt it with:
 ```
 Create an AGENTS.md for this repository based on the current codebase structure
 ```
