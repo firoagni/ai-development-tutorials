@@ -739,7 +739,9 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
-It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, [Codex CLI](https://developers.openai.com/codex/guides/slash-commands/) has `/init` command to scaffold `AGENTS.md`, `/plan` to break down tasks, and `/compact` to summarize context. Claude Code has similar [built-in commands](https://code.claude.com/docs/en/slash-commands).
+It is also worth noting that most modern AI coding assistants have caught on to these patterns and baked them directly into their tooling. For example, [Codex CLI](https://developers.openai.com/codex/guides/slash-commands/) has `/init` command to scaffold `AGENTS.md` and `/compact` to summarize context. When faced with complex problems, it automatically breaks them into smaller tasks (called "planning").
+
+Claude Code, too, offers similar [built-in commands](https://code.claude.com/docs/en/slash-commands) and planning capabilities.
 
 ### References:
 - https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md - [Video](https://youtu.be/IS_y40zY-hc)
