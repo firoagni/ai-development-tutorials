@@ -688,8 +688,8 @@ Ask first:
 
 When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
 
-- Check the [next section](#crafting-effective-agentsmd) for pointers on crafting effective `AGENTS.md` files.
-- While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`—though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects. </em>
+- Check the [next section](#crafting-effective-agentsmd) for pointers on crafting effective `AGENTS.md`.
+- While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`—though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.
 
 #### 2. Control MCP Bloat
 
@@ -752,7 +752,7 @@ Write everything we've accomplished to progress.md. Include:
 
 This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
 
-It is worth noting that many modern AI coding assistants now come with a built-in command to help compact context. For example, in Claude Code and Codex CLI, you can run the `/compact` to generate a summary of your current session and trigger a new session with this summary preloaded as the new context. What's better? These tools run the compact command automatically when they detect that the context window is nearing its limit.
+> Many modern AI coding assistants include built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new session with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
 
 ---
 
