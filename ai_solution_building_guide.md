@@ -279,7 +279,7 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - ⁠Got a $50,000 OpenAI bill? MCP doesn’t show which team, tool, or user racked it up—no tracking, no quotas, no clues. You’re guessing where the money went. Compare that to AWS or Google Cloud, where every action is tagged and billed clearly.
 - ⁠Malicious prompt: Imagine a user copying and pasting a complex, obfuscated prompt they believe will create a new user in their cloud environment—the malicious prompt could, in addition to creating the intended user, also create another user for the attacker. This is why the actions performed by the MCP servers should always be confirmed by the users or restricted to reduce risk to an acceptable level.
 
-### Refernces
+### References
 - https://www.reddit.com/r/mcp/comments/1mub6g6/one_month_in_mcp_what_i_learned_the_hard_way/
 - https://julsimon.medium.com/why-mcps-disregard-for-40-years-of-rpc-best-practices-will-burn-enterprises-8ef85ce5bc9b
 - https://www.datacamp.com/blog/context-engineering
