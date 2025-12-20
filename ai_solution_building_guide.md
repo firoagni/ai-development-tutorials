@@ -737,6 +737,12 @@ Break into:
 4. Create password reset flow
 5. Add role-based access control
 ```
+
+Many AI coding assistants have this feature built-in. Here's [Windsurf's Plan Mode](https://windsurf.com/blog/windsurf-wave-10-planning-mode) in action:
+
+<img src="images/windsurf-plan-mode-1.gif" alt="windsurf planning mode" width="280"/>
+<img src="images/windsurf-plan-mode-2.gif" alt="windsurf planning mode 2" width="398"/><br><br>
+
 Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
 
 #### 4. Compaction (a.k.a Context Summarization)
@@ -754,7 +760,9 @@ Write everything we've accomplished to progress.md. Include:
 This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
 
 
-> Many AI coding assistants comes with built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new one with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
+> Many AI coding assistants comes with built-in commands for compacting context. Claude Code and Codex CLI, for instance, offer a `/compact` command that, when triggered, generates a summary of the current session and starts a new one with that summary preloaded as context. 
+>
+> Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
 
 ---
 
