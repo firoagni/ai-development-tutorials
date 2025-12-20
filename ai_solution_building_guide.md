@@ -713,7 +713,7 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
   - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
-  - **MCP Hub and its Smart Routing Feature**: Uses vector semantic search to automatically find the most relevant tools for the given task. ([documentation](https://docs.mcphubx.com/features/smart-routing))
+  - **MCP Hub and its Smart Routing Feature**: Uses vector semantic search (RAG) to automatically find the most relevant tools for the given task. ([documentation](https://docs.mcphubx.com/features/smart-routing))
 
 #### 3. Decompose Requirement into Atomic Tasks
 Now that you've optimized your setup, it's time to focus on execution. Break your requirements into small, self-contained tasks that can be implemented and tested independently. Each task should:
