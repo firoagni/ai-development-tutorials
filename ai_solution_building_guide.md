@@ -722,10 +722,6 @@ Now that you've optimized your setup, it's time to focus on execution. Break you
 - Have clear success criteria
 - Be testable in isolation
 
-This granular approach provides two critical benefits:
-- The AI can validate its work immediately, staying grounded in reality
-- If a session derails, you can restart and resume from the failed task rather than the beginning
-
 **Example task breakdown:**
 ```markdown
 Instead of: "Build user authentication system"
@@ -737,6 +733,10 @@ Break into:
 4. Create password reset flow
 5. Add role-based access control
 ```
+
+This granular approach provides two critical benefits:
+- The AI can validate its work immediately, staying grounded in reality
+- If a session derails, you can restart and resume from the failed task rather than the beginning
 
 Many AI coding assistants have this feature built-in. Here's [Windsurf's Plan Mode](https://windsurf.com/blog/windsurf-wave-10-planning-mode) in action:
 
