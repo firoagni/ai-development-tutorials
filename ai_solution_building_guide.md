@@ -157,7 +157,35 @@ There are many frameworks that make creating AI-powered systems easier to implem
 - https://blog.langchain.com/how-to-think-about-agent-frameworks
 - https://blog.langchain.com/not-another-workflow-builder/
 
-## Building Agent on Your Own? Things to Know
+## CLI-based AI Assistants to Build AI Solutions
+
+Another approach that is simpler than building using raw LLM APIs, but more scriptable than visual workflow builders is to use **CLI-based AI assistants** like [Claude Code](https://code.claude.com/docs/en/overview), [Codex CLI](https://developers.openai.com/codex/cli/), or [Copilot CLI](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli). These chatbots run directly in your terminal and come with "programmatic mode"—an option where they run non-interactively.
+
+- [Claude Code Programmatic Mode](https://code.claude.com/docs/en/headless)
+- [Codex CLI Programmatic Mode](https://developers.openai.com/codex/sdk#using-codex-cli-programmatically)
+- [Copilot CLI Programmatic Mode](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli#modes-of-use)
+
+Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output and exits - without requiring inline approvals.
+
+Here are some examples of programmatic mode using Claude Code:
+```bash
+# Monitor logs and alert on anomalies
+tail -f app.log | claude -p "Slack me if you see any anomalies appear in this log stream"
+
+# Automated localization in CI
+claude -p "If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review"
+```
+
+Having an AI assistant run in your terminal non-interactively opens a heap of possibilities for automation. Just like you would call `curl` or `jq` in your scripts and CI/CD pipelines, you can now call these assistants to perform complex tasks. Need to summarize code changes before committing? Parse unstructured log files for insights? Generate test cases based on implementation? These can now become one-line commands in your Python script.
+
+- [Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
+- [Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
+
+You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry significantly.
+
+That said, this convenience comes with tradeoffs. Using assistants tends to be more expensive than direct API calls since they add their own processing layer and often send additional data to the underlying LLM. You also get less control over the exact prompts, model parameters, and what is sent to the LLM. For getting started or handling moderate automation needs, these tradeoffs are usually worth it. But for high-volume or cost-sensitive applications, direct API integration is still the better option.
+
+## Building Solutions from Scratch? Things to Know
 
 An LLM, for all its power, is confined by its training data. It has no access to real-time information and cannot perform actions. It’s like a brilliant brain isolated from the world.
 
