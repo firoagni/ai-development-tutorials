@@ -740,8 +740,10 @@ Break into:
 
 Many AI coding assistants have this feature built-in. Here's [Windsurf's Plan Mode](https://windsurf.com/blog/windsurf-wave-10-planning-mode) in action:
 
+<p float="left">
 <img src="images/windsurf-plan-mode-1.gif" alt="windsurf planning mode" width="280"/>
-<img src="images/windsurf-plan-mode-2.gif" alt="windsurf planning mode 2" width="398"/><br><br>
+<img src="images/windsurf-plan-mode-2.gif" alt="windsurf planning mode 2" width="398"/>
+</p>
 
 Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
 
