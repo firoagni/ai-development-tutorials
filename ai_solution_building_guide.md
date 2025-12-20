@@ -565,8 +565,9 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 
 Given the inherent challenges of context rot and positional bias, the optimal strategy is to provide LLMs with **short, high-quality context** rather than overwhelming them with every available piece of information. When building your own AI solution from scratch, managing context is largely within your control. But how can you maintain context quality when working with AI coding assistants like Cursor, Copilot, or Windsurf?
 
-The key lies in identifying and mitigating the biggest context drains. Here's what typically chews context window in AI coding assistants:
+The key lies in identifying and mitigating the biggest context drains. 
 
+Here's what typically chews context window in AI coding assistants:
 - Long Conversations with Assistant
 - Assistant searching for files in the codebase
 - Assistant understanding code flow
