@@ -165,7 +165,7 @@ Another approach that is simpler than building using raw LLM APIs, but more scri
 - [Codex CLI Programmatic Mode](https://developers.openai.com/codex/sdk#using-codex-cli-programmatically)
 - [Copilot CLI Programmatic Mode](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli#modes-of-use)
 
-Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output and exits - without requiring inline approvals.
+Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output and exits _without requiring inline approvals_.
 
 Here are some examples of programmatic mode using Claude Code:
 ```bash
