@@ -565,7 +565,7 @@ A growing body of research shows that LLMs, too, are also susceptible to this bi
 
 Given the inherent challenges of context rot and positional bias, the optimal strategy is to provide LLMs with **short, high-quality context** rather than overwhelming them with every available piece of information. When building your own AI solution from scratch, managing context is largely within your control. But how can you maintain context quality when working with AI coding assistants like Cursor, Copilot, or Windsurf?
 
-To come up with a solution, let us first understand what consumes context windows in AI coding assistants:
+The key lies in identifying and mitigating the biggest context drains. Here's what typically chews context window in AI coding assistants:
 
 - Long Conversations with Assistant
 - Assistant searching for files in the codebase
@@ -577,7 +577,7 @@ To come up with a solution, let us first understand what consumes context window
 
 <br><img src="images/context_explosion.png" alt="context visualized in Claude Code" width="580"/><br>
 
-So how should we manage this context explosion? Let's examine approaches from least to most effective.
+So how should we manage this context explosion? Let's examine approaches from least to the most effective.
 
 ### The Naive Way
 Most of us start by using an AI assistant like a chatbot. You talk back and forth with it, vibing your way through a problem until you find that the LLM has gone off the rails.
@@ -686,10 +686,10 @@ Ask first:
 - For regressions: add a failing test that reproduces the bug, then fix to green
 ```
 
-When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files act as reference manuals for AI, providing instant context about your codebase structure and conventions, therefore preventing the assistant from burning tokens and bloating context on discovery and research.
+When an AI assistant works in your codebase, it _automatically_ reads the nearest `AGENTS.md` in the directory tree. These files serve as reference manuals, providing instant context about your codebase structure and conventions. This prevents the assistant from burning tokens and bloating context on discovery and research.
 
 - Check the [next section](#crafting-effective-agentsmd) for pointers on crafting effective `AGENTS.md`.
-- While `AGENTS.md` [has emerged as the universal standard for AI coding assistant instructions](https://www.infoq.com/news/2025/08/agents-md), some tools currently use different naming conventions. For example, Claude Code looks for `CLAUDE.md`—though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.
+- While `AGENTS.md` [has emerged as the universal standard for providing custom instructions to AI coding assistants](https://www.infoq.com/news/2025/08/agents-md), not every tool has adopted it yet. Claude Code, for instance, looks for `CLAUDE.md` instead of `AGENTS.md`, though it serves the same purpose. Check your assistant's documentation to confirm which filename it expects.
 
 #### 2. Control MCP Bloat
 
@@ -753,7 +753,7 @@ Write everything we've accomplished to progress.md. Include:
 This creates a knowledge checkpoint that can seed your next session with high-signal context while discarding the noise.
 
 
-> Many modern AI coding assistants comes with built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new session with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
+> Many AI coding assistants comes with built-in commands for compacting context. For example, Claude Code and Codex CLI offer a `/compact` command that generates a summary of the current session and starts a new one with that summary preloaded as context. Even better, these tools automatically run the compact command when they detect that the context window is nearing its limit.
 
 ---
 
