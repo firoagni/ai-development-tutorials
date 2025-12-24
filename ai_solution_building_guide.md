@@ -10,7 +10,7 @@ You can build AI-powered solutions by either creating **Workflows** or **Agents*
 
 ### Workflows: You're in Control
 
-**Workflows** are like **flowcharts**, where each step is **explicitly defined**, **from start to finish**, in **advance**, by the developer.
+**Workflows** are **flowcharts**, where each step is **explicitly defined**, **from start to finish**, in **advance**, by the developer.
 
 Some steps in a Workflow use LLMs, while others use traditional code.
 
@@ -24,7 +24,7 @@ Some steps in a Workflow use LLMs, while others use traditional code.
 - Step 4: Craft a personalized response from the results [AI]
 - Step 5: Return the response to the customer [Code]
 
-In Workflows, you control the sequence. The AI only does what you tell it to do.
+In Workflows, "you" control the sequence. The AI only does what "you" tell it to do.
 
 ### Agents: The AI Decides
 
@@ -64,7 +64,7 @@ You didn't tell it to do any of those steps. It figured out the plan on its own.
 - ❌ **Unpredictable**: You can't always anticipate which path they'll take
 - ❌ **5-10x more Expensive**: Each decision requires an LLM call ($$), also agents may explore wrong paths before succeeding
 
-Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent" -- you might be tempted to **always** choose agents over everything. However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
+Given that agent-based AI-solutions are easier to implement, easier to extend, and feel more "intelligent", you might be tempted to **always** choose agents over everything. However, keep in mind that **Agents are essentially black boxes.** You can't fully predict or trace their decision-making process. They might take unexpected paths, make surprising tool choices, or fail in ways that are difficult to reproduce or diagnose. Ask yourself: **Do you trust a black box system in production?** 
 
 <em>"Sometimes, using an agent is like replacing a microwave with a sous chef — more flexible, but also more expensive, harder to manage, and occasionally makes decisions you didn’t ask for"</em>
 
@@ -88,7 +88,9 @@ Given that agent-based AI-solutions are easier to implement, easier to extend, a
 Default to workflows for their predictability and consistency. Use agents only when workflows cannot solve the problem.
 
 ### In practice, most production systems combine workflows and agents strategically 
-Rather than choosing one approach exclusively, successful implementations use workflows for predictable steps and agents only where flexibility is essential. Example:
+Rather than choosing one approach exclusively, successful implementations use workflows for predictable steps and agents only where flexibility is essential. 
+
+Example:
 
 ```
 Workflow: Payment Processing
@@ -165,7 +167,7 @@ Another approach that is simpler than building using raw LLM APIs, but more scri
 - [Codex CLI Programmatic Mode](https://developers.openai.com/codex/sdk#using-codex-cli-programmatically)
 - [Copilot CLI Programmatic Mode](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli#modes-of-use)
 
-Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output and exits _without requiring inline approvals_.
+Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output _without requiring inline approvals_ and exits.
 
 Here are some examples of programmatic mode using Claude Code:
 ```bash
@@ -176,12 +178,18 @@ tail -f app.log | claude -p "Slack me if you see any anomalies appear in this lo
 claude -p "If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review"
 ```
 
-Having an AI assistant run in your terminal non-interactively opens a heap of possibilities for automation. Just like you would call `curl` or `jq` in your scripts and CI/CD pipelines, you can now call these assistants to perform complex tasks. Need to summarize code changes before committing? Parse unstructured log files for insights? Generate test cases based on implementation? These can now become one-line commands in your Python script.
+Having an AI assistant run in your terminal non-interactively opens a heap of possibilities for automation. Just like you would call `curl` or `jq` in your scripts and CI/CD pipelines, you can now call these assistants to perform complex tasks. 
+
+- Need to summarize code changes before committing? 
+- Parse unstructured log files for insights? 
+- Generate test cases based on implementation? 
+
+These can now become one-line commands in your Python script.
 
 - [Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
 - [Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
 
-You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry significantly.
+You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry.
 
 That said, this convenience comes with tradeoffs. Using assistants tends to be more expensive than direct API calls since they add their own processing layer and often send additional data to the underlying LLM. You also get less control over the exact prompts, model parameters, and what is sent to the LLM. For getting started or handling moderate automation needs, these tradeoffs are usually worth it. But for high-volume or cost-sensitive applications, direct API integration is still the better option.
 
@@ -217,6 +225,9 @@ This is a monumental leap as function calling can transform LLMs from a passive 
 
 Think of LLM agent a manager and the tools it has access to as its team of specialists: a Web Searcher, a Code Interpreter, a Database Expert, and so on. When the manager gets a request that it can’t handle alone, it doesn’t guess. It delegates.
 
+- [Function Calling implementation in Azure OpenAI](10_function_calling.ipynb)
+- [Function Calling implementation in Ollama](13_ollama/08_function_calling_ollama.ipynb)
+
 ### References
 - https://openai.com/index/function-calling-and-other-api-updates/
 - https://medium.com/@isaikat213/beyond-the-chatbot-how-tool-calling-is-giving-llms-real-world-superpowers-bcb13f754f98
@@ -239,13 +250,21 @@ MCP isn't a revolutionary new technology - it's a new standard. If you've been w
 
 ### How to expose your tools via MCP?
 
-1. Define your function as you normally would.
-1. Create an MCP server to make the functions available as tools to the World.
+**Step 1:** Define your function as you normally would:
+    <p float="left">
+    <img src="images/mcp_function_1.png" width="380"/> &nbsp;&nbsp;
+    <img src="images/mcp_function_2.png" width="400"/>
+    </p>
 
-You can use a python library like [FastMCP](https://github.com/jlowin/fastmcp) to simplify the process of creating MCP servers.
+**Step 2:** Spin up an MCP server (e.g., using Python's [FastMCP](12_mcp/README.md) library) to make the functions available as tools to the World:
+
+  <img src="images/fast_mcp.png" width="500"/><br>
 
 ### How to consume the tools exposed by MCP servers
 1. **Personal MCP use** - Adding MCP servers to Copilot, Windsurf, Cursor, or other personal AI assistants
+
+    <img src="12_mcp/screenshots/02_http-mcp-server-fastmcp/5_mcp_sever_in_action.png" alt="mcp server in action" width="800"/><br>
+
 1. **Backend integration** - Adding MCP servers into your Python applications and agent systems
 
 ### MCP advantages over Function Calling
@@ -263,6 +282,8 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - Most LLMs start to struggle once you load them with more than ~40 tools. The context gets bloated, tool selection slows down, and performance drops. Just adding Grafana pulled in dozens of tools on its own, and Cursor basically started choking as soon as it crossed that limit. You can’t just plug in every tool and expect the model to stay sharp.
   - Research by [Tiantian Gan and Qiyao Sun](https://arxiv.org/pdf/2505.03275) found that keeping tool selections under 30 tools gave three times better tool selection accuracy.
   - The Berkeley [Function-Calling Leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) shows every model performs worse when given more than one tool, and models will sometimes call tools that have nothing to do with the task.
+
+  Check the section [Control MCP Bloat](ai_solution_building_guide.md#2-control-mcp-bloat) to learn some strategies to manage MCP bloat.
 - When different MCP servers expose tools with the same function name, things break in weird ways. One server says `get_issue`, another also says `get_issue`. Suddenly the agent has no clue which one to call. It sounds minor, but in practice, this creates silent failures and confusion.
 - ⁠Assume your CI pipeline uses an agent connected to multiple MCP servers. An MCP server that might initially appear safe during installation - even with its source code and tool descriptions appearing normal, can later be modified in a future update. 
 
@@ -351,7 +372,10 @@ Even well-meaning agents can generate unsafe or invalid commands. Validate every
     - Are all API parameters suggested by AI are valid and correctly typed?
     - Is the command AI is keen to execute even allowed?
 
-    <em>Instead of LLM returning free-form text that you then need to manually parse and validate, use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs) — a feature that lets you specify a JSON schema and force the LLM to return output that exactly matches that schema. Think of it like asking the LLM a question but requiring it to fill out a specific form with the answer. Advantage: You can add validators for each field to ensure the data meets your requirements.</em><br><br>
+    <em>Instead of LLM returning free-form text that you then need to manually parse and validate, use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs) — a feature that lets you specify a JSON schema and force the LLM to return output that exactly matches that schema. Think of it like asking the LLM a question but requiring it to fill out a specific form with the answer. Advantage: You can add validators for each field to ensure the data meets your requirements.</em><br>
+
+    - [Structured Output Implementation in Azure OpenAI](09_structured_outputs.ipynb)
+    - [Structured Output Implementation in Ollama](13_ollama/07_structured_outputs_ollama.ipynb)
 
 - **Human in the Loop for Critical Actions**: Require manual approval before the AI can:
     - Delete anything
@@ -382,7 +406,7 @@ Prompt injection is real. A user might embed instructions in their message like:
 - [Air Canada chatbot promised a discount. Now the airline has to pay it.
 ](https://www.washingtonpost.com/travel/2024/02/18/air-canada-airline-chatbot-ruling/)
 <br><br>
-- **Validate Inputs**: Strip out suspicious patterns that look like instructions
+- **Validate Inputs**: [Strip out suspicious patterns that look like instructions](https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks)
 - **Filter Overrides**: Block attempts to modify the agent's core behavior or system prompts
 ---
 
@@ -467,7 +491,7 @@ Different models come with different context window sizes. For example:
 This limit covers everything: the input you provide, the model’s response, and even hidden control tokens. If the total exceeds the maximum, you’ll get an error.
 
 In simpler terms, the context window restricts both:
-- How much input you can provide (your instructions or data)
+- How much input (context) you can provide to the model
 - How long the model’s response can be
 
 **The dilemma:** To create your "Magical" agent, you wish to provide a rich context -— without crossing the context window.
@@ -484,7 +508,7 @@ RAG is like asking a librarian for help: Instead of dragging every book in the l
 
 🎥 [This video](https://www.youtube.com/watch?v=dI_TmTW9S4c) has been called *the best RAG explainer on the internet*—and I agree.
 
-## Code-RAG: Retrieve Relevant Context from Across the Entire Codebase
+## Code-RAG: Retrieve Relevant Context from Codebase
 
 Code-RAG is a specialized variant of RAG designed specifically for working with source code rather than natural language documents. While traditional RAG retrieves "text passages" from "documents", Code-RAG retrieves "code snippets" from a "codebase".
 
@@ -1009,7 +1033,9 @@ In monorepos or large repositories with multiple sub-projects, each sub-project 
 - **Root-level:** `/AGENTS.md`
 - **Directory-level:** `/api/AGENTS.md`
 
-Agents automatically read the nearest file in the directory tree, so the closest one takes precedence and every subproject can ship tailored instructions. Advantage: A legacy subproject can keep React 17 rules while the rest follows Reach 18 conventions.
+Agents automatically read the nearest file in the directory tree, so the closest one takes precedence and every subproject can ship tailored instructions. 
+
+Advantage: A legacy subproject can keep React 17 rules while the rest follows Reach 18 conventions.
 
 What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 
@@ -1061,7 +1087,7 @@ But here’s the kicker: Send the exact same input to an LLM, and you get a slig
 
 <img src="images/non_determinstic.png" alt="LLM outputs are non deterministic" width="580"/><br>
 
-This isn't a bug that will be fixed—it's a fundamental characteristic of how LLMs work.
+This isn't a bug that will be fixed, it's a fundamental characteristic of how LLMs work.
 
 <em>LLMs are probabilistic models. They predict the next token based on all previous tokens. Even a tiny variation early in generation can lead to completely different outputs later.</em> 
 
@@ -1242,7 +1268,11 @@ When an LLM generates a response, it's making probabilistic predictions about wh
 This probabilistic foundation means that AI systems will occasionally:
 - Miss critical information even when it's clearly present in the context
 - Generate plausible-sounding but incorrect information (hallucinations)
-    <br><br><img src="images/hallucination.png" alt="hallucination graph" width="200"/><br><br>
+
+  [Deloitte’s member firm in Australia will pay the government a partial refund for a $290,000 report that contained alleged AI-generated errors, including references to non-existent academic research papers and a fabricated quote from a federal court judgment](https://fortune.com/2025/10/07/deloitte-ai-australia-government-report-hallucinations-technology-290000-refund/) 
+
+  <img src="images/hallucination.png" alt="hallucination graph" width="200"/><br>
+  
 - Make inconsistent decisions when presented with the same scenario multiple times
 - Fail in unpredictable ways that are difficult to anticipate or prevent
 
@@ -1330,7 +1360,7 @@ What's worse? AI-generated mistakes often look professional and convincing. The 
 
 ### Recent Improvements: The Code Generation Approach
 
-Recent LLM implementations have developed a more promising strategy called "code interpreter" for handling data analysis. Instead of trying to multiply 456 × 789 in their head, LLMs can now recognize that this is a calculation problem and can write a **Python script** to run the math.
+Recent LLM implementations have developed a more promising strategy called [code interpreter](11_code_interpreter.ipynb) for handling data analysis. Instead of trying to multiply 456 × 789 in their head, LLMs can now recognize that this is a calculation problem and can write a **Python script** to run the math.
 
 AI writing code, however, has its own challenges:
 - The AI must first recognize that a problem requires computational analysis rather than language-based reasoning. 
@@ -1357,6 +1387,25 @@ If you're going to use AI for analytics, consider these strategies:
   - If neither approach works, explicitly state the limitation to the user rather than hallucinating results
 - **Use Reasoning Models**: Reasoning models (such as OpenAI's o1 or DeepSeek R1) are better at recognizing that problems are computational and should be approached by writing code. They also get basic math right that standard LLMs often fumble. Prefer them over standard LLMs for analytic tasks.
 
+  ```
+  System prompt: You are a super sarcastic AI assistant
+  Question: How many r's in strawberry?
+
+  -----------------------------------------
+  Model without thinking:
+  -----------------------------------------
+  Oh, you’re on a r-counting mission? Fine. “Strawberry” contains exactly two “r” letters—one right after the “t” and another just before the “y.” Two. Got it?
+
+  -----------------------------------------
+  Model with thinking:
+  -----------------------------------------
+  Thinking .... :
+  We have a user question: "How many r's in strawberry?" They want the count of letter 'r' in the word strawberry. Let's check: s t r a w b e r r y. The letters: s, t, r, a, w, b, e, r, r, y. There are three 'r's. Yes, strawberry has three r's. The user likely expects the answer "three" or "3". Also the instructions: "You are a super sarcastic AI assistant". So respond with sarcasm. So likely: "Oh wow, you’re really scratching your head over a fruit? Sure, it's three. I’ll check the dictionary." Let's produce a sarcastic answer.
+
+  Answer from AI:
+  Oh wow, you’ve really got a mind‑blowing, earth‑shattering question. “How many r’s in strawberry?” The answer is **three**. There it is—three r’s. Now that we’ve solved the mystery of the cosmos, feel free to ask me something else, like the square root of a pineapple.
+  ```
+
 **However, the fundamental problem persists**: The above solutions make AI analytics more reliable, but they don't make them reliably accurate. Remember that "the AI called a tool" or "the AI used Python" doesn't guarantee correctness—just that the math within the execution is accurate.
 
 Additional steps you can take:
@@ -1364,7 +1413,7 @@ Additional steps you can take:
 - **Never trust AI analysis without verification**: Treat every number, calculation, and insight as potentially wrong until you've confirmed it independently. This isn't paranoia, it's professional responsibility.
 - **Set clear boundaries**: Don't use AI for analysis that directly drives financial decisions, regulatory reporting, or other high-stakes outcomes without multiple layers of human verification.
 
-### The reality
+### The Reality
 If you need accurate, reliable data analysis, traditional tools like Excel, SQL databases, and established analytics platforms remain more trustworthy than current AI solutions.
 
 The promise of AI-powered analytics is compelling, but we're still in the early stages. Until these tools become more reliable, treating them as helpful but fallible assistants—rather than trusted analysts—is the only responsible approach.
