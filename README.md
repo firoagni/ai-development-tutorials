@@ -8,9 +8,9 @@ Each tutorial builds upon the previous ones, demonstrating progressively advance
 
 Before diving into the tutorials, we strongly recommend reading these two foundational documents in order:
 
-1. **`LLMs_explained.md`**: A comprehensive guide that explains how Large Language Models work, covering essential concepts like tokens, embeddings, and the transformer architecture. This will give you a solid understanding of the technology you'll be working with.
+1. [LLMs_explained.md](LLMs_explained.md): A comprehensive guide that explains how Large Language Models work, covering essential concepts like tokens, embeddings, and the transformer architecture. This will give you a solid understanding of the technology you'll be working with.
 
-2. **`ai_solution_building_guide.md`**: A practical guide that covers key architectural patterns and best practices for building AI solutions, including:
+2. [ai_solution_building_guide.md](ai_solution_building_guide.md): A practical guide that covers key architectural patterns and best practices for building AI solutions, including:
    - Workflows vs. Agents: Understanding the trade-offs and when to use each approach
    - Fundamentals of Building Your Own Agent
    - Model Context Protocol (MCP)
