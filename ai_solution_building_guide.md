@@ -797,6 +797,14 @@ Many AI coding assistants have this feature built-in. Here's [Windsurf's Plan Mo
 <img src="images/windsurf-plan-mode-2.gif" alt="windsurf planning mode 2" width="398"/>
 </p>
 
+Here's another example using Claude Code with [Superpowers](https://github.com/obra/superpowers), a collection of commands and skills that can help systematize planning and execution:
+
+1. **Design Phase:** Run `/superpowers:brainstorm` and work with the assistant like a coworker—discussing the feature, refining ideas, and exploring alternatives. Once you settle on a design, the assistant will generate a design doc summarizing the agreed-upon approach.
+2. **Planning Phase:** In a fresh session, run `/superpowers:write-plan` and provide it with the design doc. The assistant may ask clarifying questions and generate a step-by-step implementation plan.
+3. **Execution Phase:** When the plan is ready, the assistant asks if you want to implement with sub-agents. If you say yes, it orchestrates multiple agents—each implementing a specific task and validating it before moving to the next.
+
+--
+
 Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
 
 #### 4. Compaction (a.k.a Context Summarization)
