@@ -588,6 +588,18 @@ Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents **doe
 
 RAG or Grep? Which approach is better? Well, the jury is still out, but there are compelling arguments on both sides. One example: https://milvus.io/blog/why-im-against-claude-codes-grep-only-retrieval-it-just-burns-too-many-tokens.md
 
+That said, if you want semantic retrieval in Claude Code or Cursor, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code or Cursor, and suddenly these grep-only agents can retrieve context the RAG way.
+
+A few projects that can do this:
+- [Serena](https://github.com/oraios/serena) — full-featured coding agent toolkit with semantic indexing built in
+- [tree-sitter-mcp](https://github.com/nendotools/tree-sitter-mcp) — lightweight MCP wrapper around tree-sitter
+- [mcp-server-tree-sitter](https://github.com/wrale/mcp-server-tree-sitter) — similar focused option
+
+Is this the solution you "should" go with? Ehh, it depends. Counter argument from [the HackerRank forum](https://news.ycombinator.com/item?id=46015204):
+
+<em>"In my own measurements (made a framework to test number of tokens used / amount of reprompting to accomplish a battery of tests) i found that using an ast type tool makes the results worse. I suspect it just fills the context with distractors. LLMs know how to search effectively so it’s better to let them do that, as far as I can tell. At this point I basically dont use MCPs. Instead I just tell it that certain tools are available to it if it wants to use them."</em>
+
+
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
 
 Recent developments in LLMs show a trend toward longer context windows, with the input token count of the latest models reaching the millions. So, would it be wise to send your entire database as context to the model? Not really.
