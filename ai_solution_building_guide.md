@@ -256,7 +256,7 @@ MCP isn't a revolutionary new technology - it's a new standard. If you've been w
     <img src="images/mcp_function_2.png" width="400"/>
     </p>
 
-**Step 2:** Spin up an MCP server (e.g., using Python's [FastMCP](12_mcp/README.md) library) to make the functions available as tools to the World:
+**Step 2:** Spin up an MCP server (using Python-based [FastMCP](12_mcp/README.md) library, for example) to make the functions available as tools to the World:
 
   <img src="images/fast_mcp.png" width="500"/><br>
 
@@ -304,6 +304,28 @@ This means you can leverage existing servers rather than reinventing the wheel, 
 - https://www.reddit.com/r/mcp/comments/1mub6g6/one_month_in_mcp_what_i_learned_the_hard_way/
 - https://julsimon.medium.com/why-mcps-disregard-for-40-years-of-rpc-best-practices-will-burn-enterprises-8ef85ce5bc9b
 - https://www.datacamp.com/blog/context-engineering
+
+## MCP Aggregators
+
+Here's a situation many platform teams run into. You've evaluated the MCP ecosystem, picked the best servers for your org — maybe GitHub, Jira, your internal knowledge base, a database tool — and now you need to roll this out to 50 developers.
+
+What does that actually look like in practice?
+
+You write a doc. The doc says: "Install these 5 MCP servers. Here's the config block for each one. Paste this into your `mcp.json`." Developers follow the steps (the ones who actually read the doc), and now they have 5 servers configured in their favorite AI assistant. 
+
+Two weeks later, you find a great new MCP server for your internal deployment system. Now you need to send another message: "Hey everyone, please add this 6th server. Here's the new config block." Half the team does it. The other half doesn't. Now your developers are on different versions of your MCP toolset and you have no idea who has what.
+
+This is the core problem: **there's no way to centrally manage what MCP servers your developers have access to.** Every addition, removal, or update requires you to reach out to every developer individually and hope they follow through. It's the same nightmare as distributing software without a package manager — except here, the "packages" are MCP servers that directly affect what your agents can and can't do.
+
+MCP Aggregators solve exactly this. Instead of each developer connecting their AI assistant to N individual MCP servers, **everyone connects to a single gateway endpoint** that your team controls. You add a new server to the gateway today, and all developers automatically have access to it tomorrow — no Slack message, no doc update, no manual steps on their end.
+
+**[MCPJungle](https://github.com/mcpjungle/MCPJungle)** is one of many emerging solutions in this space. You spin it up with Docker, register your MCP servers through a CLI, and your developers connect to a single endpoint. It supports both Streamable HTTP and STDIO transports, lets you create Tool Groups to control exactly which tools each developer sees, and in enterprise mode adds access control and OpenTelemetry metrics. 
+
+<img src="images/mcp_jungle.png" alt="MCP Jungle" width="580"/><br>
+
+### When to use a MCP Aggregator
+
+If you're building a personal project with 2-3 MCP servers, you probably don't need a gateway yet. But the moment you're rolling out MCP servers to a team, have multiple people using the same set of tools, or are starting to feel the pain of keeping everyone in sync — setting up a gateway early pays off fast. It's much easier to add it now than to retrofit it after you've already distributed configs to 50 developers.
 
 ## Guardrails
 
