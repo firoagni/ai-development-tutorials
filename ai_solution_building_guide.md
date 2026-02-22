@@ -186,12 +186,14 @@ Having an AI assistant run in your terminal non-interactively opens a heap of po
 
 These can now become one-line commands in your Python script.
 
-- [Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
-- [Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
+[[Video] Claude Code in programmatic mode in Action](https://www.youtube.com/watch?v=dRsjO-88nBs)
 
 You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry.
 
 [[Video] Use Claude Code in CI for bug triage, code review, new feature development and more](https://youtu.be/dRsjO-88nBs?si=Ucca796cWx-GYqn-&t=286)
+
+- [Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
+- [Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
 
 That said, this convenience comes with tradeoffs. Using assistants tends to be more expensive than direct API calls since they add their own processing layer and often send additional data to the underlying LLM. You also get less control over the exact prompts, model parameters, and what is sent to the LLM. For getting started or handling moderate automation needs, these tradeoffs are usually worth it. But for high-volume or cost-sensitive applications, direct API integration is still the better option.
 
@@ -586,8 +588,6 @@ Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents **doe
 
 <img src="images/claudecode.png" alt="claude code strategy" width="880"/><br>
 
-RAG or Grep? Which approach is better? Well, the jury is still out, but there are compelling arguments on both sides. One example: https://milvus.io/blog/why-im-against-claude-codes-grep-only-retrieval-it-just-burns-too-many-tokens.md
-
 That said, if you want semantic retrieval in Claude Code or Cursor, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code or Cursor, and suddenly these grep-only agents can retrieve context the RAG way.
 
 A few projects that can do this:
@@ -595,9 +595,12 @@ A few projects that can do this:
 - [tree-sitter-mcp](https://github.com/nendotools/tree-sitter-mcp) — lightweight MCP wrapper around tree-sitter
 - [mcp-server-tree-sitter](https://github.com/wrale/mcp-server-tree-sitter) — similar focused option
 
-Is this the solution you "should" go with? Ehh, it depends. Counter argument from [the HackerRank forum](https://news.ycombinator.com/item?id=46015204):
+RAG or Grep? Which approach is better? Well, the jury is still out, but there are compelling arguments on both sides. 
 
-<em>"In my own measurements (made a framework to test number of tokens used / amount of reprompting to accomplish a battery of tests) i found that using an ast type tool makes the results worse. I suspect it just fills the context with distractors. LLMs know how to search effectively so it’s better to let them do that, as far as I can tell. At this point I basically dont use MCPs. Instead I just tell it that certain tools are available to it if it wants to use them."</em>
+- RAG support: https://milvus.io/blog/why-im-against-claude-codes-grep-only-retrieval-it-just-burns-too-many-tokens.md. 
+- Counter argument from [the HackerRank forum](https://news.ycombinator.com/item?id=46015204):
+
+    <em>"In my own measurements (made a framework to test number of tokens used / amount of reprompting to accomplish a battery of tests) i found that using an ast type tool makes the results worse. I suspect it just fills the context with distractors. Claude Code know how to search effectively so it’s better to let them do that, as far as I can tell."</em>
 
 
 ## Context Rot - Increasing Input Tokens Impacts LLM Performance
@@ -1119,6 +1122,22 @@ Karpathy also finds typing out full English instructions inefficient compared to
 
 ### Complete discussion
 - https://www.dwarkesh.com/i/176425744/llm-cognitive-deficits 
+
+## The AI Code Attribution Problem: Your AI Assistant Code Metrics Are Misleading
+
+Every major AI coding assistant — GitHub Copilot, Cursor, Claude — ships with metrics that tells you how many lines of code were AI-generated. These numbers look authoritative. They're also largely meaningless.
+
+The fundamental flaw is *when* the measurement happens. Current tools count at the moment of suggestion acceptance. A developer hits Tab, and that line gets logged as "AI-generated." But that moment is just the beginning of a long gauntlet: the code still has to survive the developer's own second thoughts, a linter, a test suite, a pull request, one or more code reviewers, and finally a merge.
+
+At every one of those stages, code gets deleted, rewritten, or rejected entirely. The suggestion that looked clever at 3pm on Tuesday might be gutted by a teammate's review comment by Wednesday morning. None of that is reflected in the vendor's metrics. The denominator never shrinks.
+
+This creates a systematic overcounting problem. The metric vendors report is closer to *AI code attempted* than *AI code that shipped*. For teams trying to make real decisions — about code quality and whether their AI assistant investment is paying off — this is the wrong number.
+
+What you actually want to know is: of all the code that AI assistants generated, how much survived the full SDLC and landed in your main branch? Call it the **AI code survival rate**. It requires tracking a suggestion from insertion through to commit, which means connecting your editor telemetry to your version control history.
+
+Some engineers are trying to solve this problem by building custom tools that can track AI-generated code across the entire development lifecycle. Notable examples include:
+- Git-AI: [Official Page](https://usegitai.com/) | [Github Repo](https://github.com/git-ai-project/git-ai)
+- Entire: [Official Page](https://entire.io/) | [Github Repo](https://github.com/entireio/cli)
 
 ## Deterministic Output from LLMs is Nearly Impossible
 
