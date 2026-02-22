@@ -267,6 +267,8 @@ MCP isn't a revolutionary new technology - it's a new standard. If you've been w
 
 1. **Backend integration** - Adding MCP servers into your Python applications and agent systems
 
+    <img src="images/mcp_backend.png" width="580"/><br>
+
 ### MCP advantages over Function Calling
 The true power of MCP isn't in introducing new capabilities, but in standardizing how these capabilities are exposed and consumed. This provides several key advantages:
 
