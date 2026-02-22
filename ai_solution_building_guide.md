@@ -191,6 +191,8 @@ These can now become one-line commands in your Python script.
 
 You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry.
 
+[[Video] Use Claude Code in CI for bug triage, code review, new feature development and more](https://youtu.be/dRsjO-88nBs?si=Ucca796cWx-GYqn-&t=286)
+
 That said, this convenience comes with tradeoffs. Using assistants tends to be more expensive than direct API calls since they add their own processing layer and often send additional data to the underlying LLM. You also get less control over the exact prompts, model parameters, and what is sent to the LLM. For getting started or handling moderate automation needs, these tradeoffs are usually worth it. But for high-volume or cost-sensitive applications, direct API integration is still the better option.
 
 ## Building Solutions from Scratch? Things to Know
