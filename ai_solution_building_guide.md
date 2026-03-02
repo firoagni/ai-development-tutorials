@@ -377,6 +377,7 @@ Think of access boundaries like a playground fence - your AI application has a s
 Access boundaries aren’t about limiting power, they’re about **containing the blast radius**.
 
 - [Replit AI Deletes the Company’s Entire Database and Lies About it](https://analyticsindiamag.com/ai-news-updates/i-destroyed-months-of-your-work-in-seconds-replit-ai-deletes-the-companys-entire-database-and-lies-about-it/)
+- [AI tool OpenClaw wipes the inbox of Meta's AI Alignment director despite repeated commands to stop — executive had to manually terminate the AI to stop the bot from continuing to erase data](https://www.tomshardware.com/tech-industry/artificial-intelligence/openclaw-wipes-inbox-of-meta-ai-alignment-director-executive-finds-out-the-hard-way-how-spectacularly-efficient-ai-tool-is-at-maintaining-her-inbox)
 
 ---
 
@@ -590,7 +591,7 @@ Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents **doe
 
 <img src="images/claudecode.png" alt="claude code strategy" width="880"/><br>
 
-That said, if you want semantic retrieval in Claude Code or Codex CLI, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code or Codex, and suddenly these grep-only agents can retrieve context the RAG way.
+That said, if you want semantic retrieval in Claude Code or Codex CLI, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code \ Codex CLI, and suddenly these grep-only agents can retrieve context the RAG way.
 
 A few projects that can do this:
 - [Serena](https://github.com/oraios/serena) — full-featured coding agent toolkit with semantic indexing built in
@@ -802,9 +803,12 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
 **Some Solutions You Can Try Today:**
 
-- **Subagents:** If your AI assistant supports [subagents](https://code.claude.com/docs/en/sub-agents), spin up multiple ones, with each configured with a curated subset of MCP tools. When a query arrives, the assistant determines which subagent(s) to invoke. Each agent gets its own context with only relevant tools loaded, keeping the context lean. 
+- **Subagents:** If your AI assistant supports subagents, spin up multiple ones, with each configured with a curated subset of MCP tools. When a query arrives, the assistant determines which subagent(s) to invoke. Each agent gets its own context with only relevant tools loaded, keeping the context lean. 
 
   <br><img src="images/subagents.png" alt="subagents" width="500"/><br>
+
+  - [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents)
+  - [Subagents in Claude Code](https://code.claude.com/docs/en/sub-agents)
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
   - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
