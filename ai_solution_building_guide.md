@@ -319,15 +319,15 @@ Here's a situation many platform teams run into. You've evaluated the MCP ecosys
 
 What does that actually look like in practice?
 
-You write a doc. The doc says: "Install these 5 MCP servers. Here's the config block for each one. Paste this into your `mcp.json`." Developers follow the steps (the ones who actually read the doc), and now they have 5 servers configured in their favorite AI assistant. 
+You write a doc. The doc says: "Install these 5 MCP servers. Here's the config block for each one. Paste this into the `mcp.json` of your AI assistant of choice". Developers follow the steps (the ones who actually read the doc), and now they have 5 servers configured in their favorite AI assistant. 
 
 Two weeks later, you find a great new MCP server for your internal deployment system. Now you need to send another message: "Hey everyone, please add this 6th server. Here's the new config block." Half the team does it. The other half doesn't. Now your developers are on different versions of your MCP toolset and you have no idea who has what.
 
 This is the core problem: **there's no way to centrally manage what MCP servers your developers have access to.** Every addition, removal, or update requires you to reach out to every developer individually and hope they follow through. It's the same nightmare as distributing software without a package manager — except here, the "packages" are MCP servers that directly affect what your agents can and can't do.
 
-MCP Aggregators solve exactly this. Instead of each developer connecting their AI assistant to N individual MCP servers, **everyone connects to a single gateway endpoint** that your team controls. You add a new server to the gateway today, and all developers automatically have access to it tomorrow — no Slack message, no doc update, no manual steps on their end.
+MCP Aggregators solve exactly this. Instead of each developer connecting their AI assistant to N individual MCP servers, **everyone connects to a single endpoint** that your team controls. You add a new MCP server to this endpoint today, and all developers automatically have access to it immediatly — no Slack message, no doc update, no manual steps on their end.
 
-**[MCPJungle](https://github.com/mcpjungle/MCPJungle)** is one of many emerging solutions in this space. You spin it up with Docker, register your MCP servers through a CLI, and your developers connect to a single endpoint. It supports both Streamable HTTP and STDIO transports, lets you create Tool Groups to control exactly which tools each developer sees, and in enterprise mode adds access control and OpenTelemetry metrics. 
+**[MCPJungle](https://github.com/mcpjungle/MCPJungle)** is one of many emerging solutions in this space. You spin it up with Docker, register your MCP servers to it through a CLI, and your developers connect to it via a single MCP endpoint. It supports both Streamable HTTP and STDIO transports, lets you create Tool Groups to control exactly which tools each developer sees, and in enterprise mode adds access control and OpenTelemetry metrics. 
 
 <img src="images/mcp_jungle.png" alt="MCP Jungle" width="580"/><br>
 
