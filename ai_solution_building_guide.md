@@ -113,9 +113,8 @@ The right balance depends entirely on your use case.
 - Need to handle well-defined, repeatable tasks at scale? Lean toward workflows. 
 - Building a system that must adapt to unpredictable user needs across diverse scenarios? Dial up the agency. 
 
-Neither extreme is inherently better—it's about matching the design to your requirements.
+Neither extreme is inherently better, it's about matching the design to your requirements.
 
-**Your application, your choice**
 
 ### References
 - https://www.anthropic.com/engineering/building-effective-agents
@@ -167,9 +166,9 @@ Another approach that is simpler than building using raw LLM APIs, but more scri
 - [Codex CLI Programmatic Mode](https://developers.openai.com/codex/sdk#using-codex-cli-programmatically)
 - [Copilot CLI Programmatic Mode](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli#modes-of-use)
 
-Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output _without requiring inline approvals_ and exits.
+Running AI assistants in programmatic mode is akin to running a Unix command in the terminal. You invoke the command with some input(s), the command then produces output **_without requiring any inline approvals_** and exits.
 
-Here are some examples of programmatic mode using Claude Code:
+Here are some examples of Claude Code's programmatic mode:
 ```bash
 # Monitor logs and alert on anomalies
 tail -f app.log | claude -p "Slack me if you see any anomalies appear in this log stream"
@@ -178,22 +177,22 @@ tail -f app.log | claude -p "Slack me if you see any anomalies appear in this lo
 claude -p "If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review"
 ```
 
-Having an AI assistant run in your terminal non-interactively opens a heap of possibilities for automation. Just like you would call `curl` or `jq` in your scripts and CI/CD pipelines, you can now call these assistants to perform complex tasks. 
+An AI assistant running non-interactively in terminal opens a heap of possibilities for automation. Just like you would call `curl` or `jq` in your scripts and CI/CD pipelines, you can now call these assistants to perform complex tasks. 
 
 - Need to summarize code changes before committing? 
 - Parse unstructured log files for insights? 
 - Generate test cases based on implementation? 
 
-These can now become one-line commands in your Python script.
+These can now become one-line commands in your Python script. 
 
-[[Video] Claude Code in programmatic mode in Action](https://www.youtube.com/watch?v=dRsjO-88nBs)
+- [[Video] Running Claude Code in Programmatic Mode](https://www.youtube.com/watch?v=dRsjO-88nBs)
+- [[Video] Use Claude Code in CI to triage bugs, review code, develop new features and more](https://youtu.be/dRsjO-88nBs?si=Ucca796cWx-GYqn-&t=286)
+- [[Cookbook] Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
+- [[Code] Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
 
-You might wonder how is this different than using raw LLM APIs in your scripts. Remember, AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry.
+If you've been paying close attention, you may have noticed that "an AI assistant used in a script" isn't a new idea — it's simply the workflow + agent hybrid model we discussed earlier: the script handling the predictable bits, while the intelligent bits are delegated to the assistant.
 
-[[Video] Use Claude Code in CI for bug triage, code review, new feature development and more](https://youtu.be/dRsjO-88nBs?si=Ucca796cWx-GYqn-&t=286)
-
-- [Using Codex CLI inside Github Action to automate triaging of Jira issues](https://cookbook.openai.com/examples/codex/jira-github)
-- [Using Claude Code inside Github Action to automate PR code review](https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md#automatic-pr-code-review)
+You might also wonder why use AI assistants instead of raw LLM APIs in your scripts? Where's the advantage? The answer is that AI assistants are not just fancy LLM wrappers; they come with batteries included: the ability to read and write files, execute shell commands, interact with git, make web requests, search documentation. Building these capabilities from scratch with raw APIs can require significant engineering effort. If you already have a subscription to one or more of these assistants, using them in scripts lowers the barrier to entry.
 
 That said, this convenience comes with tradeoffs. Using assistants tends to be more expensive than direct API calls since they add their own processing layer and often send additional data to the underlying LLM. You also get less control over the exact prompts, model parameters, and what is sent to the LLM. For getting started or handling moderate automation needs, these tradeoffs are usually worth it. But for high-volume or cost-sensitive applications, direct API integration is still the better option.
 
@@ -265,6 +264,9 @@ MCP isn't a revolutionary new technology - it's a new standard. If you've been w
   <img src="images/fast_mcp.png" width="500"/><br>
 
 ### How to consume the tools exposed by MCP servers
+
+You can consume MCP servers in two main ways:
+
 1. **Personal MCP use** - Adding MCP servers to Copilot, Windsurf, Cursor, or other personal AI assistants
 
     <img src="12_mcp/screenshots/02_http-mcp-server-fastmcp/5_mcp_sever_in_action.png" alt="mcp server in action" width="800"/><br>
