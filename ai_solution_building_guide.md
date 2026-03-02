@@ -590,7 +590,7 @@ Claude Code, Gemini CLI and Codex CLI have chosen the latter. These agents **doe
 
 <img src="images/claudecode.png" alt="claude code strategy" width="880"/><br>
 
-That said, if you want semantic retrieval in Claude Code or Cursor, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code or Cursor, and suddenly these grep-only agents can retrieve context the RAG way.
+That said, if you want semantic retrieval in Claude Code or Codex CLI, there's a workaround. All you need is a standalone solution that indexes your codebase using tree-sitter (or any other semantic technique) and exposes semantic search via MCP. Add the MCP server to Claude Code or Codex, and suddenly these grep-only agents can retrieve context the RAG way.
 
 A few projects that can do this:
 - [Serena](https://github.com/oraios/serena) — full-featured coding agent toolkit with semantic indexing built in
