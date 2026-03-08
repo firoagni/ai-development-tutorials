@@ -1156,7 +1156,7 @@ GitHub's own AI-powered code review tool, [Copilot code review](http://docs.gith
 The result: Git-AI never saw it happen. No tag gets attached. No note gets written to the commit. That AI-generated code looks, to Git-AI, exactly like code a human typed from scratch.
 
 Here's one way to close that blind spot:
-1. Find AI-generated review comments in a Pull Request: Use GitHub's API to fetch all code review comments in a PR. Filter for comments left by Copilot and flag them as AI-generated.
+1. Find all AI-generated review comments: Use GitHub's API to fetch all code review comments in a PR. Filter for comments left by Copilot and flag them as AI-generated.
 1. Check if the original line(s) for an AI-generated comment has changed: GitHub tracks whether a code review comment is still anchored to its original line. If the code under that comment has changed, GitHub marks the comment as outdated. Mark all copilot comments that are now outdated.
 1. If the lines did change (outdated: true), ask an LLM: This is where it gets interesting. A changed line doesn't automatically mean the suggestion was followed. The developer might have made a completely unrelated edit. So, take the following three things and hands them to a language model:
     - The original AI review comment
