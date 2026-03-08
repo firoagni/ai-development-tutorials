@@ -1149,7 +1149,7 @@ When you have Git-AI installed on your machine and accept an AI suggestion in yo
 
 ### The Pull Request Blind Spot
 
-Git-AI's approach is clean, but it has one gap. It can only capture what it sees. And what it sees is limited to your local editor. That's where the solution breaks down.
+Git-AI's approach is clean, but it has one gap: It can only capture what it sees. And what it sees is limited to your local editor. 
 
 GitHub's own AI-powered code review tool — [Copilot code review](http://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review) — don't live in your editor. It lives in the pull request, running on GitHub.com. A reviewer opens a PR, sees an inline suggestion from Copilot, clicks "Accept," and that code gets committed. The whole interaction happens in the browser, outside of your coding editor.
 
