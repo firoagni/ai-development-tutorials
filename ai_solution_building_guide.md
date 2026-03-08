@@ -1145,7 +1145,7 @@ Some engineers are trying to solve this problem by building custom tools that ca
 - Git-AI: [Official Page](https://usegitai.com/) | [Github Repo](https://github.com/git-ai-project/git-ai)
 - Entire: [Official Page](https://entire.io/) | [Github Repo](https://github.com/entireio/cli)
 
-When you have Git-AI installed on your machine and accept an AI suggestion in your editor — say, you hit Tab to complete a function — it captures that moment, notes that this particular block of code came from an AI, and quietly bakes that information into the commit via Git notes. Later, when that commit travels through code review and eventually merges into main, Git-AI can check the note and say: that code was AI-generated, and it survived.
+When you have Git-AI installed on your machine and accept an AI suggestion in your editor — say, you hit Tab to complete a function — it captures that moment, [notes that this particular block of code came from an AI, and quietly bakes that information into the commit via Git notes](https://usegitai.com/docs/cli/how-git-ai-works). Later, when that commit travels through code review and eventually merges into main, Git-AI can check the note and say: that code was AI-generated, and it survived.
 
 ### The Pull Request Blind Spot
 
