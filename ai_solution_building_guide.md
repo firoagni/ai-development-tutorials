@@ -1141,15 +1141,16 @@ This creates a systematic overcounting problem. The metric vendors report is clo
 
 What you actually want to know is: of all the code that AI assistants generated, how much survived the full SDLC and landed in your main branch? Call it the **AI code survival rate**. It requires tracking a suggestion from insertion through to commit, which means connecting your editor telemetry to your version control history.
 
-Some engineers are trying to solve this problem by building custom tools that can track AI-generated code across the entire development lifecycle. Notable examples include:
+Two projects are already taking a swing at this: Git-AI and Entire. Both work by tagging each line of code as AI or human-generated the moment it's written, and then save that label in a way that it can be retrieved even after the code is committed and pushed to GitHub.
+
 - Git-AI: [Official Page](https://usegitai.com/) | [Github Repo](https://github.com/git-ai-project/git-ai)
 - Entire: [Official Page](https://entire.io/) | [Github Repo](https://github.com/entireio/cli)
 
-When you have Git-AI installed on your machine and accept an AI suggestion in your editor — say, you hit Tab to complete a function — it captures that moment, [notes that this particular block of code came from an AI, and quietly bakes that information into the commit via Git notes](https://usegitai.com/docs/cli/how-git-ai-works). Later, when that commit travels through code review and eventually merges into main, Git-AI can check the note and say: that code was AI-generated, and it survived.
+When you have Git-AI installed on your machine and accept an AI suggestion in your editor — it captures that moment, [notes that this particular block of code came from an AI, and quietly bakes that information into the commit via Git notes](https://usegitai.com/docs/cli/how-git-ai-works). Later, when that commit travels through code review and eventually merges into main, Git-AI can check the note and say: that code was AI-generated, and it survived.
 
 ### The Pull Request Blind Spot
 
-Git-AI's approach is clean, but it has one gap: It can only capture what it sees. And what it sees is limited to your local editor. 
+Git-AI's approach is clean, but it has one gap: It can only capture what it sees. And what it sees is limited to the local editor, where it's installed.
 
 GitHub's own AI-powered code review tool, [Copilot code review](http://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review), for example, don't live in your editor. It lives in the pull request, running on GitHub.com. A reviewer opens a PR, sees an inline suggestion from Copilot, clicks "Accept," and that code gets committed. The whole interaction happens in the browser, outside of any coding editor.
 
@@ -1158,8 +1159,8 @@ The result: Git-AI never saw it happen. No tag gets attached. No note gets writt
 Here's one way to close that blind spot:
 1. **Find all AI-generated review comments:** Use GitHub's API to fetch all code review comments in a PR. Filter for comments left by Copilot and flag them as AI-generated.
 1. **Check if the original line(s) for an AI-generated comment has changed:** GitHub tracks whether a code review comment is still anchored to its original line. If the code under that comment has changed, GitHub marks the comment as outdated. 
-    - Mark all copilot comments that are now outdated as "AI-generated comments where the line(s) changed"
-    - All copilot comments that are still current (not outdated) can be marked as "AI-generated comments ignored by the committer"
+    - Mark all "copilot comments" that are now "outdated" as "AI-generated comments where the line(s) changed"
+    - All "copilot comments" that are still current ("not outdated") can be marked as "AI-generated comments ignored by the committer"
 1. **If the lines did change (outdated: true), ask an LLM:** This is where it gets interesting. A changed line doesn't automatically mean the suggestion was followed. The developer might have made a completely unrelated edit. So, take the following three things and hands them to a language model:
     - The original AI review comment
     - The diff hunk at the time the comment was made
