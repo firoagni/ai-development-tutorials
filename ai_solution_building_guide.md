@@ -856,7 +856,7 @@ Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai
 
 #### 4. Use Unit Tests to Cover Your AI's Blind Spots
 
-When you ask an AI assistant to implement a new feature, it only pulls in the context necessary for that feature. The entire codebase is not in its view. This means the AI can inadvertently break existing functionality while working on something new, and neither you nor the AI assistant will immediately know.
+When you ask an AI assistant to implement a new feature, it only pulls in the context necessary for that feature. The entire codebase is not in its view. This means that AI can inadvertently break existing functionality while working on something new, and neither you nor the AI assistant will immediately know.
 
 You have two options to avoid this from happening:
 
