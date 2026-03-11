@@ -860,7 +860,7 @@ When you ask an AI assistant to implement a new feature, it only pulls in the co
 
 You have two options to avoid this from happening:
 
-- **Option 1: Carefully review every change the AI assistant makes** - Slow and tedious, especially if the codebase is large and features implemented by several developers over the years.
+- **Option 1: Carefully review every change the AI assistant makes** - Slow and tedious, especially if the codebase is large and features are implemented by several developers over the years.
 - **Option 2: Maintain comprehensive unit test coverage** - If any existing feature breaks, your CI pipeline catches it immediately.
 
 Option 2 is the preferred approach. Unit tests act as a safety net that scales with your codebase. The AI can work freely, while the tests enforce the contract.
