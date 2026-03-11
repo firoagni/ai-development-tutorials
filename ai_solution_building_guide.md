@@ -687,7 +687,7 @@ A slightly smarter way is to just start over when it gets off track, discarding 
 
 ### The Strategic Approach
 
-Here's a four-part strategy to keep your AI coding assistant effective over long sessions:
+Here's a five-part strategy to keep your AI coding assistant effective over long sessions:
 
 #### 1. Create a README for AI Assistants
 For your code repository, create one or more Markdown files called [`AGENTS.md`](https://agents.md/). Include:
@@ -854,7 +854,28 @@ Here's another example using Claude Code with [Superpowers](https://github.com/o
 
 Also check [Spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/): a superset of this approach that many developers swear by.
 
-#### 4. Compaction (a.k.a Context Summarization)
+#### 4. Use Unit Tests to Cover Your AI's Blind Spots
+
+When you ask an AI assistant to implement a new feature, it only pulls in the context necessary for that feature. The entire codebase is not in its view. This means the AI can inadvertently break existing functionality while working on something new, and neither you nor the AI assistant will immediately know.
+
+You have two options to avoid this from happening:
+
+- Option 1: **Carefully review every change the AI assistant makes.** - Slow and tedious, especially if the codebase is large and features implemented by several developers over the years.
+- Option 2: **Maintain comprehensive unit test coverage.** - If any existing feature breaks, your CI pipeline catches it immediately.
+
+Option 2 is always the preferred approach. Unit tests act as a safety net that scales with your codebase. The AI can work freely; the tests enforce the contract.
+
+**Practical guidelines:**
+- Aim for 100% coverage of business logic and public interfaces
+- Update your `AGENTS.md` to instruct your AI assistant to write or update unit tests as part of every task.
+
+```markdown
+### Test first mode
+- when adding new features: write or update unit tests first, then code to green
+- For regressions: add a failing test that reproduces the bug, then fix to green
+```
+
+#### 5. Compaction (a.k.a Context Summarization)
 
 Even with careful management, the filling up of context window is inevitable. When that happens, pause your work and start over with a fresh context window. To do this, use a prompt like this:
 
@@ -875,7 +896,7 @@ This creates a knowledge checkpoint that can seed your next session with high-si
 
 ---
 
-**The pattern:** Start with structure, optimize tool usage, work in small increments, compact regularly. This approach treats context as a precious resource, spending tokens on execution rather than exploration.
+**The pattern:** Start with structure, optimize tool usage, work in small increments, enforce test coverage, compact regularly. This approach understands the context limitations of LLMs and works with them rather than against them.
 
 [Here's a video where the author details a few strategies that we discussed above](https://www.youtube.com/watch?v=-uW5-TaVXu4)
 
