@@ -805,7 +805,7 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
 - **Subagents:** If your AI assistant supports subagents, this is one of the highest-leverage things you can do.
 
-  The idea is simple: instead of giving one assistant access to every tool it might ever need, you create several mini-assistants - each with its own fresh context and only the tools relevant to its job:
+  The idea is simple: instead of giving one assistant access to every tool it might ever need, you create several mini-assistants - each with its **own fresh context and only the tools relevant to its job**:
   - One subagent handles database queries 
   - Another handles file operations 
   - Another handles external APIs
@@ -886,6 +886,8 @@ Option 2 is the preferred approach. Unit tests act as a safety net that scales w
 - when adding new features: write or update unit tests first, then code to green
 - For regressions: add a failing test that reproduces the bug, then fix to green
 ```
+
+<em> Note that Unit Test is about protecting existing features — not a substitute for manually testing your own change. Before submitting, you *should* manually verify that what you built actually works. Don’t be tempted to skip manual test because you think the automated tests has you covered</em>
 
 #### 5. Compaction (a.k.a Context Summarization)
 
@@ -1130,6 +1132,56 @@ What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 ### References
 - [Improve your AI code output with AGENTS.md - Best Tips](⁠https://www.builder.io/blog/agents-md)
 - [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase) 
+
+## Don't file Pull Requests with Code you haven't Reviewed Yourself.
+
+In all of the debates about the value of AI-assistance in software development there’s one depressing pattern emerging: the junior engineer, empowered by some class of LLM tool, deposits giant, untested PRs on their coworkers, or open source maintainers, and expects the “code review” process to handle the rest.
+
+This is rude, a waste of other people’s time, and is honestly a dereliction of duty as a software developer.
+
+<img src="images/ai_slop_in_pr.png" alt="code review" width="580"/><br>
+
+**Your responsibility isn't to produce code. It's to deliver code you've proven works.**
+
+As software engineers we don’t just crank out code—in fact these days you could argue that’s what the LLMs are for. We need to deliver code that works—and we need to **include proof that it works as well**. Not doing that directly shifts the burden of the actual work to whoever is expected to review our code.
+
+### How to prove your change works
+There are two steps to proving a piece of code works. **Neither is optional**.
+
+1. **Manual testing** If you haven’t seen the code do the right thing yourself, that code doesn’t work. If it does turn out to work, that’s honestly just pure chance.
+
+    Manual testing skills are genuine skills that you need to develop. You need to be able to get the system into an initial state that demonstrates your change, then exercise the change, then check and demonstrate that it has the desired effect.
+
+    - If possible, reduce these steps to a sequence of terminal commands which you can paste, along with their output, into a comment in the code review.
+    - Some changes are harder to demonstrate. It’s still your job to demonstrate them! Record a screen capture video and add that to the PR. Show your reviewers that the change you made actually works.
+
+    Once you’ve tested the happy path where everything works you can start trying the edge cases. Manual testing is a skill, and finding the things that break is the next level of that skill that helps define a senior engineer.
+
+2. **Automated testing** The second step in proving a change works is automated testing. This is much easier now that we have LLM tooling, which means there’s no excuse at all for skipping this step.
+
+    - Your contribution should bundle the change with an automated test that proves the change works. That test should fail if you revert the implementation.
+    - The process for writing a test mirrors that of manual testing: get the system into an initial known state, exercise the change, assert that it worked correctly. Integrating a test harness to productively facilitate this is another key skill worth investing in.
+
+    The good news about automated tests is that coding agents need very little encouragement to write them. If your project has tests already most agents will extend that test suite without you even telling them to do so. They’ll also reuse patterns from existing tests, so keeping your test code well organized and populated with patterns you like is a great way to help your agent build testing code to your taste.
+
+**Don’t be tempted to skip the manual test because you think the automated test has you covered already!**
+
+### The human provides the accountability
+A computer can never be held accountable. That’s your job as the human in the loop.
+
+Almost anyone can prompt an LLM to generate a thousand-line patch and submit it for code review. That’s no longer valuable. What’s valuable is contributing code that is proven to work.
+
+Next time you submit a PR, make sure you’ve included some form of evidence that you've put that extra work in yourself. Notes on how you manually tested it, comments on specific implementation choices or even screenshots and video of the feature working go a long way to demonstrating that a reviewer's time will not be wasted digging into the details.
+
+### Characteristics of a "Good" Agentic Engineering Pull Request
+- The code works, and you have evidence that it works.
+- The change is small enough to be reviewed efficiently without inflicting too much cognitive load on the reviewer. Several small PRs beats one big one.
+- The PR includes additional context to help explain the change. What's the higher level goal that the change serves? Linking to relevant issues or specifications is useful here.
+- Agents write convincing looking pull request descriptions. You need to review these too!
+
+### References
+- [Your job is to deliver code you have proven to work](https://simonwillison.net/2025/Dec/18/code-proven-to-work)
+- [Anti-Patterns: Things to avoid](https://simonwillison.net/guides/agentic-engineering-patterns/anti-patterns/)
 
 ## Andrej Karpathy's Approach to AI Coding Assistants
 
