@@ -803,12 +803,24 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
 **Some Solutions You Can Try Today:**
 
-- **Subagents:** If your AI assistant supports subagents, spin up multiple ones, with each configured with a curated subset of MCP tools. When a query arrives, the assistant determines which subagent(s) to invoke. Each agent gets its own context with only relevant tools loaded, keeping the context lean. 
+- **Subagents:** If your AI assistant supports subagents, this is one of the highest-leverage things you can do.
 
+  The idea is simple: instead of giving one assistant access to every tool it might ever need, you create several mini-assistants - each with its own fresh context and only the tools relevant to its job:
+  - One subagent handles database queries 
+  - Another handles file operations 
+  - Another handles external APIs
+
+  When a query arrives, your main assistant now acts as an orchestrator. It reads the request, decides which subagent to call, and fires it off. The selected subagent starts with an **empty context**, calls the tools **available to it**, returns the result, and dies. What lands back in your main assistant's context is just the distilled output from the subagent, not the sprawling JSON payload that produced it - keeping the main context lean and focused.
+  
   <br><img src="images/subagents.png" alt="subagents" width="500"/><br>
+  
+  If the main assistant needs the same subagent again later, the process repeats: A **fresh** instance of the subagent is spun up with the **same 
+  limited toolset**, ready to work without any baggage from the previous run.
 
   - [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents)
   - [Subagents in Claude Code](https://code.claude.com/docs/en/sub-agents)
+
+  <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API can run both subagents **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
   - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
