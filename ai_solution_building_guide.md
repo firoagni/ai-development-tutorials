@@ -1178,6 +1178,7 @@ A good pull request has the following characteristics:
 - **The code works, and you have evidence that it works**
 - **Code shouldn't just handle happy paths.** Error cases are handled gracefully and predictably. Errors should provide enough information to help future maintainers understand what went wrong.
 - **The tests show that it works now and act as a regression suite to avoid it quietly breaking in the future.**
+- **Any new external dependency need a justification**
 - **The change is documented at an appropriate level** and that documentation reflects the current state of the system - if the code changes an existing behavior the existing documentation needs to be updated to match.
 - **The change is small enough to be reviewed efficiently** without inflicting too much cognitive load on the reviewer. Several small PRs beats one big one.
 
@@ -1257,36 +1258,60 @@ One of these scales. The other doesn’t.
 - [Code is Cheap](https://simonwillison.net/guides/agentic-engineering-patterns/code-is-cheap/)
 - [Review the intent not the code](https://www.augmentcode.com/blog/review-the-intent-not-the-code)
 
-## Andrej Karpathy's Approach to AI Coding Assistants
+## AI Slop Is a Process Problem, Not a People Problem
 
-Andrej Karpathy, a founding member of OpenAI who coined the term "vibe coding," identifies three distinct approaches developers take when working with AI coding tools today.
-- **Complete Rejection** - At one extreme are developers who completely reject LLMs and write everything from scratch. According to Karpathy, "this is probably not the right thing to do anymore."
-- **Autocomplete-Assisted Coding** (Karpathy's Primary Method) - You write code from scratch but leverage coding assistant's autocomplete functionality. This workflow keeps the developer as the architect while accelerating execution. As Karpathy explains: "When you start writing out a little piece of it, it will autocomplete for you and you can just tap through. Most of the time it's correct, sometimes it's not, and you edit it. But you're still very much the architect of what you're writing."
-- **Vibe Coding** - Conversational prompting where developers simply ask the AI to "implement this or that" and let the model generate entire features or components. While Karpathy coined this term, he uses it selectively.
+Before CI/CD, production stability was personal — someone pushed broken code on a Friday, the site went down, and the postmortem ended with a name. The culture tracked blame to individuals. You broke it, you own it.
 
-### When Vibe Coding Works (and When It Doesn't)
+CI/CD didn't just automate builds and deployments, it restructured accountability. When tests ran on every push and deployment pipelines enforced quality gates, "who pushed the bug" became less interesting than "why did the pipeline let it through." Teams started writing tests collectively, maintaining pipelines collaboratively, treating production stability as a shared system rather than a sum of individual conscientiousness.
 
-**Ideal Use Cases:**
-- **Boilerplate code** - Repetitive, copy-paste style implementations
-- **Well-documented patterns** - Code that appears frequently online and in training data.
-- **Unfamiliar languages** - Learning unfamiliar languages or paradigms
+**The blame shifted from people to process. That was the real change.**
 
-He cites his experience rewriting a tokenizer from Python to Rust as an example. Though relatively new to Rust, he successfully used vibe coding because he had a fully understood Python implementation and comprehensive tests to validate the output. "They increase accessibility to languages or paradigms that you might not be as familiar with," he notes.
+With AI-generated code, however, we're seeing a regression back to the pre-CI/CD mindset. A bug is discovered in production, and the first question is "who let the AI write this?" instead of "what in our process is missing that would have caught this?"
 
-**Where Vibe Coding Falls Short:**
+A pipeline built for the pre-AI era isn't enough in the age of AI-generated code: the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
 
-For non-boilerplate, novel code, Karpathy finds current LLMs have significant "cognitive deficits." The models carry too much memory of typical patterns from their training data, leading them to:
-- Misunderstand unique architectural requirements
-- Bloat the codebase with unnecessary complexity
-- Use deprecated APIs
-- Generate code that requires more cleanup than it's worth
+### Must-have gates
 
-"I feel like they're bloating the code base, bloating the complexity, they keep misunderstanding... It's just not net useful," he observes.
+The goal isn't to add friction. It's to make the feedback loop fast enough that catching problems feels automatic rather than punitive. Every gate below should answer one question: what specific failure mode does this prevent?
 
-Karpathy also finds typing out full English instructions inefficient compared to autocomplete: "It's annoying to have to type out what I want in English because it's too much typing. If I just navigate to the part of the code that I want, and I go where I know the code has to appear and I start typing out the first few letters, autocomplete gets it and just gives you the code."
+- **AI-Powered Code Reviews** Every PR should get an AI pass before a human reviewer even opens it. Not a generic linter, but a code-aware agent that evaluates the diff against PR spec and your team's standards. AI reviews are not a replacement for human ones, but a filter that surface issues before they reach human eyes.
 
-### Complete discussion
-- https://www.dwarkesh.com/i/176425744/llm-cognitive-deficits 
+- **Unit Tests as a Gate** AI-generated code that looks clean can still be wrong in ways that only tests reveal. 
+
+- **Secret Scanning** AI models, trained on public code, are notoriously prone to generating code that includes hardcoded secrets like API keys, database credentials, and private tokens. The accidental commitment of these secrets to version control is a critical risk that must be mitigated automatically by running secret scanning tools on every PR.
+
+- **Static Code Analysis (SCA)** Tools that analyze application source code for bugs, security vulnerabilities and rule violations without executing it.
+
+- **CVE / Dependency Analysis (SCA)** Identify all open-source and third-party components within an application, checking them against databases of known vulnerabilities (CVEs) and ensuring compliance with licensing policies.
+
+- **IaC Scanning** If your codebase includes Infrastructure as Code (IaC) files (e.g., Terraform, CloudFormation), these should be scanned for misconfigurations and security issues. AI-generated IaC can easily introduce vulnerabilities if not properly validated.
+
+- **Documentation Drift Detection** The pipeline should include an agent that checks whether any changed functions, APIs, or configuration options have corresponding documentation that now needs updating, and flags it on the PR before merge. 
+
+### Speed is also a Pipeline Requirement
+
+A pipeline that catches everything but takes 45 minutes to run is a non-starter. Fast feedback is part of the contract. Two things make this practical:
+
+- **Incremental Builds and Tests:**  Build only what's changed. If a PR touches 3 files, only run tests and checks relevant to those files. This is standard expectation in CI/CD, but it's even more critical now that the volume of changes has skyrocketed.
+
+- **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution, for example, can all run in parallel, cutting total time significantly.
+
+- **AI-Explained Build Failures**: When a build fails, the developer shouldn't have to spelunk through 300 lines of logs to understand why. An AI layer that reads the failed log output and surfaces a natural-language explanation — "the integration test failed because the mock for `PaymentService` isn't initializing the `currency` field required by the new validation in commit 3fa2" — turns a 15-minute debugging session into a 30-second fix.
+
+### Enforcing Governance with Policy as Code (PaC)
+An AI assistant might generate a perfectly secure and functional Terraform configuration for a new database. However, it has no intrinsic knowledge of organizational policies. It might, for example:
+
+- Provision the database in a geographic region that violates data residency requirements like GDPR.
+- Select an expensive, high-performance instance type for a development environment, violating cost-control policies.
+- Fail to apply a mandatory set of tags (e.g., cost-center, owner) required for internal accounting and resource tracking.
+
+Policy as Code (PaC) solutions are designed to catch precisely these kinds of violations. They evaluate the final infrastructure plan against a codified set of rules before deployment is allowed to proceed.
+
+### Observability: The Last Line of Defense
+
+No matter how rigorous pre-deployment checks are, some issues will inevitably slip through - static analysis doesn't see runtime behavior, Unit tests don't cover every real-world input. This was true before AI-generated code — it's just more likely now.
+
+What matters is how quickly you can detect and respond to those issues when they do hit production. That's where observability solutions shine. They provide real-time monitoring of application performance, error rates, and user experience metrics, allowing you to quickly identify when something has gone wrong and roll back or patch before it impacts users.
 
 ## The AI Code Attribution Problem: Your AI Assistant Code Metrics Are Misleading
 
