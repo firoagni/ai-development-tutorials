@@ -1268,8 +1268,6 @@ CI/CD didn't just automate builds and deployments, it restructured accountabilit
 
 With AI-generated code, we're seeing a regression back to the pre-CI/CD mindset. A bug is discovered in production, and the first question is "who let the AI write this?" instead of "what in our process is missing that would have caught this?"
 
-<img src="images/blame_process_not_person.png" alt="code review" width="580"/><br>
-
 A pipeline built for the pre-AI era, however, isn't enough in the age of AI-generated code: the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
 
 ### Must-have gates
