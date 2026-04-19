@@ -1262,23 +1262,25 @@ One of these scales. The other doesn’t.
 
 Before CI/CD, production stability was personal — someone pushed broken code on a Friday, the site went down, and the postmortem ended with a name. The culture tracked blame to individuals. You broke it, you own it.
 
-CI/CD didn't just automate builds and deployments, it restructured accountability. When tests ran on every push and deployment pipelines enforced quality gates, "who pushed the bug" became less interesting than "why did the pipeline let it through." Teams started writing tests collectively, maintaining pipelines collaboratively, treating production stability as a shared system rather than a sum of individual conscientiousness.
+CI/CD didn't just automate builds and deployments, it restructured accountability. When tests ran on every push and deployment pipelines enforced quality gates, "who pushed the bug" became less interesting than "why did the pipeline let it through?". Teams started writing tests collectively, maintaining pipelines collaboratively, treating production stability as a shared system rather than a sum of individual conscientiousness.
 
 **The blame shifted from people to process. That was the real change.**
 
-With AI-generated code, however, we're seeing a regression back to the pre-CI/CD mindset. A bug is discovered in production, and the first question is "who let the AI write this?" instead of "what in our process is missing that would have caught this?"
+With AI-generated code, we're seeing a regression back to the pre-CI/CD mindset. A bug is discovered in production, and the first question is "who let the AI write this?" instead of "what in our process is missing that would have caught this?"
 
-A pipeline built for the pre-AI era isn't enough in the age of AI-generated code: the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
+<img src="images/blame_process_not_person.png" alt="code review" width="580"/><br>
+
+A pipeline built for the pre-AI era, however, isn't enough in the age of AI-generated code: the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
 
 ### Must-have gates
 
-The goal isn't to add friction. It's to make the feedback loop fast enough that catching problems feels automatic rather than punitive. Every gate below should answer one question: what specific failure mode does this prevent?
+The goal isn't to add more friction in the CI/CD process, it's to make the feedback loop fast enough that catching problems feels automatic rather than punitive. Every gate below should answer one question: what specific failure mode does this prevent?
 
-- **AI-Powered Code Reviews** Every PR should get an AI pass before a human reviewer even opens it. Not a generic linter, but a code-aware agent that evaluates the diff against PR spec and your team's standards. AI reviews are not a replacement for human ones, but a filter that surface issues before they reach human eyes.
+- **AI-Powered Code Reviews** Every PR should get an AI pass before a human reviewer even opens it. Not a generic linter, but a code-aware agent that evaluates the diff against the PR spec and your team's standards. AI reviews are not a replacement for human ones, but a filter that surface issues before they reach human eyes.
 
-- **Unit Tests as a Gate** AI-generated code that looks clean can still be wrong in ways that only tests reveal. 
+- **Unit Tests as a Gate** AI-generated code that looks clean can still be wrong in ways that only tests can reveal. 
 
-- **Secret Scanning** AI models, trained on public code, are notoriously prone to generating code that includes hardcoded secrets like API keys, database credentials, and private tokens. The accidental commitment of these secrets to version control is a critical risk that must be mitigated automatically by running secret scanning tools on every PR.
+- **Secret Scanning** AI models, trained on public code, are notoriously prone of including hardcoded secrets like API keys, database credentials, and private tokens. The accidental commitment of these secrets to version control is a critical risk that must be mitigated automatically by running secret scanning tools on every PR.
 
 - **Static Code Analysis (SCA)** Tools that analyze application source code for bugs, security vulnerabilities and rule violations without executing it.
 
@@ -1290,11 +1292,11 @@ The goal isn't to add friction. It's to make the feedback loop fast enough that 
 
 ### Speed is also a Pipeline Requirement
 
-A pipeline that catches everything but takes 45 minutes to run is a non-starter. Fast feedback is part of the contract. Two things make this practical:
+A pipeline that catches everything but takes 60+ minutes to run is a non-starter. Fast feedback is part of the contract. Two things make this practical:
 
-- **Incremental Builds and Tests:**  Build only what's changed. If a PR touches 3 files, only run tests and checks relevant to those files. This is standard expectation in CI/CD, but it's even more critical now that the volume of changes has skyrocketed.
+- **Incremental Builds and Tests:**  Build only what's changed. If a PR touches 3 files, only run tests relevant to those files. This is a standard expectation in CI/CD, but it's even more critical since the volume of changes have skyrocketed and the number of unit tests [(to cover AI's blind spots)](https://github.com/firoagni/ai-development-tutorials/blob/main/ai_solution_building_guide.md#4-use-unit-tests-to-cover-your-ais-blind-spots) has increased exponentially.
 
-- **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution, for example, can all run in parallel, cutting total time significantly.
+- **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution, for example, can all run in parallel.
 
 - **AI-Explained Build Failures**: When a build fails, the developer shouldn't have to spelunk through 300 lines of logs to understand why. An AI layer that reads the failed log output and surfaces a natural-language explanation — "the integration test failed because the mock for `PaymentService` isn't initializing the `currency` field required by the new validation in commit 3fa2" — turns a 15-minute debugging session into a 30-second fix.
 
@@ -1309,7 +1311,7 @@ Policy as Code (PaC) solutions are designed to catch precisely these kinds of vi
 
 ### Observability: The Last Line of Defense
 
-No matter how rigorous pre-deployment checks are, some issues will inevitably slip through - static analysis doesn't see runtime behavior, Unit tests don't cover every real-world input. This was true before AI-generated code — it's just more likely now.
+No matter how rigorous pre-deployment checks are, some issues will inevitably slip through - static analysis doesn't see runtime behavior, unit tests don't cover every real-world input, code reviews are only as sharp as the person reviewing them. This was true before AI-generated code — it's just more likely now.
 
 What matters is how quickly you can detect and respond to those issues when they do hit production. That's where observability solutions shine. They provide real-time monitoring of application performance, error rates, and user experience metrics, allowing you to quickly identify when something has gone wrong and roll back or patch before it impacts users.
 
