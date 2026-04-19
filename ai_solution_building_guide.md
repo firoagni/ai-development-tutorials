@@ -799,7 +799,7 @@ The result?
 - Huge chunks of the context window burned on schemas that might never be used.
 - Conversation history, task-specific context and MCP tool definitions - all fighting for space.
 
-And the bloat doesn't stop once a tool is chosen. When an MCP tool actually runs, the JSON response gets appended into the context too. A single database query or API call can dump hundreds—sometimes thousands—of tokens of raw structured data into the conversation. Across a multi-step task with several tool calls, this compounds quickly, crowding out the very context the model needs to reason well.
+And the bloat doesn't stop once a tool is chosen. When an MCP tool actually runs, the response it returns gets appended into the context too. A tool call to a database query or API call can dump hundreds—sometimes thousands—of tokens of raw structured data into the conversation. Across a multi-step task with several tool calls, this compounds quickly, crowding out the very context the model needs to reason well.
 
 Thankfully, "MCP bloat" is a well-known pain point in the AI community, and companies and open-source projects are actively experimenting with various solutions.
 
@@ -807,7 +807,9 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
 - **Subagents:** If your AI assistant supports subagents, this is one of the highest-leverage things you can do.
 
-  The idea is simple: instead of giving one assistant access to every tool it might ever need, you create several mini-assistants - each with its **own fresh context and only the tools relevant to its job**:
+  The idea is simple: instead of giving one assistant access to every tool it might ever need, you create several mini-assistants - each with its **own fresh context and only the tools relevant to its job**. 
+  
+  Example:
   - One subagent handles database queries 
   - Another handles file operations 
   - Another handles external APIs
@@ -823,7 +825,7 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
   - [Subagents in Claude Code](https://code.claude.com/docs/en/sub-agents)
   - [Codex Subagents](https://developers.openai.com/codex/subagents/)
 
-  <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API can now be executed **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
+  <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API via tool calls can now be executed **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
   - **Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
@@ -1179,7 +1181,7 @@ A good pull request has the following characteristics:
 - **Code shouldn't just handle happy paths.** Error cases are handled gracefully and predictably. Errors should provide enough information to help future maintainers understand what went wrong.
 - **The tests show that it works now and act as a regression suite to avoid it quietly breaking in the future.**
 - **Any new external dependency need a justification**
-- **The change is documented at an appropriate level** and that documentation reflects the current state of the system - if the code changes an existing behavior the existing documentation needs to be updated to match.
+- **The change is documented at an appropriate level** and that documentation reflects the current state of the system. If the code changes an existing behavior the existing documentation needs to be updated to match.
 - **The change is small enough to be reviewed efficiently** without inflicting too much cognitive load on the reviewer. Several small PRs beats one big one.
 
 Here's an example PR description following these principles:
@@ -1213,10 +1215,10 @@ Adds retry logic for transient tool call failures in the agent execution loop. C
 Closes #482 — "Agent crashes on Stripe API timeout"
 ```
 
-Writing code is cheap now. **The real engineering discipline is writing a tight spec and surfacing it in the PR.**
-- **Writing intent** - precise enough to be verified.
-- **Defining constraints** - tight enough to prevent drift.
-- **Providing acceptance criteria** - capturing what "correct" means in your domain.
+**Writing code is cheap now. The real engineering discipline is writing a tight spec and surfacing it in the PR**
+- **PR intent** - precise enough to be verified.
+- **Constraints** - tight enough to prevent drift.
+- **Acceptance criteria** - capturing what "correct" means in your domain.
 
 The payoff of writing spec comes even earlier — a well-written spec can go straight to your AI assistant as the input that gets the right code written in the first place.
 
@@ -1268,7 +1270,7 @@ CI/CD didn't just automate builds and deployments, it restructured accountabilit
 
 With AI-generated code, we're seeing a regression back to the pre-CI/CD mindset. A bug is discovered in production, and the first question is "who let the AI write this?" instead of "what in our process is missing that would have caught this?"
 
-A pipeline built for the pre-AI era, however, isn't enough in the age of AI-generated code: the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
+A pipeline built for the pre-AI era, however, isn't enough in the age of AI-generated code — the PR volume is higher, security vulnerabilities are more likely, and the bar for what "catching it" means has risen. The process needs to evolve to meet these new challenges.
 
 ### Must-have gates
 
@@ -1278,7 +1280,7 @@ The goal isn't to add more friction in the CI/CD process, it's to make the feedb
 
 - **Unit Tests as a Gate** AI-generated code that looks clean can still be wrong in ways that only tests can reveal. 
 
-- **Secret Scanning** AI models, trained on public code, are notoriously prone of including hardcoded secrets like API keys, database credentials, and private tokens. The accidental commitment of these secrets to version control is a critical risk that must be mitigated automatically by running secret scanning tools on every PR.
+- **Secret Scanning** AI models are notoriously prone of including hardcoded secrets like API keys, database credentials, and private tokens. The accidental commitment of these secrets to version control is a critical risk that must be mitigated automatically by running secret scanning tools on every PR.
 
 - **Static Code Analysis (SCA)** Tools that analyze application source code for bugs, security vulnerabilities and rule violations without executing it.
 
@@ -1292,9 +1294,9 @@ The goal isn't to add more friction in the CI/CD process, it's to make the feedb
 
 A pipeline that catches everything but takes 60+ minutes to run is a non-starter. Fast feedback is part of the contract. Two things make this practical:
 
-- **Incremental Builds and Tests:**  Build only what's changed. If a PR touches 3 files, only run tests relevant to those files. This is a standard expectation in CI/CD, but it's even more critical since the volume of changes have skyrocketed and the number of unit tests [(to cover AI's blind spots)](https://github.com/firoagni/ai-development-tutorials/blob/main/ai_solution_building_guide.md#4-use-unit-tests-to-cover-your-ais-blind-spots) has increased exponentially.
+- **Incremental Builds and Selective Tests:**  Build only what's changed. If a PR touches 3 files, only run tests relevant to those files. This is a standard expectation in CI/CD, but it's even more critical since the volume of changes have skyrocketed and the number of unit tests [(to cover AI's blind spots)](https://github.com/firoagni/ai-development-tutorials/blob/main/ai_solution_building_guide.md#4-use-unit-tests-to-cover-your-ais-blind-spots) has increased exponentially.
 
-- **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution, for example, can all run in parallel.
+- **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution—for example—can all run in parallel.
 
 - **AI-Explained Build Failures**: When a build fails, the developer shouldn't have to spelunk through 300 lines of logs to understand why. An AI layer that reads the failed log output and surfaces a natural-language explanation — "the integration test failed because the mock for `PaymentService` isn't initializing the `currency` field required by the new validation in commit 3fa2" — turns a 15-minute debugging session into a 30-second fix.
 
@@ -1311,7 +1313,7 @@ Policy as Code (PaC) solutions are designed to catch precisely these kinds of vi
 
 No matter how rigorous pre-deployment checks are, some issues will inevitably slip through - static analysis doesn't see runtime behavior, unit tests don't cover every real-world input, code reviews are only as sharp as the person reviewing them. This was true before AI-generated code — it's just more likely now.
 
-What matters is how quickly you can detect and respond to those issues when they do hit production. That's where observability solutions shine. They provide real-time monitoring of application performance, error rates, and user experience metrics, allowing you to quickly identify when something has gone wrong and roll back or patch before it impacts users.
+What matters is how quickly you can detect and respond to those issues when they do hit production. That's where observability solutions shine. They provide real-time monitoring of application performance, error rates, and user experience metrics, allowing you to quickly identify when something has gone wrong and roll back or patch.
 
 ## The AI Code Attribution Problem: Your AI Assistant Code Metrics Are Misleading
 
