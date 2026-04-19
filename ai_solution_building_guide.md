@@ -1159,19 +1159,20 @@ There are two steps to proving a piece of code works. **Neither is optional**.
     - If possible, reduce these steps to a sequence of terminal commands which you can paste, along with their output, into a comment in the code review.
     - Some changes are harder to demonstrate. It’s still your job to demonstrate them! Record a screen capture video and add that to the PR. Show your reviewers that the change you made actually works.
 
-    Once you’ve tested the happy path where everything works you can start trying the edge cases. Manual testing is a skill, and finding the things that break is the next level of that skill that helps define a senior engineer.
+    Once you’ve tested the happy path where everything works, you can start trying the edge cases. Manual testing is a skill, and finding the things that break is the next level of that skill that helps define a senior engineer.
 
 2. **Automated testing** The second step in proving a change works is automated testing. This is much easier now that we have LLM tooling, which means there’s no excuse at all for skipping this step.
 
     - Your contribution should bundle the change with an automated test that proves the change works. That test should fail if you revert the implementation.
-    - The process for writing a test mirrors that of manual testing.
+    - The process for writing a test should mirror that of manual testing.
 
     The good news about automated tests is that coding agents need very little encouragement to write them. If your project has tests already most agents will extend that test suite without you even telling them to do so. They’ll also reuse patterns from existing tests, so keeping your test code well organized and populated with patterns you like is a great way to help your agent build testing code to your taste.
 
 **Don’t be tempted to skip the manual test because you think the automated test has you covered already!**
 
 ### Characteristics of a "Good" Pull Request
-- **Clear specification in PR description** What this change is trying to do? What are the constraints? What does acceptance look like? Include the plan and link relevant issues.
+A good pull request has the following characteristics:
+- **Clear specification in PR description** What this change is trying to do? What are the constraints? What does acceptance look like? Include the plan and link relevant issue(s) too.
 - **The code works, and you have evidence that it works**
 - **Code shouldn't just handle happy paths.** Error cases are handled gracefully and predictably. Errors should provide enough information to help future maintainers understand what went wrong.
 - **The tests show that it works now and act as a regression suite to avoid it quietly breaking in the future.**
@@ -1224,7 +1225,7 @@ If you're the submitter, make sure you provide the intent, plan, evidence, and a
 
 If you're the reviewer, the challenge is volume. AI-generated pull requests now account for a huge share of committed code, and teams with high AI adoption are raising dramatically more PRs than they were a year ago. Review time is up, PR volume is up, and AI agents are touching more and more of your stack.
 
-You are producing code faster than you can understand it.
+**We are producing code faster than we can understand it.**
 
 - [1 in 7 PRs now involve AI agents — 14X since early 2024](https://pullflow.com/state-of-ai-code-review-2025)
 - [Sonar Data Reveals Critical "Verification Gap" in AI Coding: 96% Don’t Fully Trust Output, Yet Only 48% Verify It](https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/)
@@ -1239,7 +1240,7 @@ You could read every diff — but is it practicle and most importantly, really w
 
 Line-by-line review feels thorough, but it optimizes for the wrong thing. The real damage comes from wrong assumptions, missing requirements, and constraints nobody wrote down. Those don't live in the diff. They live in the spec.
 
-This is why the golden principles of PR submission matter so much from the reviewer's side too. If the submitter has done their job — clear intent, a solid plan, evidence, and acceptance criteria — you have a real choice in front of you: 
+This is why the golden principles of PR submission matter so much from the reviewer's side too. If the submitter has done their job — clear intent, a solid plan, evidence, and acceptance criteria — you, a reviewer, have a real choice in front of you: 
 
 1. **Review the code** — every line, every file, every diff — and hope you catch what matters in a wall of generated text.
 1. **Review the spec, approve the plan, validate the acceptance criteria** and let deterministic verification handle the rest.
