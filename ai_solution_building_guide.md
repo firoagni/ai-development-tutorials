@@ -819,8 +819,9 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
 
   - [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents)
   - [Subagents in Claude Code](https://code.claude.com/docs/en/sub-agents)
+  - [Codex Subagents](https://developers.openai.com/codex/subagents/)
 
-  <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API can run both subagents **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
+  <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API can now be executed **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
   - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
@@ -887,7 +888,10 @@ Option 2 is the preferred approach. Unit tests act as a safety net that scales w
 - For regressions: add a failing test that reproduces the bug, then fix to green
 ```
 
-<em> Note that Unit Test is about protecting existing features — not a substitute for manually testing your own change. Before submitting, you *should* manually verify that what you built actually works. Don’t be tempted to skip manual test because you think the automated tests has you covered</em>
+Notes:
+- Before submitting, manually verify that what you built actually works. Don’t be tempted to skip manual test because you think the automated tests has you covered.
+- Don't trust AI-generated tests at face value. AI-generated code can pass its own tests, because the same model wrote the tests. Always read the requirements, then *manually* review the tests. Ask yourself — Are the AI-generated UTs catching the right things? **Are the edge cases covered?**
+- If the AI modifies *existing* tests, be especially skeptical. Check whether those changes are genuinely necessary, or whether the AI is quietly relaxing a constraint to make its new code pass.
 
 #### 5. Compaction (a.k.a Context Summarization)
 
@@ -1141,9 +1145,9 @@ This is rude, a waste of other people’s time, and is honestly a dereliction of
 
 <img src="images/ai_slop_in_pr.png" alt="code review" width="580"/><br>
 
-**Your responsibility isn't to produce code. It's to deliver code you've proven works.**
+**Your responsibility isn't to produce code, it's to deliver code you've proven works.**
 
-As software engineers we don’t just crank out code—in fact these days you could argue that’s what the LLMs are for. We need to deliver code that works—and we need to **include proof that it works as well**. Not doing that directly shifts the burden of the actual work to whoever is expected to review our code.
+As software engineers we don’t just crank out code—in fact you could argue that’s what the LLMs are for. We need to deliver code that works, and we need to **include proof that it works as well**. Not doing that directly shifts the burden of the actual work to whoever is expected to review our code.
 
 ### How to prove your change works
 There are two steps to proving a piece of code works. **Neither is optional**.
@@ -1160,28 +1164,95 @@ There are two steps to proving a piece of code works. **Neither is optional**.
 2. **Automated testing** The second step in proving a change works is automated testing. This is much easier now that we have LLM tooling, which means there’s no excuse at all for skipping this step.
 
     - Your contribution should bundle the change with an automated test that proves the change works. That test should fail if you revert the implementation.
-    - The process for writing a test mirrors that of manual testing: get the system into an initial known state, exercise the change, assert that it worked correctly. Integrating a test harness to productively facilitate this is another key skill worth investing in.
+    - The process for writing a test mirrors that of manual testing.
 
     The good news about automated tests is that coding agents need very little encouragement to write them. If your project has tests already most agents will extend that test suite without you even telling them to do so. They’ll also reuse patterns from existing tests, so keeping your test code well organized and populated with patterns you like is a great way to help your agent build testing code to your taste.
 
 **Don’t be tempted to skip the manual test because you think the automated test has you covered already!**
 
+### Characteristics of a "Good" Pull Request
+- **Clear specification in PR description** What this change is trying to do? What are the constraints? What does acceptance look like? Include the plan and link relevant issues.
+- **The code works, and you have evidence that it works**
+- **Code shouldn't just handle happy paths.** Error cases are handled gracefully and predictably. Errors should provide enough information to help future maintainers understand what went wrong.
+- **The tests show that it works now and act as a regression suite to avoid it quietly breaking in the future.**
+- **The change is documented at an appropriate level** and that documentation reflects the current state of the system - if the code changes an existing behavior the existing documentation needs to be updated to match.
+- **The change is small enough to be reviewed efficiently** without inflicting too much cognitive load on the reviewer. Several small PRs beats one big one.
+
+Here's an example PR description following these principles:
+
+```markdown
+# feat: retry failed tool calls with exponential backoff**
+
+## What is this change trying to do?
+Adds retry logic for transient tool call failures in the agent execution loop. Currently, any tool failure immediately halts the agent — this change makes it resilient to flaky external APIs.
+
+## Constraints
+- Max 3 retries per tool call
+- Backoff: 1s, 2s, 4s
+- Non-retriable errors (e.g. 404, auth failures) still fail immediately
+
+## Plan
+1. Wrap tool dispatch in a `retry_with_backoff()` helper
+2. Classify errors as retriable vs. non-retriable
+3. Emit a log event on each retry attempt for observability
+
+## What does acceptance look like?
+- Agent completes tasks despite intermittent API timeouts
+- Retry attempts are visible in logs
+- Existing tests pass; new unit tests cover retry and bail-out paths
+
+## Evidence it works
+- Ran against staging environment with simulated 30% tool failure rate — task completion went from 61% → 94%. <log link>
+- Added 12 unit tests, all passing. <log link>
+
+## Related
+Closes #482 — "Agent crashes on Stripe API timeout"
+```
+
+Writing code is cheap now. **The real engineering discipline is writing a tight spec and surfacing it in the PR.**
+- **Writing intent** - precise enough to be verified.
+- **Defining constraints** - tight enough to prevent drift.
+- **Providing acceptance criteria** - capturing what "correct" means in your domain.
+
+The payoff of writing spec comes even earlier — a well-written spec can go straight to your AI assistant as the input that gets the right code written in the first place.
+
+
 ### The human provides the accountability
-A computer can never be held accountable. That’s your job as the human in the loop.
+A computer can never be held accountable — that's your job as the human in the loop, whether you're the submitter or the reviewer.
 
-Almost anyone can prompt an LLM to generate a thousand-line patch and submit it for code review. That’s no longer valuable. What’s valuable is contributing code that is proven to work.
+If you're the submitter, make sure you provide the intent, plan, evidence, and acceptance criteria when submitting a PR. AI Agents can write convincing looking pull request descriptions - it is your responsibility to review it!
 
-Next time you submit a PR, make sure you’ve included some form of evidence that you've put that extra work in yourself. Notes on how you manually tested it, comments on specific implementation choices or even screenshots and video of the feature working go a long way to demonstrating that a reviewer's time will not be wasted digging into the details.
+If you're the reviewer, the challenge is volume. AI-generated pull requests now account for a huge share of committed code, and teams with high AI adoption are raising dramatically more PRs than they were a year ago. Review time is up, PR volume is up, and AI agents are touching more and more of your stack.
 
-### Characteristics of a "Good" Agentic Engineering Pull Request
-- The code works, and you have evidence that it works.
-- The change is small enough to be reviewed efficiently without inflicting too much cognitive load on the reviewer. Several small PRs beats one big one.
-- The PR includes additional context to help explain the change. What's the higher level goal that the change serves? Linking to relevant issues or specifications is useful here.
-- Agents write convincing looking pull request descriptions. You need to review these too!
+You are producing code faster than you can understand it.
+
+- [1 in 7 PRs now involve AI agents — 14X since early 2024](https://pullflow.com/state-of-ai-code-review-2025)
+- [Sonar Data Reveals Critical "Verification Gap" in AI Coding: 96% Don’t Fully Trust Output, Yet Only 48% Verify It](https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/)
+
+
+<img src="images/math_problem.avif" alt="code review" width="880"/><br>
+
+You could read every diff — but is it practicle and most importantly, really worthwhile?
+
+- Think about the last month. How many PRs did you actually review by intently reading the changes? Not skim. Read. 
+- Even on the ones you did read — when was the last production incident caused by a bug you would have caught in a diff? 
+
+Line-by-line review feels thorough, but it optimizes for the wrong thing. The real damage comes from wrong assumptions, missing requirements, and constraints nobody wrote down. Those don't live in the diff. They live in the spec.
+
+This is why the golden principles of PR submission matter so much from the reviewer's side too. If the submitter has done their job — clear intent, a solid plan, evidence, and acceptance criteria — you have a real choice in front of you: 
+
+1. **Review the code** — every line, every file, every diff — and hope you catch what matters in a wall of generated text.
+1. **Review the spec, approve the plan, validate the acceptance criteria** and let deterministic verification handle the rest.
+
+One of these scales. The other doesn’t.
+
+<img src="images/good_pr.png" alt="code review" width="580"/><br>
 
 ### References
 - [Your job is to deliver code you have proven to work](https://simonwillison.net/2025/Dec/18/code-proven-to-work)
 - [Anti-Patterns: Things to avoid](https://simonwillison.net/guides/agentic-engineering-patterns/anti-patterns/)
+- [Code is Cheap](https://simonwillison.net/guides/agentic-engineering-patterns/code-is-cheap/)
+- [Review the intent not the code](https://www.augmentcode.com/blog/review-the-intent-not-the-code)
 
 ## Andrej Karpathy's Approach to AI Coding Assistants
 
