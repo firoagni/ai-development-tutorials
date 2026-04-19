@@ -799,6 +799,8 @@ The result?
 - Huge chunks of the context window burned on schemas that might never be used.
 - Conversation history, task-specific context and MCP tool definitions - all fighting for space.
 
+And the bloat doesn't stop once a tool is chosen. When an MCP tool actually runs, the JSON response gets appended into the context too. A single database query or API call can dump hundreds—sometimes thousands—of tokens of raw structured data into the conversation. Across a multi-step task with several tool calls, this compounds quickly, crowding out the very context the model needs to reason well.
+
 Thankfully, "MCP bloat" is a well-known pain point in the AI community, and companies and open-source projects are actively experimenting with various solutions.
 
 **Some Solutions You Can Try Today:**
@@ -824,7 +826,7 @@ Thankfully, "MCP bloat" is a well-known pain point in the AI community, and comp
   <em>Unrelated to the topic, but worth a mention: since subagents are independent, a query that needs both database data and an external API can now be executed **simultaneously**, then synthesize the results. **Parallelism, for free.**</em>
 
 - **Runtime Tool Discovery:** Rather than loading every tool upfront, these solutions can supply only the tools that's needed for each query. Notable implementations include:
-  - **Anthropic Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
+  - **Skills**: A system that intelligently filters MCP tools based on task requirements ([more info](https://medium.com/@cdcore/mcp-is-broken-and-anthropic-just-admitted-it-7eeb8ee41933))
   - **MCP Hub and its Smart Routing Feature**: Uses vector semantic search (RAG) to automatically find the most relevant tools for the given task. ([documentation](https://docs.mcphubx.com/features/smart-routing))
 
 #### 3. Decompose Requirement into Atomic Tasks
@@ -1235,7 +1237,7 @@ If you're the reviewer, the challenge is volume. AI-generated pull requests now 
 
 You could read every diff — but is it practicle and most importantly, really worthwhile?
 
-- Think about the last month. How many PRs did you actually review by intently reading the changes? Not skim. Read. 
+- Think about last month. How many PRs did you actually review by intently reading the changes? Not skim. Read. 
 - Even on the ones you did read — when was the last production incident caused by a bug you would have caught in a diff? 
 
 Line-by-line review feels thorough, but it optimizes for the wrong thing. The real damage comes from wrong assumptions, missing requirements, and constraints nobody wrote down. Those don't live in the diff. They live in the spec.
