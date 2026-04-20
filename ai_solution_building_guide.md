@@ -1290,15 +1290,21 @@ The goal isn't to add more friction in the CI/CD process, it's to make the feedb
 
 - **Documentation Drift Detection** The pipeline should include an agent that checks whether any changed functions, APIs, or configuration options have corresponding documentation that now needs updating, and flags it on the PR before merge. 
 
-### Speed is also a Pipeline Requirement
+### Speed and Reliability are Non-Negotiable Pipeline Requirements
 
-A pipeline that catches everything but takes 60+ minutes to run is a non-starter. Fast feedback is part of the contract. Two things make this practical:
+Thanks to the sheer volume of changes AI assistants can generate, a slow pipeline isn't just an inconvenience — it becomes a bottleneck that encourages developers to run it as little as possible. If running tests takes 30 minutes, and you have to run them every time you want to check if your change works, you're incentivized to just run them once at the end. What's worse, your final run failed, not because your code was bad, but because of a flaky test that has nothing to do with your change. 
+
+Speed and reliability are non-negotiable — and thanks to intelligent caching, and parallel builds, and now LLMs, achieving both at scale is no longer the engineering heroism it once was.
 
 - **Incremental Builds and Selective Tests:**  Build only what's changed. If a PR touches 3 files, only run tests relevant to those files. This is a standard expectation in CI/CD, but it's even more critical since the volume of changes have skyrocketed and the number of unit tests [(to cover AI's blind spots)](https://github.com/firoagni/ai-development-tutorials/blob/main/ai_solution_building_guide.md#4-use-unit-tests-to-cover-your-ais-blind-spots) has increased exponentially.
 
 - **Parallelization**: Run independent checks simultaneously. SCA, secret scanning, and unit test execution—for example—can all run in parallel.
 
 - **AI-Explained Build Failures**: When a build fails, the developer shouldn't have to spelunk through 300 lines of logs to understand why. An AI layer that reads the failed log output and surfaces a natural-language explanation — "the integration test failed because the mock for `PaymentService` isn't initializing the `currency` field required by the new validation in commit 3fa2" — turns a 15-minute debugging session into a 30-second fix.
+
+- **Flaky Test Detection**: AI can track test outcomes across runs, identify statistically flaky tests, and surface their failure patterns.
+
+- **Build Profiling**: Not all slowness is obvious. AI-assisted build profiling identifies which stages consistently consume the most time — whether that's dependency resolution, a bloated test suite, or a redundant compilation step — and surfaces actionable recommendations.
 
 ### Enforcing Governance with Policy as Code (PaC)
 An AI assistant might generate a perfectly secure and functional Terraform configuration for a new database. However, it has no intrinsic knowledge of organizational policies. It might, for example:
@@ -1314,6 +1320,10 @@ Policy as Code (PaC) solutions are designed to catch precisely these kinds of vi
 No matter how rigorous pre-deployment checks are, some issues will inevitably slip through - static analysis doesn't see runtime behavior, unit tests don't cover every real-world input, code reviews are only as sharp as the person reviewing them. This was true before AI-generated code — it's just more likely now.
 
 What matters is how quickly you can detect and respond to those issues when they do hit production. That's where observability solutions shine. They provide real-time monitoring of application performance, error rates, and user experience metrics, allowing you to quickly identify when something has gone wrong and roll back or patch.
+
+### References
+- [AI Slop Is a Process Problem, Not a People Problem](https://blog.continue.dev/ai-slop-team-sport)
+- [DevSecOps for AI-Generated Code](https://blog.thoughtparameters.com/post/securing_ai-generated_code_in_cicd_pipelines/)
 
 ## The AI Code Attribution Problem: Your AI Assistant Code Metrics Are Misleading
 
