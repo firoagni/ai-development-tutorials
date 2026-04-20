@@ -1143,7 +1143,7 @@ What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 
 ## Don't file Pull Requests with Code you haven't Reviewed Yourself
 
-In all of the debates about the value of AI-assistance in software development there’s one depressing pattern emerging: the junior engineer, empowered by some class of LLM tool, deposits giant, untested PRs on their coworkers, or open source maintainers, and expects the “code review” process to handle the rest.
+In all of the debates about the value of AI-assistance in software development, there’s one depressing pattern emerging: the junior engineer, empowered by some class of LLM tool, deposits giant, untested PRs on their coworkers, or open source maintainers, and expects the “code review” process to handle the rest.
 
 This is rude, a waste of other people’s time, and is honestly a dereliction of duty as a software developer.
 
@@ -1151,7 +1151,7 @@ This is rude, a waste of other people’s time, and is honestly a dereliction of
 
 **Your responsibility isn't to produce code, it's to deliver code you've proven works.**
 
-As software engineers we don’t just crank out code—in fact you could argue that’s what the LLMs are for. We need to deliver code that works, and we need to **include proof that it works as well**. Not doing that directly shifts the burden of the actual work to whoever is expected to review our code.
+As software engineers we don’t just crank out code—in fact you could argue that’s what the LLMs are for now. We need to deliver code that works, and we need to **include proof that it works as well**. Not doing that directly shifts the burden of the actual work to whoever is expected to review our code.
 
 ### How to prove your change works
 There are two steps to proving a piece of code works. **Neither is optional**.
