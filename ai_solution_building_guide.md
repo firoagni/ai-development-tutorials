@@ -1294,7 +1294,7 @@ The goal isn't to add more friction in the CI/CD process, it's to make the feedb
 
 Thanks to the sheer volume of changes AI assistants can generate, a slow pipeline isn't just an inconvenience — it becomes a bottleneck that encourages developers to run it as little as possible. If running tests takes 30 minutes, and you have to run them every time you want to check if your change works, you're incentivized to just run them once at the end. What's worse, your final run failed, not because your code was bad, but because of a flaky test that has nothing to do with your change. 
 
-Speed and reliability are non-negotiable — and thanks to intelligent caching, and parallel builds, and now LLMs, achieving both at scale is no longer the engineering heroism it once was.
+Speed and reliability are non-negotiable — and thanks to intelligent caching, parallel builds, and now LLMs, achieving both at scale is no longer the engineering heroism it once was.
 
 - **Incremental Builds and Selective Tests:**  Build only what's changed. If a PR touches 3 files, only run tests relevant to those files. This is a standard expectation in CI/CD, but it's even more critical since the volume of changes have skyrocketed and the number of unit tests [(to cover AI's blind spots)](https://github.com/firoagni/ai-development-tutorials/blob/main/ai_solution_building_guide.md#4-use-unit-tests-to-cover-your-ais-blind-spots) has increased exponentially.
 
