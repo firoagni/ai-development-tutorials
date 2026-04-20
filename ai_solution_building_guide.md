@@ -1141,7 +1141,7 @@ What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 - [Improve your AI code output with AGENTS.md - Best Tips](⁠https://www.builder.io/blog/agents-md)
 - [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase) 
 
-## Don't file Pull Requests with Code you haven't Reviewed Yourself.
+## Don't file Pull Requests with Code you haven't Reviewed Yourself
 
 In all of the debates about the value of AI-assistance in software development there’s one depressing pattern emerging: the junior engineer, empowered by some class of LLM tool, deposits giant, untested PRs on their coworkers, or open source maintainers, and expects the “code review” process to handle the rest.
 
