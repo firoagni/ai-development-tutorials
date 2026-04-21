@@ -1204,8 +1204,9 @@ The reason a skill is a folder and not just a markdown file is because a skill c
 ```
 my-skill/
 ├── SKILL.md        ← overview and navigation (required)
-├── reference.md    ← detailed docs, loaded only when needed
-├── examples.md     ← usage examples, loaded only when needed
+├── reference.md    ← detailed docs
+├── examples/
+│   └── sample.md   ← Example output showing expected format
 └── scripts/
     └── helper.py   ← utility script
 ```
@@ -1216,12 +1217,12 @@ Reference supporting files in `SKILL.md` so your AI assistant knows what each fi
 ## Additional resources
 
 - For complete API details, see [reference.md](reference.md)
-- For usage examples, see [examples.md](examples.md)
+- For usage examples, see [examples.md](examples/examples.md)
 ```
 
 The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**. A heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
 
-[The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep SKILL.md under 500 lines and move detailed reference material to separate files.
+[The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep `SKILL.md` under 500 lines and move detailed reference material to separate files.
 
 ## Don't file Pull Requests with Code you haven't Reviewed Yourself
 
