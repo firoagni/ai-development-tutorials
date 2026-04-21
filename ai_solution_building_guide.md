@@ -1141,6 +1141,88 @@ What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 - [Improve your AI code output with AGENTS.md - Best Tips](⁠https://www.builder.io/blog/agents-md)
 - [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase) 
 
+## When AGENTS.md Gets Too Big, Reach for Skills
+Even with the best intentions — keeping it tight, treating it like a cheatsheet, resisting the urge to over-explain — you may still find your `AGENTS.md` quietly ballooning on you. Not because you got sloppy, but because your project genuinely has a lot of ground rules. 
+
+- Code review conventions that can't be skipped. 
+- Test writing standards that have burned you before. 
+- Frontend rules that every AI session needs to respect.
+
+These aren't fluff. They're legitimate instructions. But piling them all into `AGENTS.md` means you're loading all of that into the context window — **every single session**, **whether it's relevant or not**.
+
+This is where [skills](https://agentskills.io/home) come in.
+
+```markdown
+---
+name: explain-code
+description: Explains code with visual diagrams and analogies. Use when explaining how code works, teaching about a codebase, or when the user asks "how does this work?"
+---
+
+When explaining code, always include:
+
+1. **Start with an analogy**: Compare the code to something from everyday life
+2. **Draw a diagram**: Use ASCII art to show the flow, structure, or relationships
+3. **Walk through the code**: Explain step-by-step what happens
+4. **Highlight a gotcha**: What's a common mistake or misconception?
+
+Keep explanations conversational. For complex concepts, use multiple analogies.
+```
+
+A skill is basically a set of instructions that you want your AI assistant to "automatically know". Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. _The difference isn't what a skill contains, but how it's loaded into the assistant's context_.
+
+When an AI assistant works in your codebase, it automatically reads the nearest `AGENTS.md` in the directory tree. There's very little intellegence here as the entire file _gets loaded into the context regardless of whether it's relevant to the task at hand or not_. 
+
+A skill, on the other hand, is loaded _on need_. You define a skill for a specific domain or task, and the AI assistant only pulls it into context _when it recognizes that the task requires that skill_. 
+
+- Want AI to review your change? The code review skill loads.
+- Writing a new test suite? The testing skill loads. 
+- Doing neither? Neither skill costs you a thing.
+
+When you create a skill, you create a folder for it — and inside that folder, SKILL.md is the entrypoint. It's the first thing the AI reads: the overview that describes what the skill is about and when to use it.
+
+The practical rule of thumb: **create a skill when a section of your AGENTS.md has grown into a procedure rather than a fact.**
+
+A fact belongs in `AGENTS.md`: 
+```
+We use TypeScript. Tabs, not spaces. API responses follow JSend format.
+``` 
+Short, stateless, always relevant.
+
+While a procedure deserves its own skill: 
+```
+When reviewing a pull request, first check for... then verify... and finally ensure...
+``` 
+That's a workflow. It has steps. It only matters in one specific context. Pull it out from `AGENTS.md`, give it its own file — [claude/skills/code-review/SKILL.md](https://github.com/petyosi/rc/blob/master/claude/skills/code-review/SKILL.md?plain=1) — and let it sit quietly on the shelf until it's needed.
+
+Here's the subsection to append to the end of the article section:
+
+### Tips for Optimizing Skills Even Further
+
+When you create a skill, you create a folder for it. Inside that folder sits a file called `SKILL.md`. `SKILL.md` is what the AI reads to understand what the skill does and when to use it. Think of it as the `AGENTS.md` of that skill.
+
+The reason a skill is a folder and not just a markdown file is because a skill can consist of multiple files. The expectation is not to cram everything into a single `SKILL.md`, but to keep it as a high-level overview, while keeping supporting materials in separate files:
+```
+my-skill/
+├── SKILL.md        ← overview and navigation (required)
+├── reference.md    ← detailed docs, loaded only when needed
+├── examples.md     ← usage examples, loaded only when needed
+└── scripts/
+    └── helper.py   ← utility script
+```
+
+Reference supporting files in `SKILL.md` so your AI assistant knows what each file contains and when to load it:
+
+```markdown
+## Additional resources
+
+- For complete API details, see [reference.md](reference.md)
+- For usage examples, see [examples.md](examples.md)
+```
+
+The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**. A heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
+
+[The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep SKILL.md under 500 lines and move detailed reference material to separate files.
+
 ## Don't file Pull Requests with Code you haven't Reviewed Yourself
 
 In all of the debates about the value of AI-assistance in software development, there’s one depressing pattern emerging: the junior engineer, empowered by some class of LLM tool, deposits giant, untested PRs on their coworkers, or open source maintainers, and expects the “code review” process to handle the rest.
@@ -1292,7 +1374,7 @@ The goal isn't to add more friction in the CI/CD process, it's to make the feedb
 
 ### Speed and Reliability are Non-Negotiable Pipeline Requirements
 
-Thanks to the sheer volume of changes AI assistants can generate, a slow pipeline isn't just an inconvenience — it becomes a bottleneck that encourages developers to run it as little as possible. If running tests takes 30 minutes, and you have to run them every time you want to check if your change works, you're incentivized to just run them once at the end. What's worse, your final run failed, not because your code was bad, but because of a flaky test that has nothing to do with your change. 
+Thanks to the sheer volume of changes AI assistants can generate, a slow pipeline isn't just an inconvenience, it can become a bottleneck that encourages developers to run it as little as possible. If running tests takes 60 minutes, and you have to run them every time you want to check if your change works, you're incentivized to just run them once at the end. What's worse, your final run failed, not because your code was bad, but because of a flaky test that has nothing to do with your change. 
 
 Speed and reliability are non-negotiable — and thanks to intelligent caching, parallel builds, and now LLMs, achieving both at scale is no longer the engineering heroism it once was.
 
