@@ -1178,8 +1178,6 @@ A skill, on the other hand, is loaded _on need_. You define a skill for a specif
 - Writing a new test suite? The testing skill loads. 
 - Doing neither? Neither skill costs you a thing.
 
-When you create a skill, you create a folder for it — and inside that folder, SKILL.md is the entrypoint. It's the first thing the AI reads: the overview that describes what the skill is about and when to use it.
-
 The practical rule of thumb: **create a skill when a section of your AGENTS.md has grown into a procedure rather than a fact.**
 
 A fact belongs in `AGENTS.md`: 
