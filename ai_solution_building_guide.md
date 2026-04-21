@@ -1196,7 +1196,7 @@ That's a workflow. It has steps. It only matters in one specific context. Pull i
 
 Here's the subsection to append to the end of the article section:
 
-### Tips for Optimizing Skills Even Further
+### Tips for Optimizing Skills Even Further 
 
 When you create a skill, you create a folder for it. Inside that folder sits a file called `SKILL.md`. `SKILL.md` is what the AI reads to understand what the skill does and when to use it. Think of it as the `AGENTS.md` of that skill.
 
