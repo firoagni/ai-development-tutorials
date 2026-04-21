@@ -1218,7 +1218,15 @@ Reference supporting files in `SKILL.md` so your AI assistant knows what each fi
 - For usage examples, see [examples.md](examples/examples.md)
 ```
 
-The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**. A heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
+The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
+
+Here's how your AI assistant goes through a progressive disclosure process when skills are defined:
+1. Look at the installed skills’ names and descriptions.
+1. If a skill seems relevant, use a filesystem tool to open SKILL.md.
+1. If that file references additional documents (like forms.md or reference.md), read only those, and only if needed.
+1. If the skill includes scripts, run them via the code execution environment instead of trying to “simulate” them through token generation.
+
+This way, a heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
 
 [The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep `SKILL.md` under 500 lines and move detailed reference material to separate files.
 
