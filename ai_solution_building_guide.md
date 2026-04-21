@@ -1194,8 +1194,6 @@ When reviewing a pull request, first check for... then verify... and finally ens
 ``` 
 That's a workflow. It has steps. It only matters in one specific context. Pull it out from `AGENTS.md`, give it its own file — [claude/skills/code-review/SKILL.md](https://github.com/petyosi/rc/blob/master/claude/skills/code-review/SKILL.md?plain=1) — and let it sit quietly on the shelf until it's needed.
 
-Here's the subsection to append to the end of the article section:
-
 ### Tips for Optimizing Skills Even Further 
 
 When you create a skill, you create a folder for it. Inside that folder sits a file called `SKILL.md`. `SKILL.md` is what the AI reads to understand what the skill does and when to use it. Think of it as the `AGENTS.md` of that skill.
