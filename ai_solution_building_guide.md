@@ -1333,7 +1333,7 @@ While writing a skill, constantly challenge yourself by asking:
 ### Structure for Scale
 If you find yourself writing a skill that's more than 500 lines, it's a sign that you need to split its content into separate files and reference them in `SKILL.md`:
 
-<img src="images/agent-skills-bundling-content.png" alt="skill structure" width="680"/><br>
+<img src="images/agent-skills-bundling-content.png" alt="skill structure" width="780"/><br>
 
 Use forward slashes (`reference/guide.md`), not Windows style backslashes as AI Assiatants navigates your skill directory like a Unix filesystem. 
 
