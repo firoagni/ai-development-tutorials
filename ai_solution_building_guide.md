@@ -1000,6 +1000,10 @@ Standard API Implementation Structure:
 
 **3. Define Do's and Don'ts**
 
+Less is more here. Don't preemptively list every rule you can think of. [A bloated Do's and Don'ts section can actually degrade responses.](https://arxiv.org/pdf/2602.11988)
+
+Your AI assistant is already smart. **Trust its defaults**. Start with no rules at all. Add a rule only when you observe the assistant did something technically correct, but wrong for your repo. That gap — between general best practice and your project's reality — is exactly what this section is for.
+
 The best way to discover what belongs here? [Run some prompts, review the output, and notice what you liked and what you didn't](https://www.youtube.com/watch?v=KEK_WcSTiuE).
 
 Example:
@@ -1142,13 +1146,13 @@ What if instructions conflict? The closest `AGENTS.md` to the edited file wins.
 - [EPAM's whitepaper on spec-driven development for brownfield codebases](https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase) 
 
 ## When AGENTS.md Gets Too Big, Reach for Skills
-Even with the best intentions — keeping it tight, treating it like a cheatsheet, resisting the urge to over-explain — you may still find your `AGENTS.md` quietly ballooning on you. Not because you got sloppy, but because your project genuinely has a lot of ground rules. 
+Even with the best intentions: keeping it tight, treating it like a cheatsheet, resisting the urge to over-explain — you may still find your `AGENTS.md` quietly ballooning on you — not because you got sloppy, but because your project genuinely has a lot of ground rules. 
 
 - Code review conventions that can't be skipped. 
 - Test writing standards that have burned you before. 
 - Frontend rules that every AI session needs to respect.
 
-These aren't fluff. They're legitimate instructions. But piling them all into `AGENTS.md` means you're loading all of that into the context window — **every single session**, **whether it's relevant or not**.
+These aren't fluff. They're legitimate instructions. But piling them all into `AGENTS.md` means you're loading all of that into the context window **every single session**, **whether it's relevant or not**.
 
 This is where [skills](https://agentskills.io/home) come in.
 
@@ -1168,11 +1172,11 @@ When explaining code, always include:
 Keep explanations conversational. For complex concepts, use multiple analogies.
 ```
 
-A skill is basically a set of instructions that you want your AI assistant to "automatically know". Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. _The difference isn't what a skill contains, but how it's loaded into the assistant's context_.
+A skill is basically a set of instructions that you want your AI assistant to **automatically know**. Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. _The difference isn't what a skill contains, but how it's loaded into the assistant's context_.
 
-When an AI assistant works in your codebase, it automatically reads the nearest `AGENTS.md` in the directory tree. There's very little intellegence here as the entire file _gets loaded into the context regardless of whether it's relevant to the task at hand or not_. 
+When an AI assistant works in your codebase, it automatically reads the nearest `AGENTS.md` in the directory tree. There's very little intellegence here as every section present in the file gets loaded into the context _regardless of whether it's relevant to the task at hand or not_. 
 
-A skill, on the other hand, is loaded _on need_. You define a skill for a specific domain or task, and the AI assistant only pulls it into context _when it recognizes that the task requires that skill_. 
+A skill, on the other hand, is loaded _on need_. You define a skill for a specific domain or task, and the AI assistant only pulls it into the context _only when it recognizes that the task requires that skill_. 
 
 - Want AI to review your change? The code review skill loads.
 - Writing a new test suite? The testing skill loads. 
@@ -1213,20 +1217,355 @@ Reference supporting files in `SKILL.md` so your AI assistant knows what each fi
 ## Additional resources
 
 - For complete API details, see [reference.md](reference.md)
-- For usage examples, see [examples.md](examples/examples.md)
+- For usage examples, see [sample.md](examples/sample.md)
 ```
 
 The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
 
-Here's how your AI assistant goes through a progressive disclosure process when skills are defined:
+Here's how your AI assistant goes through a [progressive disclosure process when skills are defined](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#runtime-environment):
 1. Look at the installed skills’ names and descriptions.
-1. If a skill seems relevant, use a filesystem tool to open SKILL.md.
-1. If that file references additional documents (like forms.md or reference.md), read only those, and only if needed.
+1. If a skill seems relevant, use a filesystem tool to read `SKILL.md`.
+1. If that file references additional documents (like `forms.md` or `reference.md`), read only those, and **only if needed**.
 1. If the skill includes scripts, run them via the code execution environment instead of trying to “simulate” them through token generation.
 
 This way, a heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
 
 [The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep `SKILL.md` under 500 lines and move detailed reference material to separate files.
+
+<img src="images/skills_in_context.png" width="680"/><br>
+
+### Skill Repositories
+Just like MCP servers, skills are also shareable:
+- Build a skill once, use it across any assistant
+- Not sure how to write a skill? Find one that already exists and adapt it to your needs.
+
+The skills ecosystem is already growing, with community-built skills available for many use cases. A few repositories to get started:
+
+- https://github.com/BehiSecc/awesome-claude-skills
+- https://github.com/anthropics/skills/tree/main/skills
+
+## Writing Skills that Work
+
+Let's be clear about what a skill isn't: it's **not** a way to make your AI assistant smarter. Instructions like "think harder", "make no mistakes", or "be more creative" won't move the needle.
+
+If you're unhappy with your AI assistant's "intelligence", change the model. Adding Skills wouldn't make Claude Haiku perform like Opus.
+
+Your motivation for writing Skills should _only_ be to **provide custom instructions to your AI assistant**. Examples:
+- I want to [override Assistant's default behavior](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md?plain=1).
+- For this particular task, I want the Assistant to [follow a specific workflow](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
+- I expected the Assistant to do something, but it did something else. Let me provide it with [additional instructions](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md?plain=1) to do the thing I expected instead.
+- The Assistant is doing something technically correct but wrong for my repo, let me provide it the "right knowledge"
+- The knowledgebase it's working from is outdated. Let me supply it with [up-to-date knowledge](https://github.com/openai/openai-agents-js/blob/main/.agents/skills/openai-knowledge/SKILL.md?plain=1) that it can refer to.
+
+Now that you know why to write a skill, let's talk about the four root causes behind most skill execution failures:
+
+1. **Routing ambiguity** Out of 100+ skills available, the model picked one that looked relevant, **but wasn't**. The result? You received a response that looks good on the surface, but has actually answered the wrong question. This is the most common failure mode and the hardest to debug, as two runs of the same prompt can trigger different skill combinations depending on subtle phrasing differences, context window state, or even how many other skills are loaded.
+
+2. **Context overload**. Too many skills are active, or the skill itself is too long. The model’s outputs degrade not because the skill is bad, but because it’s competing for attention with too many other material. This one is insidious because it looks like the model is “getting dumber” when actually you’re just drowning it.
+
+3. **Hidden dependencies**. The skill assumes packages are installed, services are running, credentials are configured, or another skill is present—and none of that is true. The script fails at runtime with an error message the model doesn’t know how to interpret. The model tries to recover by guessing what went wrong, but it’s a shot in the dark. The user gets an error they don’t understand and has no idea how to fix it.
+
+4. **Missing verification**. The skill tells the model what to do but not how to prove it worked. The model finishes, says “done,” and the user discovers the problem hours later. 
+
+To ensure your skills succeed in production, you need to address these failure modes head-on. The following best practices will help you do just that.
+
+### Write Effective Descriptions
+
+Your assistant scans every Skill’s description to choose the right one from potentially 100+ available Skills. A vague description like `backend-helper` triggers on everything and matches nothing. A precise one like `Review PostgreSQL schema migrations and rollback safety. Use when creating, editing, or validating SQL migrations or rollback plans.` tells the model exactly when to activate—and when not to.
+
+A good description does two things: explains what the skill does, and specifies when to use it.
+  
+| What the Skill does | When to use the Skill | Skill Description |
+| --- | --- | --- |
+| Extract text and tables from PDF files, fill forms, merge documents. | Use when working with PDF files or when the user mentions PDFs, forms, or document extraction. | Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction. |
+| Analyze Excel spreadsheets, create pivot tables, generate charts. | Use when analyzing Excel files, spreadsheets, tabular data, or .xlsx files. | Analyze Excel spreadsheets, create pivot tables, generate charts. Use when analyzing Excel files, spreadsheets, tabular data, or .xlsx files. |
+| Generate descriptive commit messages by analyzing git diffs. | Use when the user asks for help writing commit messages or reviewing staged changes. | Generate descriptive commit messages by analyzing git diffs. Use when the user asks for help writing commit messages or reviewing staged changes. |
+
+Always write in third person. Skill descriptions are injected into the system prompt, and inconsistent point-of-view can cause discovery problems.
+- Good: "Processes Excel files and generates reports"
+- Avoid: "I can help you process Excel files"
+- Avoid: "You can use this to process Excel files"
+
+### Concise is key
+
+Skills are loaded progressively, sure — but conciseness still matters. Once a skill loads, every token in `SKILL.md` competes with every other token in context. 
+
+_Every sentence in `SKILL.md`, therefore, should justify its cost_ 
+
+Take advantage of the fact that your AI assistant already knows a lot. Skip explaining what a PDF is or how libraries work. Jump straight to the specific instructions or examples that are relevant.
+
+Good Example — ~50 tokens:
+
+````markdown
+## Extract PDF text
+
+Use pdfplumber for text extraction:
+
+```python
+import pdfplumber
+
+with pdfplumber.open("file.pdf") as pdf:
+    text = pdf.pages[0].extract_text()
+```
+````
+
+Bad Example — ~150 tokens:
+```markdown
+## Extract PDF text
+
+PDF (Portable Document Format) files are a common file format that contains
+text, images, and other content. To extract text from a PDF, you'll need to
+use a library. There are many libraries available for PDF processing, but
+pdfplumber is recommended because it's easy to use and handles most cases well.
+First, you'll need to install it using pip. Then you can use the code below...
+```
+
+While writing a skill, constantly challenge yourself by asking:
+
+- "Does the assistant really need this explanation?"
+- "Can I assume the assistant knows this?"
+- "Does this paragraph justify its token cost?"
+
+**Keep `SKILL.md` body under 500 lines for optimal performance**
+
+### Structure for Scale
+If you find yourself writing a skill that's more than 500 lines, it's a sign that you need to split its content into separate files and reference them in `SKILL.md`:
+
+<img src="images/agent-skills-bundling-content.png" alt="skill structure" width="680"/><br>
+
+Use forward slashes (`reference/guide.md`), not Windows style backslashes as AI Assiatants navigates your skill directory like a Unix filesystem. 
+
+Use the patterns below to organize instructions, code, and resources effectively:
+
+**Skill Directory Structure Patterns:**
+- [Pattern 1: High-level guide with references](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#pattern-1-high-level-guide-with-references)
+- [Pattern 2: Domain-specific organization](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#pattern-2-domain-specific-organization)
+- [Pattern 3: Conditional details](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#pattern-3-conditional-details)
+
+**Skill Content Patterns:**
+- [Template Pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#template-pattern)
+- [Examples pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#examples-pattern)
+- [Conditional workflow pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#conditional-workflow-pattern)
+
+The basic gist is to use `SKILL.md` as a "menu" - it should be lean and focused on describing the skill's purpose and when to use it, while referencing separate files for detailed instructions, code snippets, examples, or resources. 
+
+### Avoid Nested References
+
+Unlike `SKILL.md`, reference files aren't always read in full (surprise, surprise!). To keep context usage efficient, your assistant might only skim a reference file by using command like `head -100`, or skip it altogether if it doesn't seem relevant. This means that if your reference file contains references to other files, those secondary files might never be read. 
+
+Let's understand this with an example. Say your `SKILL.md` references `advanced.md`, and `advanced.md` references `details.md`. 
+
+```markdown
+# SKILL.md
+See [advanced.md](advanced.md)...
+
+# advanced.md
+See [details.md](details.md)...
+
+# details.md
+Here's the actual information...
+```
+
+If this skill is selected, your AI assistant will definetely read `SKILL.md` at its entirety and will learn the existence of `advanced.md`. However, when it comes to `advanced.md`, it might only read the first 100 lines or even skip it if it doesn't seem relevant. This means that the reference to `details.md` might never be available to the model. If the instructions in `details.md` are critical for the task, the skill's performance will definately suffer.
+
+To avoid this, make sure that _all_ reference files should link directly from `SKILL.md` and not from each other.
+
+Good example: One level deep:
+
+```markdown
+# SKILL.md
+
+**Basic usage**: [instructions in SKILL.md]
+**Advanced features**: See [advanced.md](advanced.md)
+**API reference**: See [reference.md](reference.md)
+**Examples**: See [examples.md](examples.md)
+```
+
+### For Reference Files Longer than 100 Lines, include a "Table of Contents" at the top
+
+A table of contents with clear section headers throughout the reference file ensures your AI assistant can see the full scope of available information even when previewing with partial reads.
+
+```markdown
+# API Reference
+
+## Contents
+- Authentication and setup
+- Core methods (create, read, update, delete)
+- Advanced features (batch operations, webhooks)
+- Error handling patterns
+- Code examples
+
+## Authentication and setup
+...
+
+## Core methods
+...
+```
+
+### Use Workflows for Complex Tasks
+The body of a skill should read like a workflow, not an essay. Break operations into clear, sequential steps. For particularly complex workflows, provide a checklist that your AI assistant can copy into its response and check off as it progresses.
+
+- Clear steps prevent AI assistants from skipping critical validation.
+- The checklist helps both assistant and you track progress.
+
+````markdown
+## PDF form filling workflow
+
+Copy this checklist and check off items as you complete them:
+
+```
+Task Progress:
+- [ ] Step 1: Analyze the form (run analyze_form.py)
+- [ ] Step 2: Create field mapping (edit fields.json)
+- [ ] Step 3: Validate mapping (run validate_fields.py)
+- [ ] Step 4: Fill the form (run fill_form.py)
+- [ ] Step 5: Verify output (run verify_output.py)
+```
+
+**Step 1: Analyze the form**
+
+Run: `python scripts/analyze_form.py input.pdf`
+
+This extracts form fields and their locations, saving to `fields.json`.
+
+**Step 2: Create field mapping**
+
+Edit `fields.json` to add values for each field.
+
+**Step 3: Validate mapping**
+
+Run: `python scripts/validate_fields.py fields.json`
+
+Fix any validation errors before continuing.
+
+**Step 4: Fill the form**
+
+Run: `python scripts/fill_form.py input.pdf fields.json output.pdf`
+
+**Step 5: Verify output**
+
+Run: `python scripts/verify_output.py output.pdf`
+
+If verification fails, return to Step 2.
+````
+
+### Implement Validation Loops
+Include explicit validation steps in your skill's workflow to catch errors early. The pattern: 
+
+> Perform a task → validate the output → if validation fails, fix the issue → repeat until validation passes
+
+greatly improves the reliability of skill execution.
+
+Example 1: In a content review skill, add a validation step just after the assistant generates a review. The validation step should check the review against a checklist of criteria. If any criteria isn't met, the assistant should revise the review and validate again until all criteria are satisfied.
+
+```markdown
+## Content review process
+
+1. Draft your content following the guidelines in STYLE_GUIDE.md
+2. Review against the checklist:
+   - Check terminology consistency
+   - Verify examples follow the standard format
+   - Confirm all required sections are present
+3. If issues found:
+   - Note each issue with specific section reference
+   - Revise the content
+   - Review the checklist again
+4. Only proceed when all requirements are met
+5. Finalize and save the document
+```
+
+Example 2: In a document editing skill, after the assistant makes edits to `word/document.xml`, it should run a validation script that checks for XML well-formedness and adherence to the OpenXML schema. If validation fails, the assistant should report the specific errors, fix them, and re-run validation until it passes before proceeding to rebuild the document.
+
+```markdown
+## Document editing process
+1. Make your edits to `word/document.xml`
+2. **Validate immediately**: `python ooxml/scripts/validate.py unpacked_dir/`
+3. If validation fails:
+   - Review the error message carefully
+   - Fix the issues in the XML
+   - Run validation again
+4. **Only proceed when validation passes**
+5. Rebuild: `python ooxml/scripts/pack.py unpacked_dir/ output.docx`
+6. Test the output document
+```
+
+### References
+- [Claude Code's documentation on skills](https://code.claude.com/docs/en/skills)
+- [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+- [Agent Skills, Stripped of Hype](https://stevekinney.com/writing/agent-skills)
+- [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+
+
+## Does Your Skill Actually Work?
+
+The tempting thing to do after writing a skill is to assume it works because it exists.
+
+_Don't do that. Test it._
+
+<img src="images/test_your_skills.png" alt="test your skills" width="280"/><br>
+
+### Step 0: Ask Yourself If You Even Need a Skill
+
+Before you write a single line, run your assistant on the tasks you have in mind and just *watch*. Does it struggle? Does it produce weird output? If it handles things just fine on its own — congratulations, you don't need a skill. Seriously! Every skill you add costs context, and a bloated context makes your assistant worse, not better.
+
+If you spot something genuinely broken, try fixing it with a one-liner in `AGENTS.md` first. Only reach for a full skill when the simple fix doesn't cut it.
+
+A skill is worth having only if it makes things measurably better — fewer retries, less hand-holding, faster results. If it doesn't clear that bar, cut it.
+
+<img src="images/skill-needed.png" width="480"/><br>
+
+### Does It Know When to Show Up?
+
+The first thing to test isn't whether your skill produces good output, it's whether it *triggers at all* — and whether it triggers at the right times.
+
+Think of your skill like a specialist you've hired. You want them to raise their hand when their expertise is needed, stay quiet otherwise, and not barge into conversations that have nothing to do with them.
+
+Test three scenarios:
+- Ask it something squarely in its wheelhouse. Does it fire?
+- Ask something vague or only loosely related. Does it handle the ambiguity well?
+- Ask something that *sounds* related but isn't. Does it stay out of the way?
+
+  <img src="images/skill-triggering.png" width="580"/><br>
+
+If it's triggering too eagerly or too rarely, the fix is almost always in the skill's description — that's what your assistant uses to decide when to activate it.
+
+### Does It Do the Right Thing?
+
+Once you've confirmed it triggers correctly, throw some real requests at it. Use a simple two-category approach:
+
+- **Normal cases** — the bread and butter requests it was built for. These should work great. If they don't, your core instructions need work.
+- **Edge cases** — messy, incomplete, or unusual inputs. Missing data. Unexpected file formats. Ambiguous instructions. A good skill either handles these gracefully or clearly explains what it needs. A bad skill silently produces garbage.
+
+  <img src="images/skill-testing.png" width="580"/><br>
+
+### Keep a Gotchas Section and Update it Religiously
+
+This one is unglamorous but it's probably the highest-leverage thing you can do for long-term skill quality.
+
+Every time the model does something unexpected while using your skill, write it down — and add a specific instruction to prevent it from happening again. Over time, this list compounds. Six months from now, it'll be the most valuable part of your skill.
+
+It looks like this:
+
+```markdown
+## Common Pitfalls
+
+❌ Don't inspect the DOM before the page has fully loaded on dynamic apps
+✅ Do wait for page.wait_for_load_state('networkidle') before inspecting
+```
+
+Not glamorous. Incredibly effective.
+
+### A Few More Things Worth Knowing
+
+- **Test across models.** A skill that works beautifully with Claude Opus might need more explicit instructions to work with Claude Haiku. If you're using multiple models, test with all of them.
+- **Log what's happening.** You can use a `PreToolUse` hook to track which skills activate, how often, and whether users end up correcting the output. If corrections spike, something's misfiring. The data will tell you what.
+
+_The goal isn't a skill that looks good in a file. It's a skill that quietly makes your assistant more reliable every single day. Test until you get there._
+
+### References
+  - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+  - [Agent Skills, Stripped of Hype](https://stevekinney.com/writing/agent-skills)
+  - [How to create Skills: Key steps, limitations, and examples](https://claude.com/blog/how-to-create-skills-key-steps-limitations-and-examples)
 
 ## Don't file Pull Requests with Code you haven't Reviewed Yourself
 
