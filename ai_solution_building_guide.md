@@ -1156,6 +1156,8 @@ These aren't fluff. They're legitimate instructions. But piling them all into `A
 
 This is where [skills](https://agentskills.io/home) come in.
 
+A skill is basically a set of instructions that you want your AI assistant to **automatically know**. Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. 
+
 ```markdown
 ---
 name: explain-code
@@ -1172,7 +1174,7 @@ When explaining code, always include:
 Keep explanations conversational. For complex concepts, use multiple analogies.
 ```
 
-A skill is basically a set of instructions that you want your AI assistant to **automatically know**. Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. _The difference isn't what a skill contains, but how it's loaded into the assistant's context_.
+_The difference isn't what a skill contains, but how it's loaded into the assistant's context_
 
 When an AI assistant works in your codebase, it automatically reads the nearest `AGENTS.md` in the directory tree. There's very little intellegence here as every section present in the file gets loaded into the context _regardless of whether it's relevant to the task at hand or not_. 
 
@@ -1237,7 +1239,7 @@ This way, a heavy `reference.md` sitting in the folder costs you nothing until y
 ### Skill Repositories
 Just like MCP servers, skills are also shareable:
 - Build a skill once, use it across any assistant
-- Not sure how to write a skill? Find one that already exists and adapt it to your needs.
+- Not sure how to write a skill? Find one that already exists and adapt it to your needs
 
 The skills ecosystem is already growing, with community-built skills available for many use cases. A few repositories to get started:
 
