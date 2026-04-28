@@ -1261,13 +1261,13 @@ Your motivation for writing Skills should _only_ be to **provide custom instruct
 
 Now that you know why to write a skill, let's talk about the four root causes behind most skill execution failures:
 
-1. **Routing ambiguity** Out of 100+ skills available, the model picked one that looked relevant, **but wasn't**. The result? You received a response that looks good on the surface, but has actually answered the wrong question. This is the most common failure mode and the hardest to debug, as two runs of the same prompt can trigger different skill combinations depending on subtle phrasing differences, context window state, or even how many other skills are loaded.
+1. **Routing ambiguity**: Out of 100+ skills available, the model picked one that looked relevant, **but wasn't**. The result? You received a response that looks good on the surface, but has actually answered the wrong question. This is the most common failure mode and the hardest to debug, as two runs of the same prompt can trigger different skill combinations depending on subtle phrasing differences, context window state, or even how many other skills are loaded.
 
-2. **Context overload**. Too many skills are active, or the skill itself is too long. The model’s outputs degrade not because the skill is bad, but because it’s competing for attention with too many other material. This one is insidious because it looks like the model is “getting dumber” when actually you’re just drowning it.
+2. **Context overload**: Too many skills are active, or the skill itself is too long. The model’s outputs degrade not because the skill is bad, but because it’s competing for attention with too many other material. This one is insidious because it looks like the model is “getting dumber” when actually you’re just drowning it.
 
-3. **Hidden dependencies**. The skill assumes packages are installed, services are running, credentials are configured, or another skill is present—and none of that is true. The script fails at runtime with an error message the model doesn’t know how to interpret. The model tries to recover by guessing what went wrong, but it’s a shot in the dark. The user gets an error they don’t understand and has no idea how to fix it.
+3. **Hidden dependencies**: The skill assumes packages are installed, services are running, credentials are configured, or another skill is present—and none of that is true. The script fails at runtime with an error message the model doesn’t know how to interpret. The model tries to recover by guessing what went wrong, but it’s a shot in the dark. The user gets an error they don’t understand and has no idea how to fix it.
 
-4. **Missing verification**. The skill tells the model what to do but not how to prove it worked. The model finishes, says “done,” and the user discovers the problem hours later. 
+4. **Missing verification**: The skill tells the model what to do but not how to prove it worked. The model finishes, says “done,” and the user discovers the problem hours later. 
 
 To ensure your skills succeed in production, you need to address these failure modes head-on. The following best practices will help you do just that.
 
