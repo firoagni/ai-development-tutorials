@@ -1156,7 +1156,7 @@ These aren't fluff. They're legitimate instructions. But piling them all into `A
 
 This is where [skills](https://agentskills.io/home) come in.
 
-A skill is basically a set of instructions that you want your AI assistant to **automatically know**. Sound familiar? It should. The content of a skill just looks like a section of your `AGENTS.md`. 
+A skill is basically a set of instructions that you want your AI assistant to **automatically know**. Sound familiar? It should. The content of a skill looks just like a section of your `AGENTS.md`. 
 
 ```markdown
 ---
@@ -1198,11 +1198,35 @@ When reviewing a pull request, first check for... then verify... and finally ens
 ``` 
 That's a workflow. It has steps. It only matters in one specific context. Pull it out from `AGENTS.md`, give it its own file — [claude/skills/code-review/SKILL.md](https://github.com/petyosi/rc/blob/master/claude/skills/code-review/SKILL.md?plain=1) — and let it sit quietly on the shelf until it's needed.
 
-### Tips for Optimizing Skills Even Further 
+### Skill Filesystem and Progressive Disclosure
 
 When you create a skill, you create a folder for it. Inside that folder sits a file called `SKILL.md`. `SKILL.md` is what the AI reads to understand what the skill does and when to use it. Think of it as the `AGENTS.md` of that skill.
 
-The reason a skill is a folder and not just a markdown file is because a skill can consist of multiple files. The expectation is not to cram everything into a single `SKILL.md`, but to keep it as a high-level overview, while keeping supporting materials in separate files:
+```markdown
+---
+name: summarize-text
+description: Summarize any text or document the user provides. Use when the user asks to summarize, condense, or give a short version of something.
+---
+ 
+# Summarize Text
+ 
+When the user provides text to summarize:
+ 
+1. Read the full content carefully
+2. Identify the main points (aim for 3–5)
+3. Write a concise summary in plain language
+4. Keep the summary to roughly 10% of the original length
+
+## Output format 
+- Start with a one-sentence overview
+- Follow with bullet points for key details if the source is long
+- Avoid copying sentences verbatim — paraphrase instead
+```
+
+As you can see, there's nothing magical about `SKILL.md` — it's just a regular Markdown file with instructions. The only difference is the small YAML block at the top that tells the AI assistant the skill's name and description, which it uses to decide when to load the skill.
+
+Also notice that a skill is a folder and not just a single markdown file. This is an intentional design choice because the expectation is not to cram everything into a single `SKILL.md`, but to keep it as a high-level overview, while keeping supporting materials in separate files:
+
 ```
 my-skill/
 ├── SKILL.md        ← overview and navigation (required)
@@ -1212,8 +1236,7 @@ my-skill/
 └── scripts/
     └── helper.py   ← utility script
 ```
-
-Reference supporting files in `SKILL.md` so your AI assistant knows what each file contains and when to load it:
+Make sure to reference all supporting files in `SKILL.md`: 
 
 ```markdown
 ## Additional resources
@@ -1222,9 +1245,11 @@ Reference supporting files in `SKILL.md` so your AI assistant knows what each fi
 - For usage examples, see [sample.md](examples/sample.md)
 ```
 
-The magic here is the same lazy-loading principle, but applied within the skill itself. `SKILL.md` loads when the skill is triggered, but the supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
+Moving support documents to separate files not only helps you organize your skill better, but also optimizes the AI assistant's context usage. `SKILL.md` loads when the skill is triggered, but its supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
 
-Here's how your AI assistant goes through a [progressive disclosure process when skills are defined](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#runtime-environment):
+The magic here is the same lazy-loading principle of skill, but applied within the skill itself. 
+
+Here's how your AI assistant goes through a progressive disclosure process when skills are defined:
 1. Look at the installed skills’ names and descriptions.
 1. If a skill seems relevant, use a filesystem tool to read `SKILL.md`.
 1. If that file references additional documents (like `forms.md` or `reference.md`), read only those, and **only if needed**.
@@ -1232,16 +1257,18 @@ Here's how your AI assistant goes through a [progressive disclosure process when
 
 This way, a heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
 
-[The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: keep `SKILL.md` under 500 lines and move detailed reference material to separate files.
+[The official guidance from Claude Code's doc](https://code.claude.com/docs/en/skills#add-supporting-files) puts it plainly: 
+
+>Keep `SKILL.md` under 500 lines and move detailed reference material to separate files.
 
 <img src="images/skills_in_context.png" width="680"/><br>
 
 ### Skill Repositories
-Just like MCP servers, skills are also shareable:
+Skills are shareable, just like MCP servers.
 - Build a skill once, use it across any assistant
-- Not sure how to write a skill? Find one that already exists and adapt it to your needs
+- Not sure how to write a skill? Find one that already exists
 
-The skills ecosystem is already growing, with community-built skills available for many use cases. A few repositories to get started:
+The skills ecosystem is already growing, with community-built skills available for many use cases. Here's a few repositories to get started:
 
 - https://github.com/BehiSecc/awesome-claude-skills
 - https://github.com/anthropics/skills/tree/main/skills
