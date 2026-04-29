@@ -1277,14 +1277,14 @@ The skills ecosystem is already growing, with community-built skills available f
 
 Let's be clear about what a skill isn't: it's **not** a way to make your AI assistant smarter. Instructions like "think harder", "make no mistakes", or "be more creative" won't move the needle.
 
-If you're unhappy with your AI assistant's "intelligence", change the model. Adding Skills wouldn't make Claude Haiku perform like Opus.
+If you're unhappy with your AI assistant's "intelligence", change the model — adding Skills wouldn't make Claude Haiku perform like Opus.
 
-Your motivation for writing Skills should _only_ be to **provide custom instructions to your AI assistant**. Examples:
-- I want to [override Assistant's default behavior](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md?plain=1).
-- For this particular task, I want the Assistant to [follow a specific workflow](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
-- I expected the Assistant to do something, but it did something else. Let me provide it with [additional instructions](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md?plain=1) to do the thing I expected instead.
+Your _only_ motivation for writing Skills should be to **provide custom instructions to your AI assistant**. Examples:
+- I want to ["override Assistant's default behavior"](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md?plain=1).
+- For this particular task, I want the Assistant to ["follow a specific workflow"](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
+- I expected the Assistant to do something, but it did something else. Let me provide it with ["additional instructions"](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md?plain=1) to do the thing I expected instead.
 - The Assistant is doing something technically correct but wrong for my repo, let me provide it the "right knowledge"
-- The knowledgebase it's working from is outdated. Let me supply it with [up-to-date knowledge](https://github.com/openai/openai-agents-js/blob/main/.agents/skills/openai-knowledge/SKILL.md?plain=1) that it can refer to.
+- The knowledgebase it's working from is outdated. Let me supply it with ["up-to-date knowledge"](https://github.com/openai/openai-agents-js/blob/main/.agents/skills/openai-knowledge/SKILL.md?plain=1) that it can refer to.
 
 Now that you know why to write a skill, let's talk about the four root causes behind most skill execution failures:
 
@@ -1355,14 +1355,10 @@ While writing a skill, constantly challenge yourself by asking:
 - "Can I assume the assistant knows this?"
 - "Does this paragraph justify its token cost?"
 
-**Keep `SKILL.md` body under 500 lines for optimal performance**
-
 ### Structure for Scale
 If you find yourself writing a skill that's more than 500 lines, it's a sign that you need to split its content into separate files and reference them in `SKILL.md`:
 
 <img src="images/agent-skills-bundling-content.png" alt="skill structure" width="780"/><br>
-
-Use forward slashes (`reference/guide.md`), not Windows style backslashes as AI Assiatants navigates your skill directory like a Unix filesystem. 
 
 Use the patterns below to organize instructions, code, and resources effectively:
 
@@ -1376,11 +1372,13 @@ Use the patterns below to organize instructions, code, and resources effectively
 - [Examples pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#examples-pattern)
 - [Conditional workflow pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#conditional-workflow-pattern)
 
-The basic gist is to use `SKILL.md` as a "menu" - it should be lean and focused on describing the skill's purpose and when to use it, while referencing separate files for detailed instructions, code snippets, examples, or resources. 
+The basic gist is to use `SKILL.md` like a "menu" - it should be lean and focused on describing the skill's purpose and when to use it, while referencing separate files for detailed instructions, code snippets, examples, or resources. 
+
+One more thing: AI assistants navigates your skill directory like a Unix filesystem. Therefore, when referencing files, make sure to use forward slashes (`reference/guide.md`), and not Windows style backslashes (`reference\guide.md`).
 
 ### Avoid Nested References
 
-Unlike `SKILL.md`, reference files aren't always read in full (surprise, surprise!). To keep context usage efficient, your assistant might only skim a reference file by using command like `head -100`, or skip it altogether if it doesn't seem relevant. This means that if your reference file contains references to other files, those secondary files might never be read. 
+Unlike `SKILL.md`, reference files aren't always read in full. To keep context usage efficient, your assistant might only skim a reference file by using command like `head -100`, or skip it altogether if it doesn't seem relevant. This means that if your reference file contains references to other files, those secondary files might never be read. 
 
 Let's understand this with an example. Say your `SKILL.md` references `advanced.md`, and `advanced.md` references `details.md`. 
 
@@ -1412,8 +1410,6 @@ Good example: One level deep:
 
 ### For Reference Files Longer than 100 Lines, include a "Table of Contents" at the top
 
-A table of contents with clear section headers throughout the reference file ensures your AI assistant can see the full scope of available information even when previewing with partial reads.
-
 ```markdown
 # API Reference
 
@@ -1430,6 +1426,8 @@ A table of contents with clear section headers throughout the reference file ens
 ## Core methods
 ...
 ```
+
+A table of contents with clear section headers throughout the reference file ensures your AI assistant can see the full scope of available information even when previewing with partial reads.
 
 ### Use Workflows for Complex Tasks
 The body of a skill should read like a workflow, not an essay. Break operations into clear, sequential steps. For particularly complex workflows, provide a checklist that your AI assistant can copy into its response and check off as it progresses.
@@ -1537,7 +1535,7 @@ _Don't do that. Test it._
 
 Before you write a single line, run your assistant on the tasks you have in mind and just *watch*. Does it struggle? Does it produce weird output? If it handles things just fine on its own — congratulations, you don't need a skill. Seriously! Every skill you add costs context, and a bloated context makes your assistant worse, not better.
 
-If you spot something genuinely broken, try fixing it with a one-liner in `AGENTS.md` first. Only reach for a full skill when the simple fix doesn't cut it.
+If you spot something genuinely broken, try fixing it with a few-liners in `AGENTS.md` first. Only reach for a full skill when the simple fix doesn't cut it.
 
 A skill is worth having only if it makes things measurably better — fewer retries, less hand-holding, faster results. If it doesn't clear that bar, cut it.
 
@@ -1556,7 +1554,7 @@ Test three scenarios:
 
   <img src="images/skill-triggering.png" width="580"/><br>
 
-If it's triggering too eagerly or too rarely, the fix is almost always in the skill's description — that's what your assistant uses to decide when to activate it.
+If your skill is triggering too eagerly or too rarely, the fix is almost always in the skill's description.
 
 ### Does It Do the Right Thing?
 
