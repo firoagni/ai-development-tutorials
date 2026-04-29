@@ -1245,7 +1245,7 @@ Make sure to reference all supporting files in `SKILL.md`:
 - For usage examples, see [sample.md](examples/sample.md)
 ```
 
-Moving support documents to separate files not only helps you organize your skill better, but also optimizes the AI assistant's context usage. `SKILL.md` loads when the skill is triggered, but its supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
+Moving support documents to separate files not only helps you organize your skill better and keep `SKILL.md` lean, but also optimizes the AI assistant's context usage. `SKILL.md` loads when the skill is triggered, but its supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
 
 The magic here is the same lazy-loading principle of skill, but applied within the skill itself. 
 
