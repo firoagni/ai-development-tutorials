@@ -1245,7 +1245,7 @@ Make sure to reference all supporting files in `SKILL.md`:
 - For usage examples, see [sample.md](examples/sample.md)
 ```
 
-Moving support documents to separate files not only helps you organize your skill better and keep `SKILL.md` lean, but also optimizes the AI assistant's context usage. `SKILL.md` loads when the skill is triggered, but its supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
+Moving support documents to separate files not only helps you organize your skill better, but also optimizes the AI assistant's context usage. `SKILL.md` loads when the skill is triggered, but its supporting files — your big reference docs, your API specs, your example collections — **only get pulled in when the AI actually needs them for the task**.
 
 The magic here is the same lazy-loading principle of skill, but applied within the skill itself. 
 
@@ -1372,7 +1372,7 @@ Use the patterns below to organize instructions, code, and resources effectively
 - [Examples pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#examples-pattern)
 - [Conditional workflow pattern](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#conditional-workflow-pattern)
 
-The basic gist is to use `SKILL.md` like a "menu" - it should be lean and focused on describing the skill's purpose and when to use it, while referencing separate files for detailed instructions, code snippets, examples, or resources. 
+The basic gist is to use `SKILL.md` like a "menu" - it should be lean and focused on describing the skill's purpose and when to use it, while referencing separate files for detailed instructions, code snippets, examples, and resources. 
 
 One more thing: AI assistants navigates your skill directory like a Unix filesystem. Therefore, when referencing files, make sure to use forward slashes (`reference/guide.md`), and not Windows style backslashes (`reference\guide.md`).
 
@@ -1523,7 +1523,7 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 
 
-## Does Your Skill Actually Work?
+## Test Your Skills, Don't Just Write Them
 
 The tempting thing to do after writing a skill is to assume it works because it exists.
 
@@ -1585,7 +1585,7 @@ Not glamorous. Incredibly effective.
 ### A Few More Things Worth Knowing
 
 - **Test across models.** A skill that works beautifully with Claude Opus might need more explicit instructions to work with Claude Haiku. If you're using multiple models, test with all of them.
-- **Log what's happening.** You can use a `PreToolUse` hook to track which skills activate, how often, and whether users end up correcting the output. If corrections spike, something's misfiring. The data will tell you what.
+- **Log what's happening.** You can use a [`PreToolUse`](https://code.claude.com/docs/en/hooks#hooks-in-skills-and-agents) hook to track which skills activate, how often, and whether users end up correcting the output. If corrections spike, something's misfiring. The data will tell you what.
 
 _The goal isn't a skill that looks good in a file. It's a skill that quietly makes your assistant more reliable every single day. Test until you get there._
 
