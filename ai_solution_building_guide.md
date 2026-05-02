@@ -1521,15 +1521,15 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 
 ### Bundle your Skills with Executable Scripts
 
+<img src="images/skills_with_scripts.png" alt="skills with scripts" width="680"/><br>
+
 Your AI assistant has access to your workspace and is smart enough to write a code if it needs to — but there's still a strong case for shipping pre-made scripts with your skill:
 
 - **Human-written**: When a script comes bundled with a skill, it was written by the person who built that skill — someone who understands exactly what it needs to do, what can go wrong, and how to handle it. AI-generated code works most of the time, but "most of the time" isn't the same as "reliably". A human-authored script has been run, debugged, and verified before it ever lands in your workflow.
 - **Leaner context**: Every time your assistant writes code on the fly, that code ends up sitting in the context window. The more that accumulates, the more tokens are consumed, and the less room there is for the things that actually matter — your data, your instructions, the task at hand. Pre-made scripts skip that entirely.
 - **Runtime code generation takes time**: The assistant has to think through the problem, write the solution, and potentially iterate if something doesn't work. A bundled script sidesteps all of that. It's already there, already correct, ready to go.
 
-<img src="images/skills_with_scripts.png" alt="skills with scripts" width="680"/><br>
-
-When writing scripts for Skills, handle error conditions rather than punting to the AI Assistant.
+When writing scripts for Skills, make sure to handle error conditions rather than punting to the AI Assistant.
 
 Good example: Handle errors explicitly:
 
@@ -1569,7 +1569,7 @@ Don't assume the tools your skill relies on are available in the environment.
 Use the pdf library to process the file.
 ```
 
-If your skill relies on a package, explicitly list it in the instructions and verify it's installed before running any code that depends on it. 
+**Good example — assumes nothing. Includes installation instructions:**
 
 ````markdown
 Install required package: `pip install pypdf`
