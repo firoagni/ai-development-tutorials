@@ -1516,6 +1516,19 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 6. Test the output document
 ```
 
+- For complex, multi-step skills, don't wait until the end to validate — create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
+- If your skill includes validation scripts, make sure those scripts provide verbose, actionable error messages. "Validation failed" tells the assistant nothing — it's the equivalent of your GPS saying "you're lost" with no further guidance. Instead, write error messages that point to the exact problem and show what's available: `Field 'signature_date' not found. Available fields: customer_name, order_total, signature_date_signed`. Clear, actionable.
+
+### Bundle your Skills with Executable Scripts
+
+Your AI assistant has access to your workspace and is smart enough to write a code if it needs to — but there's still a strong case for shipping pre-made scripts with your skill:
+
+- **Human-written**: When a script comes bundled with a skill, it was written by the person who built that skill — someone who understands exactly what it needs to do, what can go wrong, and how to handle it. AI-generated code works most of the time, but "most of the time" isn't the same as "reliably". A human-authored script has been run, debugged, and verified before it ever lands in your workflow.
+- **Leaner context**: Every time your assistant writes code on the fly, that code ends up sitting in the context window. The more that accumulates, the more tokens are consumed, and the less room there is for the things that actually matter — your data, your instructions, the task at hand. Pre-made scripts skip that entirely.
+- **Runtime code generation takes time**: The assistant has to think through the problem, write the solution, and potentially iterate if something doesn't work. A bundled script sidesteps all of that. It's already there, already correct, ready to go.
+
+<img src="images/skills_with_scripts.png" alt="skills with scripts" width="680"/><br>
+
 ### References
 - [Claude Code's documentation on skills](https://code.claude.com/docs/en/skills)
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
