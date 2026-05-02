@@ -1516,8 +1516,8 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 6. Test the output document
 ```
 
-- For complex, multi-step skills, don't wait until the end to validate — create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
-- If your skill includes validation scripts, make sure those scripts provide verbose, actionable error messages. "Validation failed" tells the assistant nothing — it's the equivalent of your GPS saying "you're lost" with no further guidance. Instead, write error messages that point to the exact problem and show what's available: `Field 'signature_date' not found. Available fields: customer_name, order_total, signature_date_signed`. Clear, actionable.
+- For your complex, multi-step skills, don't wait until the end to validate — create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
+- If your skill includes validation scripts, make sure those scripts provide verbose, actionable error messages. "Validation failed" tells the assistant nothing — it's the equivalent of your GPS saying "you're lost" with no further guidance. Instead, write error messages that point to the exact problem and show what's available. `Field 'signature_date' not found. Available fields: customer_name, order_total, signature_date_signed` — Clear, actionable.
 
 ### Bundle your Skills with Executable Scripts
 
@@ -1528,6 +1528,88 @@ Your AI assistant has access to your workspace and is smart enough to write a co
 - **Runtime code generation takes time**: The assistant has to think through the problem, write the solution, and potentially iterate if something doesn't work. A bundled script sidesteps all of that. It's already there, already correct, ready to go.
 
 <img src="images/skills_with_scripts.png" alt="skills with scripts" width="680"/><br>
+
+When writing scripts for Skills, handle error conditions rather than punting to the AI Assistant.
+
+Good example: Handle errors explicitly:
+
+```python
+def process_file(path):
+    """Process a file, creating it if it doesn't exist."""
+    try:
+        with open(path) as f:
+            return f.read()
+    except FileNotFoundError:
+        # Create file with default content instead of failing
+        print(f"File {path} not found, creating default")
+        with open(path, "w") as f:
+            f.write("")
+        return ""
+    except PermissionError:
+        # Provide alternative instead of failing
+        print(f"Cannot access {path}, using default")
+        return ""
+```
+
+Bad example: Punt to AI Assistant:
+
+```python
+def process_file(path):
+    # Just fail and let your AI assistant figure it out
+    return open(path).read()
+```
+
+### Avoid Assuming Packages are Installed
+
+Don't assume the tools your skill relies on are available in the environment. 
+
+**Bad example — assumes installation:**
+
+```markdown
+Use the pdf library to process the file.
+```
+
+If your skill relies on a package, explicitly list it in the instructions and verify it's installed before running any code that depends on it. 
+
+````markdown
+Install required package: `pip install pypdf`
+
+Then use it:
+```python
+from pypdf import PdfReader
+reader = PdfReader("file.pdf")
+```
+````
+
+### MCP Tool References
+If your Skill uses MCP tools, always use fully qualified tool names to avoid `tool not found` errors.
+
+Format: `MCPServerName:tool_name`
+
+Example:
+
+```markdown
+- Use the BigQuery:bigquery_schema tool to retrieve table schemas.
+- Use the GitHub:create_issue tool to create issues.
+```
+where:
+- `BigQuery` and `GitHub` are MCP server names
+- `bigquery_schema` and `create_issue` are the tool names within those servers
+
+### Checklist for Effective Skills
+
+[ X ] Description includes both what the Skill does and when to use it<br>
+[ X ] `SKILL.md` body is under 500 lines<br>
+[ X ] Additional details are in separate files (if needed)<br>
+[ X ] All referenced files are directly linked from `SKILL.md`<br>
+[ X ] All forward slashes, no Windows-style paths<br>
+[ X ] If a reference file is longer than 100 lines, a table of contents with distinct sections available<br>
+[ X ] Workflows have clear steps<br>
+[ X ] Validation/verification steps for critical operations<br>
+[ X ] Scripts solve problems rather than punt to the Assistant<br>
+[ X ] Error messages clearly worded with what is received and what it actually expected<br>
+[ X ] Required packages listed in instructions and verified as available<br>
+[ X ] MCP tools referenced with fully qualified names<br>
 
 ### References
 - [Claude Code's documentation on skills](https://code.claude.com/docs/en/skills)
