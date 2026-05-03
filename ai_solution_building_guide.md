@@ -1515,7 +1515,7 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 6. Test the output document
 ```
 
-- **For your complex, multi-step skills, don't wait until the end to validate — create intermediate outputs that can be checked at each stage.** Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
+- **For your complex, multi-step skills, don't wait until the end to validate.** Create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
 - **If your skill includes validation scripts, make sure those scripts provide verbose, actionable error messages.** "Validation failed" tells the assistant nothing — it's the equivalent of your GPS saying "you're lost" with no further guidance. Instead, write error messages that point to the exact problem and show what's available. `Field 'signature_date' not found. Available fields: customer_name, order_total, signature_date_signed` — Clear, actionable.
 
 ### Bundle Executable Scripts with your Skills  
