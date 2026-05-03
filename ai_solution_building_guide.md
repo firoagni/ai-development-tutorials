@@ -1528,6 +1528,8 @@ Your AI assistant has access to your workspace and is smart enough to write a co
 - **Leaner context**: Every time your assistant writes code on the fly, that code ends up sitting in the context window. The more that accumulates, the more tokens are consumed, and the less room there is for the things that actually matter. Pre-made scripts skip that entirely.
 - **Runtime code generation takes time**: The assistant has to think through the problem, write the solution, and potentially iterate if something doesn't work. A bundled script sidesteps all of that. It's already there, already correct, ready to go.
 
+### Solve, don't punt
+
 When writing scripts for Skills, make sure to handle error conditions rather than punting to the AI Assistant.
 
 **Good example: Handle errors explicitly**
