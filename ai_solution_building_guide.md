@@ -1430,7 +1430,9 @@ Good example: One level deep:
 A table of contents with clear section headers throughout the reference file ensures your AI assistant can see the full scope of available information even when previewing with partial reads.
 
 ### Use Workflows for Complex Tasks
-The body of a skill should read like a workflow, not an essay. Break operations into clear, sequential steps. For particularly complex workflows, provide a checklist that your AI assistant can copy into its response and check off as it progresses.
+The body of a skill should read like a workflow, not an essay. 
+- Break operations into clear, sequential steps. 
+- For particularly complex workflows, provide a checklist that your AI assistant can copy into its response and check off as it progresses.
 
 ````markdown
 ## PDF form filling workflow
