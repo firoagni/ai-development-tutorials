@@ -1432,9 +1432,6 @@ A table of contents with clear section headers throughout the reference file ens
 ### Use Workflows for Complex Tasks
 The body of a skill should read like a workflow, not an essay. Break operations into clear, sequential steps. For particularly complex workflows, provide a checklist that your AI assistant can copy into its response and check off as it progresses.
 
-- Clear steps prevent AI assistants from skipping critical validation.
-- The checklist helps both assistant and you track progress.
-
 ````markdown
 ## PDF form filling workflow
 
