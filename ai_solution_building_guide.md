@@ -1570,7 +1570,7 @@ Don't assume the tools your skill relies on are available in the environment.
 Use the pdf library to process the file.
 ```
 
-**Good example — assumes nothing. Includes installation instructions:**
+**Good example — dependent package listed. Installation instructions provided:**
 
 ````markdown
 Install required package: `pip install pypdf`
