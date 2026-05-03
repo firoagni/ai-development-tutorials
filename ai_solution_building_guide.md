@@ -1252,7 +1252,7 @@ The magic here is the same lazy-loading principle of skill, but applied within t
 Here's how your AI assistant goes through a progressive disclosure process when skills are defined:
 1. Look at the installed skills’ names and descriptions.
 1. If a skill seems relevant, use a filesystem tool to read `SKILL.md`.
-1. If that file references additional documents (like `forms.md` or `reference.md`), read only those, and **only if needed**.
+1. If that file references additional documents (like `forms.md` or `reference.md`), read those **only if needed**.
 1. If the skill includes scripts, run them via the code execution environment instead of trying to “simulate” them through token generation.
 
 This way, a heavy `reference.md` sitting in the folder costs you nothing until your AI assistant decides it's relevant.
@@ -1378,7 +1378,7 @@ One more thing: AI assistants navigates your skill directory like a Unix filesys
 
 ### Avoid Nested References
 
-Unlike `SKILL.md`, reference files aren't always read in full. To keep context usage efficient, your assistant might only skim a reference file by using command like `head -100`, or skip it altogether if it doesn't seem relevant. This means that if your reference file contains references to other files, those secondary files might never be read. 
+Unlike `SKILL.md`, reference files aren't always read in full. To keep context usage efficient, your assistant might only skim a reference file by using command like `head -100`, or skip it altogether if it doesn't seem relevant. This means that if your reference file contains references to other files, those secondary files might never be read!
 
 Let's understand this with an example. Say your `SKILL.md` references `advanced.md`, and `advanced.md` references `details.md`. 
 
