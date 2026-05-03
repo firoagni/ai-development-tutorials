@@ -1281,10 +1281,10 @@ If you're unhappy with your AI assistant's "intelligence", change the model — 
 
 Your _only_ motivation for writing Skills should be to **provide custom instructions to your AI assistant**. Examples:
 - I want to ["override Assistant's default behavior"](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md?plain=1).
-- For this particular task, I want the Assistant to ["follow a specific workflow"](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
 - I expected the Assistant to do something, but it did something else. Let me provide it with ["additional instructions"](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md?plain=1) to do the thing I expected instead.
 - The Assistant is doing something technically correct but wrong for my repo, let me provide it the "right knowledge"
 - The knowledgebase it's working from is outdated. Let me supply it with ["up-to-date knowledge"](https://github.com/openai/openai-agents-js/blob/main/.agents/skills/openai-knowledge/SKILL.md?plain=1) that it can refer to.
+- For this particular task, I want the Assistant to ["follow a specific workflow"](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
 
 Now that you know why to write a skill, let's talk about the four root causes behind most skill execution failures:
 
