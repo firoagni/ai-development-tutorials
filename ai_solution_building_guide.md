@@ -1663,11 +1663,7 @@ Once you've confirmed it triggers correctly, throw some real requests at it. Use
 
 ### Keep a Gotchas Section and Update it Religiously
 
-This one is unglamorous but it's probably the highest-leverage thing you can do for long-term skill quality.
-
 Every time the model does something unexpected while using your skill, write it down — and add a specific instruction to prevent it from happening again. Over time, this list compounds. Six months from now, it'll be the most valuable part of your skill.
-
-It looks like this:
 
 ```markdown
 ## Common Pitfalls
@@ -1675,8 +1671,6 @@ It looks like this:
 ❌ Don't inspect the DOM before the page has fully loaded on dynamic apps
 ✅ Do wait for page.wait_for_load_state('networkidle') before inspecting
 ```
-
-Not glamorous. Incredibly effective.
 
 ### A Few More Things Worth Knowing
 
