@@ -1127,6 +1127,12 @@ It might seem useful to write "follow RFC 9457 for error handling," but this oft
 
 Avoid referring to concepts your system doesn't actually implement. For example, if you don't use database transactions, avoid calling a sequence of related operations a "transaction." That term implies ACID properties, and the assistant will model its implementation accordingly. Stick to precise terms that describe what your system really does.
 
+It's also worth remembering that `AGENTS.md` is not a way to make your AI assistant smarter. Instructions like "think harder", "make no mistakes", or "be more creative" won't move the needle. Your **only** motivation for writing `AGENTS.md` should be to **provide custom instructions to your AI assistant**:
+
+- I want to help the assistant understand my codebase structure and conventions.
+- The Assistant is doing something technically correct but wrong for my repo, let me provide it the "right knowledge"
+- I expected the Assistant to do something, but it did something else. Let me provide it with "additional instructions" to do the thing I expected instead.
+
 ---
 
 ### Large repository or Monorepo? You can nest `AGENTS.md`
@@ -1236,7 +1242,7 @@ my-skill/
 └── scripts/
     └── helper.py   ← utility script
 ```
-Make sure to reference all supporting files in `SKILL.md`: 
+and reference their paths in `SKILL.md`:
 
 ```markdown
 ## Additional resources
@@ -1263,6 +1269,21 @@ This way, a heavy `reference.md` sitting in the folder costs you nothing until y
 
 <img src="images/skills_in_context.png" width="680"/><br>
 
+### Skills Aren't Always Automatic
+
+After reading the previous section, you might get the impression that skills are always pulled automatically — that the AI decides when to load them and you just sit back. Yes, skills are designed for automatic triggering, but it's not an all-or-nothing deal. If you want, you can always invoke a skill by name directly. 
+
+In fact, if you are a skill author, you can even disable automatic triggering altogether, making it strictly opt-in:
+```markdown
+---
+name: your-skill
+description: Your skill description
+disable-model-invocation: true
+---
+```
+
+For skills that can perform actions with significant consequences - deployments, git operations, sending messages, deleting files — explicit opt-in **should be the default**. 
+
 ### Skill Repositories
 Skills are shareable, just like MCP servers.
 - Build a skill once, use it across any assistant
@@ -1275,18 +1296,7 @@ The skills ecosystem is already growing, with community-built skills available f
 
 ## Writing Skills that Work
 
-Let's be clear about what a skill isn't: it's **not** a way to make your AI assistant smarter. Instructions like "think harder", "make no mistakes", or "be more creative" won't move the needle.
-
-If you're unhappy with your AI assistant's "intelligence", change the model — adding Skills wouldn't make Claude Haiku perform like Opus.
-
-Your _only_ motivation for writing Skills should be to **provide custom instructions to your AI assistant**. Examples:
-- I want to ["override Assistant's default behavior"](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md?plain=1).
-- I expected the Assistant to do something, but it did something else. Let me provide it with ["additional instructions"](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md?plain=1) to do the thing I expected instead.
-- The Assistant is doing something technically correct but wrong for my repo, let me provide it the "right knowledge"
-- The knowledgebase it's working from is outdated. Let me supply it with ["up-to-date knowledge"](https://github.com/openai/openai-agents-js/blob/main/.agents/skills/openai-knowledge/SKILL.md?plain=1) that it can refer to.
-- For this particular task, I want the Assistant to ["follow a specific workflow"](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md?plain=1) I have in mind.
-
-Now that you know why to write a skill, let's talk about the four root causes behind most skill execution failures:
+Let's talk about the four root causes behind most skill execution failures:
 
 1. **Routing ambiguity**: Out of 100+ skills available, the model picked one that looked relevant, **but wasn't**. The result? You received a response that looks good on the surface, but has actually answered the wrong question. This is the most common failure mode and the hardest to debug, as two runs of the same prompt can trigger different skill combinations depending on subtle phrasing differences, context window state, or even how many other skills are loaded.
 
@@ -1515,7 +1525,7 @@ Example 2: In a document editing skill, after the assistant makes edits to `word
 6. Test the output document
 ```
 
-- **For your complex, multi-step skills, don't wait until the end to validate.** Create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
+- **For your complex, multi-step skills, don't wait until the end to validate** - create intermediate outputs that can be checked at each stage. Think about what happens if you don't: the end validation fails and the assistant has to start all the way over, with no clear idea which step caused the problem in the first place. Catching failures early keeps both problems off the table.
 - **If your skill includes validation scripts, make sure those scripts provide verbose, actionable error messages.** "Validation failed" tells the assistant nothing — it's the equivalent of your GPS saying "you're lost" with no further guidance. Instead, write error messages that point to the exact problem and show what's available. `Field 'signature_date' not found. Available fields: customer_name, order_total, signature_date_signed` — Clear, actionable.
 
 ### Bundle Executable Scripts with your Skills  
@@ -1617,7 +1627,7 @@ where:
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
 - [Agent Skills, Stripped of Hype](https://stevekinney.com/writing/agent-skills)
 - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
-
+- [How to Write Skills for Claude Code and Cowork](https://sherlock.xyz/post/how-to-write-skills-for-claude-code-and-cowork)
 
 ## Test Your Skills, Don't Just Write Them
 
